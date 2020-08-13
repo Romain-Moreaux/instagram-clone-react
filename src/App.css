@@ -23,6 +23,7 @@ body {
 .app__headerImage {
   object-fit: contain;
 }
-
-.post__image {
+.app__signup {
+  display: flex;
+  flex-direction: column;
 }
