@@ -1,5 +1,4 @@
 import React from 'react'
-import deeplearning from '../../images/deepleaningcrash.png'
 import './post.css'
 import Avatar from '@material-ui/core/Avatar'
 import avatarImg from '../../images/avatar1.jpg'
