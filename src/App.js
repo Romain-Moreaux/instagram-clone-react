@@ -4,6 +4,7 @@ import InstaLogo from './images/logo_insta.png'
 import Post from './components/post/Post'
 import { db, auth } from './init-firebase'
 import { Modal, makeStyles, Button, Input } from '@material-ui/core'
+import ImageUpload from './components/imagesUpload/ImageUpload'
 
 function getModalStyle() {
   const top = 50
@@ -30,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 function App() {
   const classes = useStyles()
   const [modalStyle] = useState(getModalStyle)
-  const [posts, setPosts] = useState([])
+  const [posts, setPosts] = useState()
   const [openSignIn, setOpenSignIn] = useState(false)
   const [open, setOpen] = useState(false)
   const [username, setUsername] = useState('')
@@ -62,7 +63,6 @@ function App() {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
       if (authUser) {
-        console.log('authUser', authUser)
         setUser(authUser)
       } else {
         setUser(null)
@@ -73,14 +73,16 @@ function App() {
   }, [username, user])
 
   useEffect(() => {
-    db.collection('posts').onSnapshot((snapshot) =>
-      setPosts(
-        snapshot.docs.map((doc) => ({
-          id: doc.id,
-          post: doc.data(),
-        }))
+    db.collection('posts')
+      .orderBy('timestamp', 'desc')
+      .onSnapshot((snapshot) =>
+        setPosts(
+          snapshot.docs.map((doc) => ({
+            id: doc.id,
+            post: doc.data(),
+          }))
+        )
       )
-    )
   }, [])
   console.log(user)
 
@@ -144,27 +146,31 @@ function App() {
       </Modal>
       <div className="app__header">
         <img src={InstaLogo} alt="" className="app__headerImage" />
-        <p>{user && user.displayName}</p>
+        <p>{user?.displayName}</p>
+        {user ? (
+          <Button onClick={() => auth.signOut()}>Logout</Button>
+        ) : (
+          <>
+            <Button onClick={() => setOpen(true)}>Sign up</Button>
+            <Button onClick={() => setOpenSignIn(true)}>Sign In</Button>
+          </>
+        )}
       </div>
       <h1>Instagram clone React</h1>
-      {user ? (
-        <Button onClick={() => auth.signOut()}>Logout</Button>
-      ) : (
-        <>
-          <Button onClick={() => setOpen(true)}>Sign up</Button>
-          <Button onClick={() => setOpenSignIn(true)}>Sign In</Button>
-        </>
-      )}
+      {posts?.map(({ post, id }) => (
+        <Post
+          key={id}
+          username={post.username}
+          caption={post.caption}
+          imageUrl={post.imageUrl}
+        />
+      ))}
 
-      {posts &&
-        posts.map(({ post, id }) => (
-          <Post
-            key={id}
-            username={post.username}
-            caption={post.caption}
-            imageUrl={post.imageUrl}
-          />
-        ))}
+      {user?.displayName ? (
+        <ImageUpload username={user.displayName} />
+      ) : (
+        <h3>Sorry you need to login to upload</h3>
+      )}
     </div>
   )
 }

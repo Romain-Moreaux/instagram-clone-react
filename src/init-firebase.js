@@ -11,12 +11,9 @@ const firebaseConfig = {
   measurementId: 'G-1D6Y9LSM02',
 }
 
-// Initialize Firebase with a "default" Firebase project
 var firebaseApp = firebase.initializeApp(firebaseConfig)
 
-console.log(firebaseApp.name) // "[DEFAULT]"
-
-const db = firebase.firestore()
+const db = firebaseApp.firestore()
 const auth = firebase.auth()
 const storage = firebase.storage()
 
