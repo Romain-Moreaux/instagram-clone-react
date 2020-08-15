@@ -148,11 +148,20 @@ function App() {
         <img src={InstaLogo} alt="" className="app__headerImage" />
         <p>{user?.displayName}</p>
         {user ? (
-          <Button onClick={() => auth.signOut()}>Logout</Button>
+          <Button className="app__headerSignOut" onClick={() => auth.signOut()}>
+            Logout
+          </Button>
         ) : (
           <>
-            <Button onClick={() => setOpen(true)}>Sign up</Button>
-            <Button onClick={() => setOpenSignIn(true)}>Sign In</Button>
+            <Button className="app__headerSignup" onClick={() => setOpen(true)}>
+              Sign up
+            </Button>
+            <Button
+              className="app__headerSignIn"
+              onClick={() => setOpenSignIn(true)}
+            >
+              Sign In
+            </Button>
           </>
         )}
       </div>

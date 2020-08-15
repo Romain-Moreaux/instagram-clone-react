@@ -29,3 +29,7 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+.app__headerSignup {
+  margin-left: auto;
+}
