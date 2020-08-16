@@ -28,3 +28,35 @@
 .post__avatar {
   margin-right: 10px;
 }
+
+.post__commentBox {
+  display: flex;
+  margin-top: 10px;
+}
+
+.post__input {
+  flex: 1;
+  border: none;
+  padding: 10px;
+  border-top: 1px solid lightgray;
+  outline: 0;
+}
+
+.post__button {
+  flex: 0;
+  border: none;
+  border-top: 1px solid lightgray;
+  color: #0095f6;
+  color: rgba(var(--d69, 0, 149, 246), 1);
+  background-color: transparent;
+  outline: 0;
+}
+
+.post__commentText {
+  padding: 20px 10px;
+}
+.post__commentUsername {
+  color: #262626;
+  font-weight: 600;
+  margin-right: 6px;
+}
