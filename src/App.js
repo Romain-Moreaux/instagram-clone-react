@@ -5,6 +5,7 @@ import Post from './components/post/Post'
 import { db, auth } from './init-firebase'
 import { Modal, makeStyles, Button, Input } from '@material-ui/core'
 import ImageUpload from './components/imagesUpload/ImageUpload'
+import InstagramEmbed from 'react-instagram-embed'
 
 function getModalStyle() {
   const top = 50
@@ -166,14 +167,32 @@ function App() {
         )}
       </div>
       <h1>Instagram clone React</h1>
-      {posts?.map(({ post, id }) => (
-        <Post
-          key={id}
-          username={post.username}
-          caption={post.caption}
-          imageUrl={post.imageUrl}
-        />
-      ))}
+      <div className="app__posts">
+        <div className="app__postLeft">
+          {posts?.map(({ post, id }) => (
+            <Post
+              key={id}
+              username={post.username}
+              caption={post.caption}
+              imageUrl={post.imageUrl}
+            />
+          ))}
+        </div>
+        <div className="app__postRight">
+          <InstagramEmbed
+            url="https://instagr.am/p/Zw9o4/"
+            maxWidth={320}
+            hideCaption={false}
+            containerTagName="div"
+            protocol=""
+            injectScript
+            onLoading={() => {}}
+            onSuccess={() => {}}
+            onAfterRender={() => {}}
+            onFailure={() => {}}
+          />
+        </div>
+      </div>
 
       {user?.displayName ? (
         <ImageUpload username={user.displayName} />
