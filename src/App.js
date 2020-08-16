@@ -6,6 +6,8 @@ import { db, auth } from './init-firebase'
 import { Modal, makeStyles, Button, Input } from '@material-ui/core'
 import ImageUpload from './components/imagesUpload/ImageUpload'
 import InstagramEmbed from 'react-instagram-embed'
+import avatarImg from './images/avatar1.jpg'
+import Avatar from '@material-ui/core/Avatar'
 
 function getModalStyle() {
   const top = 50
@@ -147,31 +149,45 @@ function App() {
       </Modal>
       <div className="app__header">
         <img src={InstaLogo} alt="" className="app__headerImage" />
-        <p>{user?.displayName}</p>
         {user ? (
-          <Button className="app__headerSignOut" onClick={() => auth.signOut()}>
-            Logout
-          </Button>
+          <>
+            <button
+              className="app__headerButton logout"
+              onClick={() => auth.signOut()}
+            >
+              Logout
+            </button>
+            <Avatar
+              src={avatarImg}
+              alt="Romain Moreaux"
+              className="post__avatar"
+            />
+          </>
         ) : (
           <>
-            <Button className="app__headerSignup" onClick={() => setOpen(true)}>
+            <button
+              className="app__headerButton signup"
+              onClick={() => setOpen(true)}
+            >
               Sign up
-            </Button>
-            <Button
-              className="app__headerSignIn"
+            </button>
+            <button
+              className="app__headerButton signin"
               onClick={() => setOpenSignIn(true)}
             >
               Sign In
-            </Button>
+            </button>
           </>
         )}
       </div>
-      <h1>Instagram clone React</h1>
+
       <div className="app__posts">
         <div className="app__postLeft">
           {posts?.map(({ post, id }) => (
             <Post
+              user={user}
               key={id}
+              postId={id}
               username={post.username}
               caption={post.caption}
               imageUrl={post.imageUrl}
