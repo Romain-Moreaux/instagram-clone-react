@@ -36,8 +36,12 @@ body {
   top: 0;
   z-index: 1;
 }
+.app__logo {
+  display: flex;
+}
 .app__headerImage {
   object-fit: contain;
+  object-position: left;
 }
 .app__signup {
   display: flex;
