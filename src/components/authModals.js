@@ -23,6 +23,11 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
+  formModal: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  logo: { objectFit: 'contain' },
 }))
 
 export const SignUp = ({ setOpen, open }) => {
@@ -52,8 +57,8 @@ export const SignUp = ({ setOpen, open }) => {
       aria-describedby="simple-modal-description"
     >
       <div style={modalStyle} className={classes.paper}>
-        <form className="app__signup">
-          <img src={InstaLogo} alt="" className="app__headerImage" />
+        <form className={classes.formModal}>
+          <img src={InstaLogo} alt="" className={classes.logo} />
           <Input
             placeholder="username"
             type="text"
@@ -103,8 +108,8 @@ export const SignIn = ({ setOpen, open }) => {
       aria-describedby="simple-modal-description"
     >
       <div style={modalStyle} className={classes.paper}>
-        <form className="app__signup">
-          <img src={InstaLogo} alt="" className="app__headerImage" />
+        <form className={classes.formModal}>
+          <img src={InstaLogo} alt="" className={classes.logo} />
           <Input
             placeholder="email"
             type="text"

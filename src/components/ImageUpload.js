@@ -1,13 +1,28 @@
 import React, { useState } from 'react'
 import { Button, Input } from '@material-ui/core'
-import { db, storage } from '../../init-firebase'
+import { db, storage } from '../init-firebase'
 import { firestore } from 'firebase'
-import './imageUpload.css'
+import { makeStyles } from '@material-ui/core'
+
+const useStyles = makeStyles({
+  imageUpload: {
+    display: 'flex',
+    flexDirection: 'column',
+    maxWidth: '60%',
+    margin: '10px auto',
+    backgroundColor: 'white',
+    borderTop: '1px solid lightgray',
+  },
+  progressBar: {
+    width: '100%',
+  },
+})
 
 function ImageUpload({ username }) {
   const [caption, setCaption] = useState('')
   const [progress, setProgress] = useState(0)
   const [image, setImage] = useState(null)
+  const classes = useStyles()
 
   const handleUpload = (e) => {
     const uploadTask = storage.ref(`images/${image.name}`).put(image)
@@ -51,12 +66,8 @@ function ImageUpload({ username }) {
   }
 
   return (
-    <div className="imageUpload">
-      <progress
-        value={progress}
-        max="100"
-        className="imageUpload__progressBar"
-      />
+    <div className={classes.imageUpload}>
+      <progress value={progress} max="100" className={classes.progressBar} />
       <Input
         type="text"
         value={caption}
@@ -64,7 +75,9 @@ function ImageUpload({ username }) {
         placeholder="enter a caption"
       />
       <Input type="file" onChange={handleChange} />
-      <Button onClick={handleUpload}>Upload</Button>
+      <Button disabled={!image} onClick={handleUpload}>
+        Upload
+      </Button>
     </div>
   )
 }

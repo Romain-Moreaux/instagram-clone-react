@@ -1,17 +1,33 @@
 import React, { useState, useEffect } from 'react'
-import './App.css'
 import Post from './components/Post'
 import { db, auth } from './init-firebase'
-import ImageUpload from './components/imagesUpload/ImageUpload'
+import ImageUpload from './components/ImageUpload'
 import InstagramEmbed from 'react-instagram-embed'
 import { SignUp, SignIn } from './components/authModals'
 import Header from './components/Header'
+import { makeStyles } from '@material-ui/core'
+
+const useStyles = makeStyles({
+  app: {
+    backgroundColor: '#fafafa',
+  },
+  main: {
+    padding: '20px',
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  listPosts: {},
+  aside: {
+    marginLeft: '20px',
+  },
+})
 
 function App() {
   const [posts, setPosts] = useState()
   const [user, setUser] = useState(null)
   const [openSignIn, setOpenSignIn] = useState(false)
   const [openSignUp, setOpenSignUp] = useState(false)
+  const classes = useStyles()
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
@@ -39,7 +55,7 @@ function App() {
   }, [])
 
   return (
-    <div className="app">
+    <div className={classes.app}>
       <SignUp setOpen={setOpenSignUp} open={openSignUp} />
       <SignIn setOpen={setOpenSignIn} open={openSignIn} />
 
@@ -48,27 +64,21 @@ function App() {
         setOpenSignIn={setOpenSignIn}
         setOpenSignUp={setOpenSignUp}
       />
-      <div className="app__posts">
-        <div className="app__postLeft">
-          {posts?.map(({ post, id }) => {
-            console.log(
-              'post',
-              new Date(post.timestamp.seconds * 1000) - new Date(Date.now())
-            )
-            return (
-              <Post
-                user={user}
-                key={id}
-                postId={id}
-                username={post.username}
-                caption={post.caption}
-                imageUrl={post.imageUrl}
-                timestamp={post.timestamp}
-              />
-            )
-          })}
+      <div className={classes.main}>
+        <div className={classes.listPosts}>
+          {posts?.map(({ post, id }) => (
+            <Post
+              user={user}
+              key={id}
+              postId={id}
+              username={post.username}
+              caption={post.caption}
+              imageUrl={post.imageUrl}
+              timestamp={post.timestamp}
+            />
+          ))}
         </div>
-        <div className="app__postRight">
+        <div className={classes.aside}>
           <InstagramEmbed
             url="https://instagr.am/p/Zw9o4/"
             maxWidth={320}
