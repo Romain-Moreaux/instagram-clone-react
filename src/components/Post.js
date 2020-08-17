@@ -73,6 +73,11 @@ const useStyles = makeStyles({
     padding: '12px 16px',
     borderTop: '1px solid lightgray',
   },
+  datetime: {
+    color: '#8e8e8e',
+    fontSize: '10px',
+    textTransform: 'uppercase',
+  },
 
   input: {
     flex: 1,
@@ -98,6 +103,7 @@ function Post({ user, postId, imageUrl, username, caption, timestamp }) {
   const [comments, setComments] = useState([])
   const [comment, setComment] = useState('')
   const classes = useStyles()
+
   useEffect(() => {
     let unsubscribe
     if (postId) {
@@ -127,14 +133,12 @@ function Post({ user, postId, imageUrl, username, caption, timestamp }) {
     setComment('')
   }
 
-  const calculateDiffDays = (oTimestamp) => {
-    const oneDay = 24 * 60 * 60 * 1000 // hours*minutes*seconds*milliseconds
-    const firstDate = new Date(oTimestamp)
-    const secondDate = new Date(Date.now())
-
-    const diffDays = Math.round(Math.abs((oTimestamp - Date.now()) / oneDay))
-    console.log(diffDays)
+  const diffDaysFromTimestamps = (oTimestamp, cTimestamp) => {
+    var diffTime = Math.abs(oTimestamp * 1000 - cTimestamp)
+    return Math.ceil(diffTime / (1000 * 60 * 60 * 24))
   }
+
+  let nbrOfDays = diffDaysFromTimestamps(timestamp?.seconds, Date.now())
 
   return (
     <div className={classes.post}>
@@ -172,8 +176,10 @@ function Post({ user, postId, imageUrl, username, caption, timestamp }) {
             </p>
           ))}
         </div>
-        <p>Posted at</p>
-        {/* {calculateDiffDays(timestamp.seconds)} */}
+        <time
+          className={classes.datetime}
+          dateTime={new Date(timestamp?.seconds * 1000).toUTCString()}
+        >{`${nbrOfDays} ${nbrOfDays > 1 ? `days` : `day`} ago`}</time>
       </section>
       {user && (
         <form className={classes.commentBox}>
