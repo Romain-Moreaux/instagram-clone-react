@@ -54,6 +54,7 @@ function App() {
       )
   }, [])
 
+  console.log('user', user)
   return (
     <div className={classes.app}>
       <SignUp setOpen={setOpenSignUp} open={openSignUp} />
@@ -75,6 +76,7 @@ function App() {
               caption={post.caption}
               imageUrl={post.imageUrl}
               timestamp={post.timestamp}
+              ouwnerId={post.userId}
             />
           ))}
         </div>
@@ -95,7 +97,7 @@ function App() {
       </div>
 
       {user?.displayName ? (
-        <ImageUpload username={user.displayName} />
+        <ImageUpload user={user} />
       ) : (
         <h3>Sorry you need to login to upload</h3>
       )}

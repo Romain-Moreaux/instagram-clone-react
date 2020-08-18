@@ -1,5 +1,6 @@
 * {
   margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 body {
@@ -9,4 +10,10 @@ body {
     Arial, sans-serif;
   font-size: 14px;
   line-height: 18px;
+}
+
+button,
+textarea,
+input {
+  outline: none;
 }

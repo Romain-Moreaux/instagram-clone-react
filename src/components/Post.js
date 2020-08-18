@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Avatar from '@material-ui/core/Avatar'
+import Menu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
+import Fade from '@material-ui/core/Fade'
 import avatarImg from '../images/avatar1.jpg'
 import { db } from '../init-firebase'
 import { firestore } from 'firebase'
@@ -8,6 +11,7 @@ import { ReactComponent as CommentSvg } from '../images/comment.svg'
 import { ReactComponent as LikeSvg } from '../images/like.svg'
 import { ReactComponent as ShareSvg } from '../images/share.svg'
 import { ReactComponent as SaveSvg } from '../images/save.svg'
+import { ReactComponent as CirclesSvg } from '../images/circles.svg'
 
 const useStyles = makeStyles({
   post: {
@@ -33,6 +37,11 @@ const useStyles = makeStyles({
 
   avatar: {
     marginRight: '10px',
+  },
+  menu: {
+    marginLeft: 'auto',
+    border: 0,
+    backgroundColor: 'transparent',
   },
   imageBox: {
     borderBottom: '1px solid lightgray',
@@ -68,6 +77,9 @@ const useStyles = makeStyles({
     fontWeight: 600,
     marginRight: '6px',
   },
+  commentItem: {
+    display: 'flex',
+  },
   commentBox: {
     display: 'flex',
     padding: '12px 16px',
@@ -99,10 +111,25 @@ const useStyles = makeStyles({
   },
 })
 
-function Post({ user, postId, imageUrl, username, caption, timestamp }) {
+function Post({
+  user,
+  postId,
+  imageUrl,
+  username,
+  caption,
+  timestamp,
+  ouwnerId,
+}) {
   const [comments, setComments] = useState([])
   const [comment, setComment] = useState('')
   const classes = useStyles()
+  const [anchorEl, setAnchorEl] = React.useState(null)
+  const [anchorEl2, setAnchorEl2] = React.useState(null)
+
+  const handleCloseMenu = () => {
+    setAnchorEl(null)
+    setAnchorEl2(null)
+  }
 
   useEffect(() => {
     let unsubscribe
@@ -113,7 +140,12 @@ function Post({ user, postId, imageUrl, username, caption, timestamp }) {
         .collection('comments')
         .orderBy('timestamp', 'desc')
         .onSnapshot((snapshot) => {
-          setComments(snapshot.docs.map((doc) => doc.data()))
+          setComments(
+            snapshot.docs.map((doc) => ({
+              id: doc.id,
+              comment: doc.data(),
+            }))
+          )
         })
     }
 
@@ -125,21 +157,65 @@ function Post({ user, postId, imageUrl, username, caption, timestamp }) {
   const postComment = (e) => {
     e.preventDefault()
 
-    db.collection('posts').doc(postId).collection('comments').add({
-      username: user.displayName,
-      text: comment,
-      timestamp: firestore.FieldValue.serverTimestamp(),
-    })
+    db.collection('posts')
+      .doc(postId)
+      .collection('comments')
+      .add({
+        username: user.displayName,
+        userId: user.uid,
+        text: comment,
+        timestamp: firestore.FieldValue.serverTimestamp(),
+      })
+      .then(function () {
+        console.log(`Comment on post ${postId} successfully send!`)
+      })
+      .catch(function (error) {
+        console.error(`Error sending comment on post ${postId} `, error)
+      })
     setComment('')
   }
+
+  const deletePost = (e) => {
+    e.preventDefault()
+
+    db.collection('posts')
+      .doc(postId)
+      .delete()
+      .then(function () {
+        console.log(`Document ${postId} successfully deleted!`)
+      })
+      .catch(function (error) {
+        console.error(`Error removing document: ${postId} `, error)
+      })
+  }
+  const updatePost = (e) => {}
+  const deleteComment = (e, id) => {
+    e.preventDefault()
+    console.log('id =>', id)
+    db.collection('posts')
+      .doc(postId)
+      .collection('comments')
+      .doc(id)
+      .delete()
+      .then(function () {
+        console.log(`Comment ${id} successfully deleted!`)
+      })
+      .catch(function (error) {
+        console.error(`Error removing comment: ${id} `, error)
+      })
+  }
+
+  const reportInapropriate = (postId) => {}
+  const unfollow = (ouwnerId) => {}
 
   const diffDaysFromTimestamps = (oTimestamp, cTimestamp) => {
     var diffTime = Math.abs(oTimestamp * 1000 - cTimestamp)
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24))
   }
 
-  let nbrOfDays = diffDaysFromTimestamps(timestamp?.seconds, Date.now())
+  let nDays = diffDaysFromTimestamps(timestamp?.seconds, Date.now())
 
+  console.log('comments', comments)
   return (
     <div className={classes.post}>
       <div className={classes.header}>
@@ -149,6 +225,40 @@ function Post({ user, postId, imageUrl, username, caption, timestamp }) {
           className={classes.avatar}
         />
         <h3>{username}</h3>
+        <button
+          className={classes.menu}
+          aria-controls="fade-menu"
+          aria-haspopup="true"
+          onClick={(e) => setAnchorEl(e.currentTarget)}
+        >
+          <CirclesSvg />
+        </button>
+        <Menu
+          id="fade-menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleCloseMenu}
+          TransitionComponent={Fade}
+        >
+          {user?.uid === ouwnerId
+            ? [
+                <MenuItem key={0} onClick={deletePost}>
+                  Delete my post
+                </MenuItem>,
+                <MenuItem key={1} onClick={updatePost}>
+                  Update my post
+                </MenuItem>,
+              ]
+            : [
+                <MenuItem key={0} onClick={reportInapropriate}>
+                  Report inapropriate
+                </MenuItem>,
+                <MenuItem key={1} onClick={unfollow}>
+                  Unfollow
+                </MenuItem>,
+              ]}
+        </Menu>
       </div>
       <div className={classes.imageBox}>
         <img className={classes.image} src={imageUrl} alt="" />
@@ -167,19 +277,45 @@ function Post({ user, postId, imageUrl, username, caption, timestamp }) {
           There are {comments.length || 'no '} comments
         </p>
         <div className={classes.commentList}>
-          {comments.map((comment, i) => (
-            <p key={i} className={classes.commentText}>
-              <span className={classes.commentUsername}>
-                {comment.username}
-              </span>
-              {comment.text}
-            </p>
+          {comments.map(({ comment, id }) => (
+            <div className={classes.commentItem}>
+              <p key={id} className={classes.commentText}>
+                <span className={classes.commentUsername}>
+                  {comment.username}
+                </span>
+                {comment.text}
+              </p>
+              {comment?.userId === user?.uid ? (
+                <>
+                  <button
+                    className={classes.menu}
+                    aria-controls="fade-menu"
+                    aria-haspopup="true"
+                    onClick={(e) => setAnchorEl2(e.currentTarget)}
+                  >
+                    <CirclesSvg />
+                  </button>
+                  <Menu
+                    id="fade-menu"
+                    anchorEl={anchorEl2}
+                    keepMounted
+                    open={Boolean(anchorEl2)}
+                    onClose={handleCloseMenu}
+                    TransitionComponent={Fade}
+                  >
+                    <MenuItem onClick={(e) => deleteComment(e, id)}>
+                      Delete my comment
+                    </MenuItem>
+                  </Menu>
+                </>
+              ) : null}
+            </div>
           ))}
         </div>
         <time
           className={classes.datetime}
           dateTime={new Date(timestamp?.seconds * 1000).toUTCString()}
-        >{`${nbrOfDays} ${nbrOfDays > 1 ? `days` : `day`} ago`}</time>
+        >{`${nDays} ${nDays > 1 ? `days` : `day`} ago`}</time>
       </section>
       {user && (
         <form className={classes.commentBox}>

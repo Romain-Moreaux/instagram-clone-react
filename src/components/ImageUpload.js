@@ -18,7 +18,7 @@ const useStyles = makeStyles({
   },
 })
 
-function ImageUpload({ username }) {
+function ImageUpload({ user }) {
   const [caption, setCaption] = useState('')
   const [progress, setProgress] = useState(0)
   const [image, setImage] = useState(null)
@@ -49,7 +49,8 @@ function ImageUpload({ username }) {
               timestamp: firestore.FieldValue.serverTimestamp(),
               caption: caption,
               imageUrl: url,
-              username: username,
+              username: user?.displayName,
+              userId: user?.uid,
             })
             setProgress(0)
             setCaption('')
