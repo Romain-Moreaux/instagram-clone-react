@@ -19,3 +19,5 @@ This application is a replication of the main features of Instagram for learning
   - Comment
     - Add
     - Delete
+
+**Work still in progress, last update: _09-18-2020_**
