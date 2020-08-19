@@ -29,3 +29,11 @@ This application is a replication of the main features of Instagram for learning
   - Comment
     - Add
     - Delete
+
+# coming soon
+
+- Like
+- Unlike
+- Follow
+- Unfollow
+- Reels
