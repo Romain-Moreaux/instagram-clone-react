@@ -1,17 +1,24 @@
-import React, { useState, useEffect } from 'react'
+// dependances
+import React, { useContext } from 'react'
 import Avatar from '@material-ui/core/Avatar'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import Fade from '@material-ui/core/Fade'
-import avatarImg from '../images/avatar1.jpg'
-import { db } from '../init-firebase'
-import { firestore } from 'firebase'
 import { makeStyles } from '@material-ui/core'
+// bdd
+import { db } from '../init-firebase'
+// images
+import avatarImg from '../images/avatar1.jpg'
 import { ReactComponent as CommentSvg } from '../images/comment.svg'
 import { ReactComponent as LikeSvg } from '../images/like.svg'
 import { ReactComponent as ShareSvg } from '../images/share.svg'
 import { ReactComponent as SaveSvg } from '../images/save.svg'
 import { ReactComponent as CirclesSvg } from '../images/circles.svg'
+//context
+import { UserContext } from '../App'
+//components
+import PostComment from './CreateComment'
+import CommentList from './CommentList'
 
 const useStyles = makeStyles({
   post: {
@@ -29,7 +36,7 @@ const useStyles = makeStyles({
   },
   text: {
     fontWeight: 400,
-    padding: '10px 0',
+    margin: '6px 0',
   },
   textUsername: {
     fontWeight: 600,
@@ -65,26 +72,6 @@ const useStyles = makeStyles({
       marginLeft: 'auto',
     },
   },
-  commentCount: {
-    color: '#00376b',
-  },
-  commentText: {
-    padding: '5px 0',
-  },
-
-  commentUsername: {
-    color: ' #262626',
-    fontWeight: 600,
-    marginRight: '6px',
-  },
-  commentItem: {
-    display: 'flex',
-  },
-  commentBox: {
-    display: 'flex',
-    padding: '12px 16px',
-    borderTop: '1px solid lightgray',
-  },
   datetime: {
     color: '#8e8e8e',
     fontSize: '10px',
@@ -111,69 +98,10 @@ const useStyles = makeStyles({
   },
 })
 
-function Post({
-  user,
-  postId,
-  imageUrl,
-  username,
-  caption,
-  timestamp,
-  ouwnerId,
-}) {
-  const [comments, setComments] = useState([])
-  const [comment, setComment] = useState('')
+function Post({ postId, imageUrl, author, caption, timestamp, authorId }) {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = React.useState(null)
-  const [anchorEl2, setAnchorEl2] = React.useState(null)
-
-  const handleCloseMenu = () => {
-    setAnchorEl(null)
-    setAnchorEl2(null)
-  }
-
-  useEffect(() => {
-    let unsubscribe
-    if (postId) {
-      unsubscribe = db
-        .collection('posts')
-        .doc(postId)
-        .collection('comments')
-        .orderBy('timestamp', 'desc')
-        .onSnapshot((snapshot) => {
-          setComments(
-            snapshot.docs.map((doc) => ({
-              id: doc.id,
-              comment: doc.data(),
-            }))
-          )
-        })
-    }
-
-    return () => {
-      unsubscribe()
-    }
-  }, [postId])
-
-  const postComment = (e) => {
-    e.preventDefault()
-
-    db.collection('posts')
-      .doc(postId)
-      .collection('comments')
-      .add({
-        username: user.displayName,
-        userId: user.uid,
-        text: comment,
-        timestamp: firestore.FieldValue.serverTimestamp(),
-      })
-      .then(function () {
-        console.log(`Comment on post ${postId} successfully send!`)
-      })
-      .catch(function (error) {
-        console.error(`Error sending comment on post ${postId} `, error)
-      })
-    setComment('')
-  }
+  const user = useContext(UserContext)
 
   const deletePost = (e) => {
     e.preventDefault()
@@ -188,25 +116,12 @@ function Post({
         console.error(`Error removing document: ${postId} `, error)
       })
   }
+
   const updatePost = (e) => {}
-  const deleteComment = (e, id) => {
-    e.preventDefault()
-    console.log('id =>', id)
-    db.collection('posts')
-      .doc(postId)
-      .collection('comments')
-      .doc(id)
-      .delete()
-      .then(function () {
-        console.log(`Comment ${id} successfully deleted!`)
-      })
-      .catch(function (error) {
-        console.error(`Error removing comment: ${id} `, error)
-      })
-  }
 
   const reportInapropriate = (postId) => {}
-  const unfollow = (ouwnerId) => {}
+
+  const unfollow = (authorId) => {}
 
   const diffDaysFromTimestamps = (oTimestamp, cTimestamp) => {
     var diffTime = Math.abs(oTimestamp * 1000 - cTimestamp)
@@ -215,7 +130,6 @@ function Post({
 
   let nDays = diffDaysFromTimestamps(timestamp?.seconds, Date.now())
 
-  console.log('comments', comments)
   return (
     <div className={classes.post}>
       <div className={classes.header}>
@@ -224,7 +138,7 @@ function Post({
           alt="Romain Moreaux"
           className={classes.avatar}
         />
-        <h3>{username}</h3>
+        <h3>{author}</h3>
         <button
           className={classes.menu}
           aria-controls="fade-menu"
@@ -238,10 +152,10 @@ function Post({
           anchorEl={anchorEl}
           keepMounted
           open={Boolean(anchorEl)}
-          onClose={handleCloseMenu}
+          onClose={() => setAnchorEl(null)}
           TransitionComponent={Fade}
         >
-          {user?.uid === ouwnerId
+          {user?.uid === authorId
             ? [
                 <MenuItem key={0} onClick={deletePost}>
                   Delete my post
@@ -271,71 +185,15 @@ function Post({
           <SaveSvg />
         </div>
         <h4 className={classes.text}>
-          <span className={classes.textUsername}>{username} :</span> {caption}
+          <span className={classes.textUsername}>{author} :</span> {caption}
         </h4>
-        <p className={classes.commentCount}>
-          There are {comments.length || 'no '} comments
-        </p>
-        <div className={classes.commentList}>
-          {comments.map(({ comment, id }) => (
-            <div className={classes.commentItem}>
-              <p key={id} className={classes.commentText}>
-                <span className={classes.commentUsername}>
-                  {comment.username}
-                </span>
-                {comment.text}
-              </p>
-              {comment?.userId === user?.uid ? (
-                <>
-                  <button
-                    className={classes.menu}
-                    aria-controls="fade-menu"
-                    aria-haspopup="true"
-                    onClick={(e) => setAnchorEl2(e.currentTarget)}
-                  >
-                    <CirclesSvg />
-                  </button>
-                  <Menu
-                    id="fade-menu"
-                    anchorEl={anchorEl2}
-                    keepMounted
-                    open={Boolean(anchorEl2)}
-                    onClose={handleCloseMenu}
-                    TransitionComponent={Fade}
-                  >
-                    <MenuItem onClick={(e) => deleteComment(e, id)}>
-                      Delete my comment
-                    </MenuItem>
-                  </Menu>
-                </>
-              ) : null}
-            </div>
-          ))}
-        </div>
+        <CommentList postId={postId} />
         <time
           className={classes.datetime}
           dateTime={new Date(timestamp?.seconds * 1000).toUTCString()}
         >{`${nDays} ${nDays > 1 ? `days` : `day`} ago`}</time>
       </section>
-      {user && (
-        <form className={classes.commentBox}>
-          <input
-            className={classes.input}
-            type="text"
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-            placeholder="add a comment..."
-          />
-          <button
-            type="submit"
-            onClick={postComment}
-            disabled={!comment}
-            className={classes.button}
-          >
-            comment
-          </button>
-        </form>
-      )}
+      {user?.uid !== authorId && <PostComment postId={postId} />}
     </div>
   )
 }
