@@ -22,7 +22,7 @@ import CommentList from './CommentList'
 
 const useStyles = makeStyles({
   post: {
-    maxWidth: '500px',
+    // maxWidth: '500px',
     backgroundColor: 'white',
     border: '1px solid lightgray',
     marginBottom: '45px',
@@ -139,40 +139,44 @@ function Post({ postId, imageUrl, author, caption, timestamp, authorId }) {
           className={classes.avatar}
         />
         <h3>{author}</h3>
-        <button
-          className={classes.menu}
-          aria-controls="fade-menu"
-          aria-haspopup="true"
-          onClick={(e) => setAnchorEl(e.currentTarget)}
-        >
-          <CirclesSvg />
-        </button>
-        <Menu
-          id="fade-menu"
-          anchorEl={anchorEl}
-          keepMounted
-          open={Boolean(anchorEl)}
-          onClose={() => setAnchorEl(null)}
-          TransitionComponent={Fade}
-        >
-          {user?.uid === authorId
-            ? [
-                <MenuItem key={0} onClick={deletePost}>
-                  Delete my post
-                </MenuItem>,
-                <MenuItem key={1} onClick={updatePost}>
-                  Update my post
-                </MenuItem>,
-              ]
-            : [
-                <MenuItem key={0} onClick={reportInapropriate}>
-                  Report inapropriate
-                </MenuItem>,
-                <MenuItem key={1} onClick={unfollow}>
-                  Unfollow
-                </MenuItem>,
-              ]}
-        </Menu>
+        {user && (
+          <>
+            <button
+              className={classes.menu}
+              aria-controls="fade-menu"
+              aria-haspopup="true"
+              onClick={(e) => setAnchorEl(e.currentTarget)}
+            >
+              <CirclesSvg />
+            </button>
+            <Menu
+              id="fade-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={() => setAnchorEl(null)}
+              TransitionComponent={Fade}
+            >
+              {user?.uid === authorId
+                ? [
+                    <MenuItem key={0} onClick={deletePost}>
+                      Delete my post
+                    </MenuItem>,
+                    <MenuItem key={1} onClick={updatePost}>
+                      Update my post
+                    </MenuItem>,
+                  ]
+                : [
+                    <MenuItem key={0} onClick={reportInapropriate}>
+                      Report inapropriate
+                    </MenuItem>,
+                    <MenuItem key={1} onClick={unfollow}>
+                      Unfollow
+                    </MenuItem>,
+                  ]}
+            </Menu>
+          </>
+        )}
       </div>
       <div className={classes.imageBox}>
         <img className={classes.image} src={imageUrl} alt="" />
@@ -193,7 +197,7 @@ function Post({ postId, imageUrl, author, caption, timestamp, authorId }) {
           dateTime={new Date(timestamp?.seconds * 1000).toUTCString()}
         >{`${nDays} ${nDays > 1 ? `days` : `day`} ago`}</time>
       </section>
-      {user?.uid !== authorId && <PostComment postId={postId} />}
+      {user && user.uid !== authorId && <PostComment postId={postId} />}
     </div>
   )
 }

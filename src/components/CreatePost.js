@@ -1,6 +1,12 @@
 import React, { useState, useContext } from 'react'
-import { Button, Input, IconButton } from '@material-ui/core'
-import LinearProgress from '@material-ui/core/LinearProgress'
+import {
+  Button,
+  Input,
+  IconButton,
+  Container,
+  Grid,
+  CircularProgress,
+} from '@material-ui/core'
 import PhotoCamera from '@material-ui/icons/PhotoCamera'
 import { db, storage } from '../init-firebase'
 import { firestore } from 'firebase'
@@ -9,21 +15,28 @@ import { UserContext } from '../App'
 
 const useStyles = makeStyles({
   createPostBox: {
-    display: 'flex',
-    flexDirection: 'column',
-    marginTop: '20px',
-    padding: '20px',
+    // display: 'flex',
+    // flexDirection: 'column',
+    marginTop: 'auto',
+    paddingTop: '24px',
+    paddingBottom: '24px',
     textAlign: 'center',
     backgroundColor: 'white',
     borderTop: '1px solid lightgray',
   },
   form: {
-    display: 'flex',
-    justifyContent: 'center',
+    // display: 'flex',
+    // justifyContent: 'center',
+    marginTop: '12px',
   },
   input: {
     display: 'none',
   },
+  inputText: { width: '40%' },
+  progress: {
+    marginLeft: '12px',
+  },
+  button: { marginLeft: '12px' },
 })
 
 function CreatePost() {
@@ -77,43 +90,58 @@ function CreatePost() {
 
   return (
     <div className={classes.createPostBox}>
-      {user ? (
-        <form className={classes.form}>
-          <LinearProgress variant="determinate" max="100" value={progress} />
-          <Input
-            type="text"
-            value={caption}
-            onChange={(e) => setCaption(e.target.value)}
-            placeholder="enter a caption"
-          />
-          <input
-            accept="image/*"
-            className={classes.input}
-            id="icon-button-file"
-            type="file"
-            onChange={handleChange}
-          />
-          <label htmlFor="icon-button-file">
-            <IconButton
-              color="primary"
-              aria-label="upload picture"
-              component="span"
-            >
-              <PhotoCamera className={classes.cameraImage} />
-            </IconButton>
-          </label>
-          <Button
-            variant="contained"
-            color="primary"
-            disabled={!image}
-            onClick={handleUpload}
+      <Container maxWidth="md">
+        <h3>Add a Post with image.</h3>
+        {user ? (
+          <Grid
+            component="form"
+            container
+            className={classes.form}
+            justify="center"
+            alignItems="center"
           >
-            Upload
-          </Button>
-        </form>
-      ) : (
-        <p>Sorry you need to login to upload</p>
-      )}
+            <Input
+              className={classes.inputText}
+              type="text"
+              value={caption}
+              onChange={(e) => setCaption(e.target.value)}
+              placeholder="enter a text..."
+            />
+            <input
+              accept="image/*"
+              className={classes.input}
+              id="icon-button-file"
+              type="file"
+              onChange={handleChange}
+            />
+            <label htmlFor="icon-button-file">
+              <IconButton
+                color="primary"
+                aria-label="upload picture"
+                component="span"
+              >
+                <PhotoCamera className={classes.cameraImage} />
+              </IconButton>
+            </label>
+            <Button
+              variant="contained"
+              color="primary"
+              disabled={!image}
+              onClick={handleUpload}
+              size="small"
+            >
+              Upload
+            </Button>
+            <CircularProgress
+              className={classes.progress}
+              variant="static"
+              value={progress}
+            />
+          </Grid>
+        ) : (
+          <p>Sorry you need to login to upload</p>
+        )}
+      </Container>
     </div>
   )
 }

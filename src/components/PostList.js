@@ -1,6 +1,6 @@
 // dependances
 import React, { useState, useEffect } from 'react'
-import { makeStyles } from '@material-ui/core'
+import { makeStyles, Grid } from '@material-ui/core'
 // components
 import Post from './Post'
 // bdd
@@ -28,7 +28,14 @@ export default function PostList() {
   }, [])
 
   return (
-    <div className={classes.listPosts}>
+    <Grid
+      item
+      container
+      className={classes.listPosts}
+      xs={12}
+      md={7}
+      component="section"
+    >
       {posts?.map(({ post, id }) => (
         <Post
           key={id}
@@ -40,6 +47,6 @@ export default function PostList() {
           authorId={post.authorId}
         />
       ))}
-    </div>
+    </Grid>
   )
 }
