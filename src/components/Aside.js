@@ -1,44 +1,56 @@
-import React from 'react'
-import { makeStyles, Grid } from '@material-ui/core'
-import PropTypes from 'prop-types'
-import InstagramEmbed from 'react-instagram-embed'
+import React, { useContext } from 'react'
+import { makeStyles, Avatar } from '@material-ui/core'
+import avatarImg from '../images/avatar1.jpg'
+import { UserContext } from '../App'
 
 const useStyles = makeStyles({
   aside: {
-    paddingLeft: '24px',
+    marginLeft: '24px',
+    display: 'flex',
+    flexDirection: 'column',
+    flex: 1,
+  },
+  suggestionsBox: {
+    display: 'flex',
+    flexDirection: 'column',
+    padding: '6px 12px',
+  },
+  header: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  avatar: {
+    marginRight: '6px',
+  },
+  title: {
+    color: '#8e8e8e',
+  },
+  userList: {
+    display: 'flex',
+    flexDirection: 'column',
   },
 })
 
 function Aside(props) {
-  const position = { props }
   const classes = useStyles(props)
+  const user = useContext(UserContext)
 
   return (
-    <Grid
-      container
-      item
-      className={classes.aside}
-      xs={12}
-      md={5}
-      direction="column"
-      alignItems="center"
-    >
-      <p>Follower 1</p>
-      <p>Follower 2</p>
-      <p>Follower 3</p>
-      <p>Follower 4</p>
-      <p>Follower 5</p>
-      <p>Follower 6</p>
-    </Grid>
+    <aside className={classes.aside}>
+      <div className={classes.suggestionsBox}>
+        <header className={classes.header}>
+          <Avatar
+            src={avatarImg}
+            alt="Romain Moreaux"
+            className={classes.avatar}
+          />
+          <h3>{user?.displayName}</h3>
+        </header>
+        <h4 className={classes.title}>Suggestions for you</h4>
+        <div className={classes.userList}></div>
+      </div>
+    </aside>
   )
-}
-
-Aside.propTypes = {
-  position: PropTypes.string.isRequired,
-}
-
-Aside.defaultProps = {
-  position: PropTypes.oneOf(['right', 'left']),
 }
 
 export default Aside

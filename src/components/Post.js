@@ -22,7 +22,7 @@ import CommentList from './CommentList'
 
 const useStyles = makeStyles({
   post: {
-    // maxWidth: '500px',
+    flex: '1 0 100%',
     backgroundColor: 'white',
     border: '1px solid lightgray',
     marginBottom: '45px',

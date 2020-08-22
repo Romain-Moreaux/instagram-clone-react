@@ -6,18 +6,23 @@ import { auth } from '../init-firebase'
 
 const useStyles = makeStyles({
   header: {
-    // maxHeight: '60px',
     backgroundColor: 'white',
     padding: '12px 0',
     borderBottom: '1px solid lightgray',
-    // display: 'flex',
-    // justifyContent: 'space-between',
     position: 'sticky',
     top: 0,
     zIndex: 1,
   },
+  menu: {
+    display: 'flex',
+    alignItems: 'center',
+  },
   logo: {
-    // display: 'flex',
+    display: 'flex',
+  },
+  navigation: {
+    display: 'flex',
+    marginLeft: 'auto',
   },
 
   image: {
@@ -30,14 +35,8 @@ const useStyles = makeStyles({
     backgroundColor: 'transparent',
     border: 0,
     '&:first-of-type': {
-      // marginLeft: 'auto',
       marginRight: '10px',
     },
-  },
-
-  user: {
-    alignSelf: 'center',
-    marginLeft: '10px',
   },
 })
 
@@ -46,45 +45,43 @@ function Header({ user, setOpenSignUp, setOpenSignIn }) {
 
   return (
     <header className={classes.header}>
-      <Container maxWidth="md">
-        <Grid container alignItems="center">
-          <Grid item className={classes.logo} xs={4}>
-            <img src={InstaLogo} alt="" className={classes.image} />
-          </Grid>
-          <Grid container item xs={8} justify="flex-end">
-            {user ? (
-              <>
-                <button
-                  className={`${classes.button}`}
-                  onClick={() => auth.signOut()}
-                >
-                  Logout
-                </button>
-                <Avatar
-                  src={avatarImg}
-                  alt="Romain Moreaux"
-                  className={classes.user}
-                />
-              </>
-            ) : (
-              <>
-                <button
-                  className={`${classes.button}`}
-                  onClick={() => setOpenSignUp(true)}
-                >
-                  Sign up
-                </button>
-                <button
-                  className={`${classes.button}`}
-                  onClick={() => setOpenSignIn(true)}
-                >
-                  Sign In
-                </button>
-              </>
-            )}
-          </Grid>
-        </Grid>
-      </Container>
+      <div className={classes.menu}>
+        <div className={classes.logo}>
+          <img src={InstaLogo} alt="" className={classes.image} />
+        </div>
+        <nav className={classes.navigation}>
+          {user ? (
+            <>
+              <button
+                className={`${classes.button}`}
+                onClick={() => auth.signOut()}
+              >
+                Logout
+              </button>
+              <Avatar
+                src={avatarImg}
+                alt="Romain Moreaux"
+                className={classes.user}
+              />
+            </>
+          ) : (
+            <>
+              <button
+                className={`${classes.button}`}
+                onClick={() => setOpenSignUp(true)}
+              >
+                Sign up
+              </button>
+              <button
+                className={`${classes.button}`}
+                onClick={() => setOpenSignIn(true)}
+              >
+                Sign In
+              </button>
+            </>
+          )}
+        </nav>
+      </div>
     </header>
   )
 }

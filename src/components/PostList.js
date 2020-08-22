@@ -1,13 +1,17 @@
 // dependances
 import React, { useState, useEffect } from 'react'
-import { makeStyles, Grid } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core'
 // components
 import Post from './Post'
 // bdd
 import { db } from '../init-firebase'
 
 const useStyles = makeStyles({
-  listPosts: {},
+  listPosts: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    flex: 2,
+  },
 })
 
 export default function PostList() {
@@ -28,14 +32,7 @@ export default function PostList() {
   }, [])
 
   return (
-    <Grid
-      item
-      container
-      className={classes.listPosts}
-      xs={12}
-      md={7}
-      component="section"
-    >
+    <section className={classes.listPosts}>
       {posts?.map(({ post, id }) => (
         <Post
           key={id}
@@ -47,6 +44,6 @@ export default function PostList() {
           authorId={post.authorId}
         />
       ))}
-    </Grid>
+    </section>
   )
 }
