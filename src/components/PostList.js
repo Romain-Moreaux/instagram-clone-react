@@ -11,6 +11,7 @@ const useStyles = makeStyles({
     display: 'flex',
     flexWrap: 'wrap',
     flex: 2,
+    maxWidth: 500,
   },
 })
 

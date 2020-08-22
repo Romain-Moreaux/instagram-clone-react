@@ -70,7 +70,9 @@ export const SignUp = ({ setOpen, open }) => {
     } catch (error) {
       console.log('Error Signing up with email and password', error.message)
     }
-
+    setUsername('')
+    setEmail('')
+    setPassword('')
     setOpen(false)
   }
 
