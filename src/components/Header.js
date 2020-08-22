@@ -1,5 +1,5 @@
 import React from 'react'
-import { Avatar, makeStyles, Grid, Container } from '@material-ui/core'
+import { Avatar, makeStyles } from '@material-ui/core'
 import avatarImg from '../images/avatar1.jpg'
 import InstaLogo from '../images/logo_insta.png'
 import { auth } from '../init-firebase'
