@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import InstaLogo from '../images/logo_insta.png'
 import { auth } from '../init-firebase'
 import { Modal, makeStyles, Button, Input } from '@material-ui/core'
+import { generateUserDocument } from '../firebase'
 
 function getModalStyle() {
   const top = 50
@@ -37,15 +38,39 @@ export const SignUp = ({ setOpen, open }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const _handleSignUp = (e) => {
-    e.preventDefault()
+  // const _handleSignUp = (e) => {
+  //   e.preventDefault()
 
-    auth
-      .createUserWithEmailAndPassword(email, password)
-      .then((authUser) =>
-        authUser.user.updateProfile({ displayName: username })
+  //   auth
+  //     .createUserWithEmailAndPassword(email, password)
+  //     .then((authUser) => {
+  //       authUser.user.updateProfile({ displayName: username })
+  //     })
+  //     .then((authUser) => {
+  //       console.log('authUser', authUser)
+  //       generateUserDocument(authUser)
+  //     })
+  //     .catch((error) => alert(error.message))
+  //   setOpen(false)
+  // }
+
+  const _handleSignUp = async (e) => {
+    e.preventDefault()
+    try {
+      const { user } = await auth.createUserWithEmailAndPassword(
+        email,
+        password
       )
-      .catch((error) => alert(error.message))
+      await user.updateProfile({
+        displayName: username,
+        followers: [],
+        likes: [],
+      })
+      generateUserDocument(user, 'subscribers')
+    } catch (error) {
+      console.log('Error Signing up with email and password', error.message)
+    }
+
     setOpen(false)
   }
 

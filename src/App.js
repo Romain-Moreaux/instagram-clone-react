@@ -3,7 +3,7 @@ import { auth } from './init-firebase'
 import CreatePost from './components/CreatePost'
 import { SignUp, SignIn } from './components/authModals'
 import Header from './components/Header'
-import { makeStyles, Grid, Container } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core'
 import PostList from './components/PostList'
 import Aside from './components/Aside'
 
@@ -12,18 +12,17 @@ const useStyles = makeStyles({
     backgroundColor: '#fafafa',
     minHeight: '100vh',
     overflowX: 'hidden',
+    display: 'flex',
+    flexDirection: 'column',
   },
   main: {
-    // padding: '20px',
-    // display: 'flex',
-    // justifyContent: 'center',
+    padding: '20px',
+    display: 'flex',
+    justifyContent: 'center',
     marginTop: '36px',
     marginBottom: '36px',
     paddingTop: '12px',
     paddingBottom: '12px',
-  },
-  aside: {
-    // marginLeft: '20px',
   },
 })
 
@@ -50,7 +49,7 @@ function App() {
 
   console.log('user', user)
   return (
-    <Grid container className={classes.app} direction="column">
+    <div className={classes.app}>
       <UserContext.Provider value={user}>
         <SignUp setOpen={setOpenSignUp} open={openSignUp} />
         <SignIn setOpen={setOpenSignIn} open={openSignIn} />
@@ -60,15 +59,13 @@ function App() {
           setOpenSignIn={setOpenSignIn}
           setOpenSignUp={setOpenSignUp}
         />
-        <Container maxWidth="md" className={classes.main}>
-          <Grid item container justify="center">
-            <PostList />
-            <Aside />
-          </Grid>
-        </Container>
+        <div className={classes.main}>
+          <PostList />
+          <Aside />
+        </div>
         <CreatePost user={user} />
       </UserContext.Provider>
-    </Grid>
+    </div>
   )
 }
 
