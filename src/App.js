@@ -43,11 +43,11 @@ function App() {
         setUser(null)
       }
     })
+    console.log('user', user)
 
     return () => unsubscribe()
   }, [user])
 
-  console.log('user', user)
   return (
     <div className={classes.app}>
       <UserContext.Provider value={user}>
