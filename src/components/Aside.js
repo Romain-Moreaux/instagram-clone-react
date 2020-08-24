@@ -10,7 +10,7 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     flex: 1,
-    maxWidth: 340,
+    maxWidth: 350,
   },
   suggestionsBox: {
     display: 'flex',
