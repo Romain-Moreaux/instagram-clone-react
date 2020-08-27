@@ -6,14 +6,13 @@ import Post from './Post'
 // bdd
 import { db } from '../init-firebase'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   listPosts: {
-    display: 'flex',
-    flexWrap: 'wrap',
+    ...theme.displays.flexWrap,
     flex: 2,
     maxWidth: 500,
   },
-})
+}))
 
 export default function PostList() {
   const classes = useStyles()

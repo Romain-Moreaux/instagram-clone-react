@@ -4,11 +4,11 @@ import { makeStyles } from '@material-ui/core'
 import { db } from '../init-firebase'
 import { firestore } from 'firebase'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   createCommentBox: {
-    display: 'flex',
-    padding: '12px 16px',
-    borderTop: '1px solid lightgray',
+    ...theme.displays.flexWrap,
+    padding: theme.spacing(1, 2),
+    borderTop: theme.borders[0],
   },
   input: {
     flex: 1,
@@ -20,7 +20,7 @@ const useStyles = makeStyles({
   button: {
     flex: 0,
     border: 'none',
-    color: '#0095f6',
+    color: theme.palette.primary.blue,
     fontWeight: 600,
     backgroundColor: 'transparent',
     outline: 0,
@@ -28,7 +28,7 @@ const useStyles = makeStyles({
       opacity: '.3',
     },
   },
-})
+}))
 
 function CreateComment({ postId }) {
   const user = useContext(UserContext)

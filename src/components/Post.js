@@ -20,30 +20,29 @@ import { UserContext } from '../App'
 import PostComment from './CreateComment'
 import CommentList from './CommentList'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   post: {
     flex: '1 0 100%',
     backgroundColor: 'white',
-    border: '1px solid lightgray',
-    marginBottom: '45px',
+    border: theme.borders[0],
+    marginBottom: theme.spacing(5),
     borderRadius: '3px',
   },
 
   header: {
-    display: 'flex',
-    alignItems: 'center',
-    padding: '8px 16px',
+    ...theme.displays.flexAlignCenter,
+    padding: theme.spacing(1, 2),
   },
   text: {
     fontWeight: 400,
-    margin: '6px 0',
+    margin: theme.spacing(1, 0),
   },
   textUsername: {
     fontWeight: 600,
   },
 
   avatar: {
-    marginRight: '10px',
+    marginRight: theme.spacing(1),
   },
   menu: {
     marginLeft: 'auto',
@@ -51,8 +50,8 @@ const useStyles = makeStyles({
     backgroundColor: 'transparent',
   },
   imageBox: {
-    borderBottom: '1px solid lightgray',
-    borderTop: '1px solid lightgray',
+    borderBottom: theme.borders[0],
+    borderTop: theme.borders[0],
     display: 'flex',
   },
   image: {
@@ -61,21 +60,20 @@ const useStyles = makeStyles({
   },
 
   body: {
-    padding: '16px',
+    padding: theme.spacing(2),
   },
   iconsBox: {
     display: 'flex',
     '& svg': {
-      marginRight: '8px',
+      marginRight: theme.spacing(1),
     },
     '& svg:last-child': {
       marginLeft: 'auto',
     },
   },
   datetime: {
-    color: '#8e8e8e',
-    fontSize: '10px',
-    textTransform: 'uppercase',
+    color: theme.palette.primary.greyDark,
+    ...theme.typography.smallCaps,
   },
 
   input: {
@@ -88,7 +86,7 @@ const useStyles = makeStyles({
   button: {
     flex: 0,
     border: 'none',
-    color: '#0095f6',
+    color: theme.palette.primary.blue,
     fontWeight: 600,
     backgroundColor: 'transparent',
     outline: 0,
@@ -96,7 +94,7 @@ const useStyles = makeStyles({
       opacity: '.3',
     },
   },
-})
+}))
 
 function Post({ postId, imageUrl, author, caption, timestamp, authorId }) {
   const classes = useStyles()

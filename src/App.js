@@ -6,27 +6,27 @@ import Header from './components/Header'
 import { makeStyles } from '@material-ui/core'
 import PostList from './components/PostList'
 import Aside from './components/Aside'
+import { ThemeProvider } from '@material-ui/core/styles'
+import { customTheme } from './customTheme'
+
+console.log(customTheme)
 
 const useStyles = makeStyles({
   app: {
-    backgroundColor: '#fafafa',
+    backgroundColor: customTheme.palette.background.default,
+    color: customTheme.palette.primary.black,
     minHeight: '100vh',
     overflowX: 'hidden',
-    display: 'flex',
-    flexDirection: 'column',
+    ...customTheme.displays.flexColumn,
+    ...customTheme.typography.body1,
   },
   main: {
-    padding: '20px',
-    display: 'flex',
-    justifyContent: 'center',
-    marginTop: '36px',
-    marginBottom: '36px',
-    paddingTop: '12px',
-    paddingBottom: '12px',
+    ...customTheme.displays.flexCenter,
+    margin: customTheme.spacing(5, 'auto'),
   },
 })
 
-// Contexte d’utilisateur
+// Context d’utilisateur
 export const UserContext = createContext(null)
 
 function App() {
@@ -49,23 +49,25 @@ function App() {
   }, [user])
 
   return (
-    <div className={classes.app}>
+    <ThemeProvider theme={customTheme}>
       <UserContext.Provider value={user}>
-        <SignUp setOpen={setOpenSignUp} open={openSignUp} />
-        <SignIn setOpen={setOpenSignIn} open={openSignIn} />
+        <div className={classes.app}>
+          <SignUp setOpen={setOpenSignUp} open={openSignUp} />
+          <SignIn setOpen={setOpenSignIn} open={openSignIn} />
 
-        <Header
-          user={user}
-          setOpenSignIn={setOpenSignIn}
-          setOpenSignUp={setOpenSignUp}
-        />
-        <div className={classes.main}>
-          <PostList />
-          <Aside />
+          <Header
+            user={user}
+            setOpenSignIn={setOpenSignIn}
+            setOpenSignUp={setOpenSignUp}
+          />
+          <div className={classes.main}>
+            <PostList />
+            <Aside />
+          </div>
+          <CreatePost user={user} />
         </div>
-        <CreatePost user={user} />
       </UserContext.Provider>
-    </div>
+    </ThemeProvider>
   )
 }
 

@@ -4,42 +4,37 @@ import avatarImg from '../images/avatar1.jpg'
 import { UserContext } from '../App'
 import { db } from '../init-firebase'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   aside: {
-    marginLeft: '24px',
-    display: 'flex',
-    flexDirection: 'column',
+    marginLeft: theme.spacing(3),
+    ...theme.displays.flexColumn,
     flex: 1,
-    maxWidth: 350,
+    maxWidth: 300,
   },
   suggestionsBox: {
-    display: 'flex',
-    flexDirection: 'column',
-    padding: '0 12px',
+    ...theme.displays.flexColumn,
+    padding: theme.spacing(0, 2),
   },
   header: {
-    display: 'flex',
-    alignItems: 'center',
-    marginBottom: '24px',
+    ...theme.displays.flexAlignCenter,
+    marginBottom: theme.spacing(3),
   },
   avatar: {
-    marginRight: '6px',
+    marginRight: theme.spacing(1),
   },
   title: {
-    color: '#8e8e8e',
-    marginBottom: '12px',
+    color: theme.palette.primary.greyDark,
+    marginBottom: theme.spacing(2),
   },
   userList: {
-    display: 'flex',
-    flexDirection: 'column',
+    ...theme.displays.flexColumn,
   },
   subscriberBox: {
-    display: 'flex',
-    alignItems: 'center',
-    marginBottom: '12px',
+    ...theme.displays.flexAlignCenter,
+    marginBottom: theme.spacing(2),
   },
   button: {
-    color: '#0095f6',
+    color: theme.palette.primary.blue,
     fontWeight: 600,
     marginLeft: 'auto',
     textTransform: 'capitalize',
@@ -47,7 +42,7 @@ const useStyles = makeStyles({
       backgroundColor: 'transparent',
     },
   },
-})
+}))
 
 function Aside(props) {
   const classes = useStyles(props)

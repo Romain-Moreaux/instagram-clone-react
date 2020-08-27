@@ -25,8 +25,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2, 4, 3),
   },
   formModal: {
-    display: 'flex',
-    flexDirection: 'column',
+    ...theme.displays.flexColumn,
   },
   logo: { objectFit: 'contain' },
 }))
@@ -37,22 +36,6 @@ export const SignUp = ({ setOpen, open }) => {
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-
-  // const _handleSignUp = (e) => {
-  //   e.preventDefault()
-
-  //   auth
-  //     .createUserWithEmailAndPassword(email, password)
-  //     .then((authUser) => {
-  //       authUser.user.updateProfile({ displayName: username })
-  //     })
-  //     .then((authUser) => {
-  //       console.log('authUser', authUser)
-  //       generateUserDocument(authUser)
-  //     })
-  //     .catch((error) => alert(error.message))
-  //   setOpen(false)
-  // }
 
   const _handleSignUp = async (e) => {
     e.preventDefault()
@@ -124,6 +107,8 @@ export const SignIn = ({ setOpen, open }) => {
       .signInWithEmailAndPassword(email, password)
       .catch((error) => alert(error.message))
 
+    setEmail('')
+    setPassword('')
     setOpen(false)
   }
 

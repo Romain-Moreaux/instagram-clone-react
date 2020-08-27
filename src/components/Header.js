@@ -4,18 +4,17 @@ import avatarImg from '../images/avatar1.jpg'
 import InstaLogo from '../images/logo_insta.png'
 import { auth } from '../init-firebase'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   header: {
-    backgroundColor: 'white',
-    padding: '12px 0',
-    borderBottom: '1px solid lightgray',
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(2, 0),
+    borderBottom: theme.borders[0],
     position: 'sticky',
     top: 0,
-    zIndex: 1,
+    zIndex: theme.zIndex.appBar,
   },
   menu: {
-    display: 'flex',
-    alignItems: 'center',
+    ...theme.displays.flexAlignCenter,
   },
   logo: {
     display: 'flex',
@@ -28,17 +27,17 @@ const useStyles = makeStyles({
   image: {
     objectFit: 'contain',
     objectPosition: 'left',
-    height: '29px',
+    height: 29,
   },
 
   button: {
     backgroundColor: 'transparent',
     border: 0,
     '&:first-of-type': {
-      marginRight: '10px',
+      marginRight: theme.spacing(1),
     },
   },
-})
+}))
 
 function Header({ user, setOpenSignUp, setOpenSignIn }) {
   const classes = useStyles()
