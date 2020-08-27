@@ -7,31 +7,28 @@ import { makeStyles } from '@material-ui/core'
 import { UserContext } from '../App'
 import uniqid from 'uniqid'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   createPostBox: {
-    marginTop: 'auto',
-    paddingTop: '24px',
-    paddingBottom: '24px',
+    padding: theme.spacing(3, 0),
     textAlign: 'center',
-    backgroundColor: 'white',
-    borderTop: '1px solid lightgray',
+    backgroundColor: theme.palette.background.paper,
+    borderTop: theme.borders[0],
   },
   form: {
-    display: 'flex',
-    justifyContent: 'center',
+    ...theme.displays.flexCenter,
     alignItems: 'center',
-    marginTop: '12px',
+    marginTop: theme.spacing(2),
   },
   input: {
     display: 'none',
   },
   inputText: { width: '40%' },
   progress: {
-    marginLeft: '12px',
+    marginLeft: theme.spacing(2),
   },
-  button: { marginLeft: '12px' },
-  message: { marginTop: '12px' },
-})
+  button: { marginLeft: theme.spacing(2) },
+  message: { marginTop: theme.spacing(2) },
+}))
 
 function CreatePost() {
   const [caption, setCaption] = useState('')

@@ -3,17 +3,17 @@ import Comment from './Comment'
 import { db } from '../init-firebase'
 import { makeStyles } from '@material-ui/core'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   commentsBox: {
-    padding: '4px 0',
+    padding: theme.spacing(1, 0),
   },
   commentCount: {
-    color: '#00376b',
+    color: theme.palette.primary.greyDark,
   },
   commentList: {
-    margin: '5px 0',
+    margin: theme.spacing(1, 0),
   },
-})
+}))
 
 function CommentList({ postId }) {
   const [comments, setComments] = useState([])

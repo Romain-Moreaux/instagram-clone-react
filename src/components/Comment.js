@@ -4,23 +4,23 @@ import { makeStyles, Menu, MenuItem, Fade } from '@material-ui/core'
 import { UserContext } from '../App'
 import { ReactComponent as CirclesSvg } from '../images/circles.svg'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   commentUsername: {
-    color: ' #262626',
+    color: theme.palette.primary.black,
     fontWeight: 600,
-    marginRight: '6px',
+    marginRight: theme.spacing(1),
   },
   commentItem: {
     display: 'flex',
-    margin: '3px 0',
+    margin: theme.spacing(1 / 2, 0),
   },
   commentText: {
-    fontSize: '13px',
+    ...theme.typography.caption,
   },
   commentBox: {
     display: 'flex',
-    padding: '12px 16px',
-    borderTop: '1px solid lightgray',
+    padding: theme.spacing(2),
+    borderTop: theme.borders[0],
   },
   menu: {
     marginLeft: 'auto',
@@ -33,18 +33,7 @@ const useStyles = makeStyles({
     outline: 0,
     resize: 'none',
   },
-  button: {
-    flex: 0,
-    border: 'none',
-    color: '#0095f6',
-    fontWeight: 600,
-    backgroundColor: 'transparent',
-    outline: 0,
-    '&:disabled': {
-      opacity: '.3',
-    },
-  },
-})
+}))
 
 function Comment({ postId, comment, id }) {
   const classes = useStyles()
