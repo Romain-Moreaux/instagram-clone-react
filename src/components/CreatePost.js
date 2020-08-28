@@ -10,9 +10,12 @@ import uniqid from 'uniqid'
 const useStyles = makeStyles((theme) => ({
   createPostBox: {
     padding: theme.spacing(3, 0),
-    textAlign: 'center',
     backgroundColor: theme.palette.background.paper,
     borderTop: theme.borders[0],
+  },
+  container: {
+    ...theme.wrappers.w1280,
+    textAlign: 'center',
   },
   form: {
     ...theme.displays.flexCenter,
@@ -80,50 +83,52 @@ function CreatePost() {
 
   return (
     <div className={classes.createPostBox}>
-      <h3>Add a Post with image.</h3>
-      {user ? (
-        <form className={classes.form}>
-          <Input
-            className={classes.inputText}
-            type="text"
-            value={caption}
-            onChange={(e) => setCaption(e.target.value)}
-            placeholder="enter a text..."
-          />
-          <input
-            accept="image/*"
-            className={classes.input}
-            id="icon-button-file"
-            type="file"
-            onChange={handleChange}
-          />
-          <label htmlFor="icon-button-file">
-            <IconButton
+      <div className={classes.container}>
+        <h3>Add a Post with image.</h3>
+        {user ? (
+          <form className={classes.form}>
+            <Input
+              className={classes.inputText}
+              type="text"
+              value={caption}
+              onChange={(e) => setCaption(e.target.value)}
+              placeholder="enter a text..."
+            />
+            <input
+              accept="image/*"
+              className={classes.input}
+              id="icon-button-file"
+              type="file"
+              onChange={handleChange}
+            />
+            <label htmlFor="icon-button-file">
+              <IconButton
+                color="primary"
+                aria-label="upload picture"
+                component="span"
+              >
+                <PhotoCamera className={classes.cameraImage} />
+              </IconButton>
+            </label>
+            <Button
+              variant="contained"
               color="primary"
-              aria-label="upload picture"
-              component="span"
+              disabled={!image}
+              onClick={handleUpload}
+              size="small"
             >
-              <PhotoCamera className={classes.cameraImage} />
-            </IconButton>
-          </label>
-          <Button
-            variant="contained"
-            color="primary"
-            disabled={!image}
-            onClick={handleUpload}
-            size="small"
-          >
-            Upload
-          </Button>
-          <CircularProgress
-            className={classes.progress}
-            variant="static"
-            value={progress}
-          />
-        </form>
-      ) : (
-        <p className={classes.message}>Sorry you need to login to upload</p>
-      )}
+              Upload
+            </Button>
+            <CircularProgress
+              className={classes.progress}
+              variant="static"
+              value={progress}
+            />
+          </form>
+        ) : (
+          <p className={classes.message}>Sorry you need to login to upload</p>
+        )}
+      </div>
     </div>
   )
 }

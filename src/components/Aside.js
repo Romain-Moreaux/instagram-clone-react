@@ -6,10 +6,12 @@ import { db } from '../init-firebase'
 
 const useStyles = makeStyles((theme) => ({
   aside: {
-    marginLeft: theme.spacing(3),
     ...theme.displays.flexColumn,
     flex: 1,
-    maxWidth: 300,
+    // maxWidth: 300,
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(3),
+    },
   },
   suggestionsBox: {
     ...theme.displays.flexColumn,

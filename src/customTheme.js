@@ -53,4 +53,13 @@ export const customTheme = createMuiTheme({
       flexWrap: 'wrap',
     },
   },
+  wrappers: {
+    w1280: {
+      maxWidth: 1280,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      paddingLeft: 8,
+      paddingRight: 8,
+    },
+  },
 })

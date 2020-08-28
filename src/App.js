@@ -21,8 +21,11 @@ const useStyles = makeStyles({
     ...customTheme.typography.body1,
   },
   main: {
-    ...customTheme.displays.flexCenter,
     margin: customTheme.spacing(5, 'auto'),
+  },
+  container: {
+    ...customTheme.displays.flexWrap,
+    ...customTheme.wrappers.w1280,
   },
 })
 
@@ -61,8 +64,10 @@ function App() {
             setOpenSignUp={setOpenSignUp}
           />
           <div className={classes.main}>
-            <PostList />
-            <Aside />
+            <div className={classes.container}>
+              <PostList />
+              <Aside />
+            </div>
           </div>
           <CreatePost user={user} />
         </div>
