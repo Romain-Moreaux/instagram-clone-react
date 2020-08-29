@@ -13,8 +13,9 @@ const useStyles = makeStyles((theme) => ({
     top: 0,
     zIndex: theme.zIndex.appBar,
   },
-  menu: {
+  container: {
     ...theme.displays.flexAlignCenter,
+    ...theme.wrappers.w1280,
   },
   logo: {
     display: 'flex',
@@ -44,7 +45,7 @@ function Header({ user, setOpenSignUp, setOpenSignIn }) {
 
   return (
     <header className={classes.header}>
-      <div className={classes.menu}>
+      <div className={classes.container}>
         <div className={classes.logo}>
           <img src={InstaLogo} alt="" className={classes.image} />
         </div>
