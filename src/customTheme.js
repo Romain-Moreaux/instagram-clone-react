@@ -58,8 +58,15 @@ export const customTheme = createMuiTheme({
       maxWidth: 1280,
       marginLeft: 'auto',
       marginRight: 'auto',
-      paddingLeft: 8,
-      paddingRight: 8,
+      paddingLeft: 16,
+      paddingRight: 16,
+    },
+    w1480: {
+      maxWidth: 1440,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      paddingLeft: 16,
+      paddingRight: 16,
     },
   },
 })
