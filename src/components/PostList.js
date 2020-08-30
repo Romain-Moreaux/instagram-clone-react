@@ -9,7 +9,6 @@ import { db } from '../init-firebase'
 const useStyles = makeStyles((theme) => ({
   listPosts: {
     ...theme.displays.flexWrap,
-    // maxWidth: 500,
     [theme.breakpoints.up('sm')]: {
       flex: 2,
     },

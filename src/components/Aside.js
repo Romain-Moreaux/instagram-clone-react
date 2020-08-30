@@ -8,7 +8,6 @@ const useStyles = makeStyles((theme) => ({
   aside: {
     ...theme.displays.flexColumn,
     flex: 1,
-    // maxWidth: 300,
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(3),
     },

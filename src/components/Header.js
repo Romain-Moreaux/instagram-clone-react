@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
   container: {
     ...theme.displays.flexAlignCenter,
     ...theme.wrappers.w1280,
+    ...theme.spaces.horizontal.md,
   },
   logo: {
     display: 'flex',

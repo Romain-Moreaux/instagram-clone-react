@@ -53,20 +53,68 @@ export const customTheme = createMuiTheme({
       flexWrap: 'wrap',
     },
   },
+  spaces: {
+    horizontal: {
+      xs: {
+        paddingLeft: 4,
+        paddingRight: 4,
+      },
+      sm: {
+        paddingLeft: 8,
+        paddingRight: 8,
+      },
+      md: {
+        paddingLeft: 16,
+        paddingRight: 16,
+      },
+      lg: {
+        paddingLeft: 32,
+        paddingRight: 32,
+      },
+      xl: {
+        paddingLeft: 48,
+        paddingRight: 48,
+      },
+    },
+    vertical: {
+      xs: {
+        marginTop: 4,
+        marginBottom: 4,
+      },
+      sm: {
+        marginTop: 8,
+        marginBottom: 8,
+      },
+      md: {
+        marginTop: 16,
+        marginBottom: 16,
+      },
+      lg: {
+        marginTop: 32,
+        marginBottom: 32,
+      },
+      xl: {
+        marginTop: 48,
+        marginBottom: 48,
+      },
+    },
+  },
+
   wrappers: {
     w1280: {
       maxWidth: 1280,
       marginLeft: 'auto',
       marginRight: 'auto',
-      paddingLeft: 16,
-      paddingRight: 16,
+    },
+    w11366: {
+      maxWidth: 1366,
+      marginLeft: 'auto',
+      marginRight: 'auto',
     },
     w1480: {
       maxWidth: 1440,
       marginLeft: 'auto',
       marginRight: 'auto',
-      paddingLeft: 16,
-      paddingRight: 16,
     },
   },
 })

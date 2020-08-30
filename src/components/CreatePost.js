@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
   container: {
     ...theme.wrappers.w1280,
+    ...theme.spaces.horizontal.md,
     textAlign: 'center',
   },
   form: {
