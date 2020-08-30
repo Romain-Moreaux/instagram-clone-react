@@ -26,6 +26,7 @@ const useStyles = makeStyles({
   container: {
     ...customTheme.displays.flexWrap,
     ...customTheme.wrappers.w1280,
+    ...customTheme.spaces.horizontal.md,
   },
 })
 
