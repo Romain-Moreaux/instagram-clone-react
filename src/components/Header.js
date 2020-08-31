@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import { Avatar, makeStyles } from '@material-ui/core'
 import avatarImg from '../images/avatar1.jpg'
 import InstaLogo from '../images/logo_insta.png'
+import { ReactComponent as AddSvg } from '../images/add.svg'
 import { auth } from '../init-firebase'
+import { UserContext } from '../App'
+import { SignUp, SignIn, AddPost } from './Modals'
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -25,6 +28,9 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     marginLeft: 'auto',
   },
+  user: {
+    marginLeft: theme.spacing(2),
+  },
 
   image: {
     objectFit: 'contain',
@@ -36,54 +42,69 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'transparent',
     border: 0,
     '&:first-of-type': {
-      marginRight: theme.spacing(1),
+      marginRight: theme.spacing(2),
     },
   },
 }))
 
-function Header({ user, setOpenSignUp, setOpenSignIn }) {
+function Header() {
   const classes = useStyles()
+  const user = useContext(UserContext)
+  const [openSignIn, setOpenSignIn] = useState(false)
+  const [openSignUp, setOpenSignUp] = useState(false)
+  const [openAddPost, setOpenAddPost] = useState(false)
 
   return (
-    <header className={classes.header}>
-      <div className={classes.container}>
-        <div className={classes.logo}>
-          <img src={InstaLogo} alt="" className={classes.image} />
+    <>
+      <SignUp setOpen={setOpenSignUp} open={openSignUp} />
+      <SignIn setOpen={setOpenSignIn} open={openSignIn} />
+      <AddPost setOpen={setOpenAddPost} open={openAddPost} />
+      <header className={classes.header}>
+        <div className={classes.container}>
+          <div className={classes.logo}>
+            <img src={InstaLogo} alt="" className={classes.image} />
+          </div>
+          <nav className={classes.navigation}>
+            {user ? (
+              <>
+                <button
+                  className={classes.button}
+                  onClick={() => setOpenAddPost(true)}
+                >
+                  <AddSvg />
+                </button>
+                <button
+                  className={`${classes.button}`}
+                  onClick={() => auth.signOut()}
+                >
+                  Logout
+                </button>
+                <Avatar
+                  src={avatarImg}
+                  alt="Romain Moreaux"
+                  className={classes.user}
+                />
+              </>
+            ) : (
+              <>
+                <button
+                  className={`${classes.button}`}
+                  onClick={() => setOpenSignUp(true)}
+                >
+                  Sign up
+                </button>
+                <button
+                  className={`${classes.button}`}
+                  onClick={() => setOpenSignIn(true)}
+                >
+                  Sign In
+                </button>
+              </>
+            )}
+          </nav>
         </div>
-        <nav className={classes.navigation}>
-          {user ? (
-            <>
-              <button
-                className={`${classes.button}`}
-                onClick={() => auth.signOut()}
-              >
-                Logout
-              </button>
-              <Avatar
-                src={avatarImg}
-                alt="Romain Moreaux"
-                className={classes.user}
-              />
-            </>
-          ) : (
-            <>
-              <button
-                className={`${classes.button}`}
-                onClick={() => setOpenSignUp(true)}
-              >
-                Sign up
-              </button>
-              <button
-                className={`${classes.button}`}
-                onClick={() => setOpenSignIn(true)}
-              >
-                Sign In
-              </button>
-            </>
-          )}
-        </nav>
-      </div>
-    </header>
+      </header>
+    </>
   )
 }
 
