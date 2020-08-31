@@ -1,7 +1,6 @@
 import React, { useState, useEffect, createContext } from 'react'
 import { auth } from './init-firebase'
-import CreatePost from './components/CreatePost'
-import { SignUp, SignIn } from './components/authModals'
+// import CreatePost from './components/CreatePost'
 import Header from './components/Header'
 import { makeStyles } from '@material-ui/core'
 import PostList from './components/PostList'
@@ -35,8 +34,6 @@ export const UserContext = createContext(null)
 
 function App() {
   const [user, setUser] = useState(null)
-  const [openSignIn, setOpenSignIn] = useState(false)
-  const [openSignUp, setOpenSignUp] = useState(false)
   const classes = useStyles()
 
   useEffect(() => {
@@ -56,21 +53,14 @@ function App() {
     <ThemeProvider theme={customTheme}>
       <UserContext.Provider value={user}>
         <div className={classes.app}>
-          <SignUp setOpen={setOpenSignUp} open={openSignUp} />
-          <SignIn setOpen={setOpenSignIn} open={openSignIn} />
-
-          <Header
-            user={user}
-            setOpenSignIn={setOpenSignIn}
-            setOpenSignUp={setOpenSignUp}
-          />
+          <Header />
           <div className={classes.main}>
             <div className={classes.container}>
               <PostList />
               <Aside />
             </div>
           </div>
-          <CreatePost user={user} />
+          {/* <CreatePost user={user} /> */}
         </div>
       </UserContext.Provider>
     </ThemeProvider>
