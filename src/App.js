@@ -1,13 +1,14 @@
-import React, { useState, useEffect, createContext } from 'react'
-import { auth } from './init-firebase'
-// import CreatePost from './components/CreatePost'
-import Header from './components/Header'
+// dependances
+import React from 'react'
 import { makeStyles } from '@material-ui/core'
-// import PostList from './components/PostList'
-// import Aside from './components/Aside'
 import { ThemeProvider } from '@material-ui/core/styles'
 import { customTheme } from './customTheme'
-import { ProvideAuth } from './components/Auth/useAuth'
+// auth
+import { AuthProvider } from './components/Auth/useAuth'
+// components
+import PostList from './components/PostList'
+import Aside from './components/Aside'
+import Header from './components/Header'
 
 // console.log(customTheme)
 
@@ -30,39 +31,23 @@ const useStyles = makeStyles({
   },
 })
 
-// Context d’utilisateur
-// export const UserContext = createContext(null)
-
 function App() {
   // const [user, setUser] = useState(null)
   const classes = useStyles()
 
-  // useEffect(() => {
-  //   const unsubscribe = auth.onAuthStateChanged((authUser) => {
-  //     if (authUser) {
-  //       setUser(authUser)
-  //     } else {
-  //       setUser(null)
-  //     }
-  //   })
-  //   console.log('user', user)
-
-  //   return () => unsubscribe()
-  // }, [user])
-
   return (
     <ThemeProvider theme={customTheme}>
-      <ProvideAuth>
+      <AuthProvider>
         <div className={classes.app}>
           <Header />
           <div className={classes.main}>
             <div className={classes.container}>
-              {/* <PostList />
-              <Aside /> */}
+              <PostList />
+              <Aside />
             </div>
           </div>
         </div>
-      </ProvideAuth>
+      </AuthProvider>
     </ThemeProvider>
   )
 }

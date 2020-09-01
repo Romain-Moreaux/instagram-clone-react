@@ -1,8 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react'
+// dependances
+import React, { useEffect, useState } from 'react'
 import { makeStyles, Avatar, Button } from '@material-ui/core'
+// images
 import avatarImg from '../images/avatar1.jpg'
-import { UserContext } from '../App'
+// database
 import { db } from '../init-firebase'
+// auth
+import { useAuth } from './Auth'
 
 const useStyles = makeStyles((theme) => ({
   aside: {
@@ -47,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Aside(props) {
   const classes = useStyles(props)
-  const user = useContext(UserContext)
+  const { user } = useAuth()
   const [subscribers, setSubscribers] = useState([])
 
   useEffect(() => {

@@ -1,8 +1,12 @@
-import React, { useContext } from 'react'
-import { db } from '../init-firebase'
+//  dependances
+import React from 'react'
 import { makeStyles, Menu, MenuItem, Fade } from '@material-ui/core'
-import { UserContext } from '../App'
+// database
+import { db } from '../init-firebase'
+// images
 import { ReactComponent as CirclesSvg } from '../images/circles.svg'
+// auth
+import { useAuth } from './Auth'
 
 const useStyles = makeStyles((theme) => ({
   commentUsername: {
@@ -37,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Comment({ postId, comment, id }) {
   const classes = useStyles()
-  const user = useContext(UserContext)
+  const { user } = useAuth()
   const [anchorEl, setAnchorEl] = React.useState(null)
 
   const deleteComment = (e) => {

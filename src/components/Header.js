@@ -1,11 +1,13 @@
-import React, { useContext, useState } from 'react'
+// dependances
+import React, { useState } from 'react'
 import { Avatar, makeStyles } from '@material-ui/core'
+// images
 import avatarImg from '../images/avatar1.jpg'
 import InstaLogo from '../images/logo_insta.png'
 import { ReactComponent as AddSvg } from '../images/add.svg'
-// import { auth } from '../init-firebase'
-// import { UserContext } from '../App'
+// components
 import { SignUp, SignIn, AddPost } from './Modals'
+// auth
 import { useAuth } from './Auth'
 
 const useStyles = makeStyles((theme) => ({
@@ -50,11 +52,10 @@ const useStyles = makeStyles((theme) => ({
 
 function Header() {
   const classes = useStyles()
-  // const user = useContext(UserContext)
   const [openSignIn, setOpenSignIn] = useState(false)
   const [openSignUp, setOpenSignUp] = useState(false)
   const [openAddPost, setOpenAddPost] = useState(false)
-  const auth = useAuth()
+  const { signout, user } = useAuth()
 
   return (
     <>
@@ -67,7 +68,7 @@ function Header() {
             <img src={InstaLogo} alt="" className={classes.image} />
           </div>
           <nav className={classes.navigation}>
-            {auth.user ? (
+            {user ? (
               <>
                 <button
                   className={classes.button}
@@ -77,7 +78,7 @@ function Header() {
                 </button>
                 <button
                   className={`${classes.button}`}
-                  onClick={() => auth.signout()}
+                  onClick={() => signout()}
                 >
                   Logout
                 </button>

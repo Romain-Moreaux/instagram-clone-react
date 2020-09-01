@@ -1,7 +1,10 @@
+// dependances
 import React, { useEffect, useState } from 'react'
-import Comment from './Comment'
-import { db } from '../init-firebase'
 import { makeStyles } from '@material-ui/core'
+// components
+import Comment from './Comment'
+// database
+import { db } from '../init-firebase'
 
 const useStyles = makeStyles((theme) => ({
   commentsBox: {

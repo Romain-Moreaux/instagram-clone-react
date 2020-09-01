@@ -1,4 +1,5 @@
-import React, { useState, useContext } from 'react'
+//dependances
+import React, { useState } from 'react'
 import {
   Button,
   Input,
@@ -6,12 +7,14 @@ import {
   CircularProgress,
   Modal,
 } from '@material-ui/core'
-import PhotoCamera from '@material-ui/icons/PhotoCamera'
-import { db, storage } from '../init-firebase'
-import { firestore } from 'firebase'
 import { makeStyles } from '@material-ui/core'
-import { UserContext } from '../App'
+import PhotoCamera from '@material-ui/icons/PhotoCamera'
+import { firestore } from 'firebase/app'
 import uniqid from 'uniqid'
+// database
+import { db, storage } from '../init-firebase'
+// auth
+import { useAuth } from './Auth'
 
 function getModalStyle() {
   const top = 50
@@ -164,7 +167,7 @@ const AddPostModal = ({ setOpen, open, user }) => {
 
 function CreatePost() {
   const classes = useStyles()
-  const user = useContext(UserContext)
+  const { user } = useAuth()
 
   return (
     <div className={classes.createPostBox}>

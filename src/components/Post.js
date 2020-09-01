@@ -1,5 +1,5 @@
 // dependances
-import React, { useContext } from 'react'
+import React from 'react'
 import Avatar from '@material-ui/core/Avatar'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -14,11 +14,10 @@ import { ReactComponent as LikeSvg } from '../images/like.svg'
 import { ReactComponent as ShareSvg } from '../images/share.svg'
 import { ReactComponent as SaveSvg } from '../images/save.svg'
 import { ReactComponent as CirclesSvg } from '../images/circles.svg'
-//context
-import { UserContext } from '../App'
 //components
 import PostComment from './CreateComment'
 import CommentList from './CommentList'
+import { useAuth } from './Auth'
 
 const useStyles = makeStyles((theme) => ({
   post: {
@@ -99,7 +98,7 @@ const useStyles = makeStyles((theme) => ({
 function Post({ postId, imageUrl, author, caption, timestamp, authorId }) {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = React.useState(null)
-  const user = useContext(UserContext)
+  const { user } = useAuth()
 
   const deletePost = (e) => {
     e.preventDefault()
