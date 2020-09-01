@@ -9,10 +9,12 @@ import {
   CircularProgress,
 } from '@material-ui/core'
 import PhotoCamera from '@material-ui/icons/PhotoCamera'
-import { firestore } from 'firebase/app'
-import uniqid from 'uniqid'
+import * as firebase from 'firebase/app'
+import 'firebase/firestore'
+
 // database
 import { db, storage } from '../init-firebase'
+import uniqid from 'uniqid'
 import { generateUserDocument } from '../firebase'
 // auth
 import { useAuth } from './Auth'
@@ -217,7 +219,7 @@ export const AddPost = ({ setOpen, open }) => {
             db.collection('posts').add({
               caption: caption,
               imageUrl: url,
-              timestamp: firestore.FieldValue.serverTimestamp(),
+              timestamp: firebase.firestore.FieldValue.serverTimestamp(),
               author: auth.user?.displayName,
               authorId: auth.user?.uid,
             })
