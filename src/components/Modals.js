@@ -13,7 +13,8 @@ import PhotoCamera from '@material-ui/icons/PhotoCamera'
 import { generateUserDocument } from '../firebase'
 import { firestore } from 'firebase'
 import uniqid from 'uniqid'
-import { UserContext } from '../App'
+import { useAuth } from './Auth'
+// import { UserContext } from '../App'
 
 function getModalStyle() {
   const top = 50
@@ -124,18 +125,37 @@ export const SignIn = ({ setOpen, open }) => {
   const [modalStyle] = useState(getModalStyle)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const { user, signin } = useAuth()
+  console.log('user =>', user)
 
-  const _handleSignIn = (e) => {
+  const _handleSignIn = async (e) => {
     e.preventDefault()
-
-    auth
-      .signInWithEmailAndPassword(email, password)
-      .catch((error) => alert(error.message))
-
-    setEmail('')
-    setPassword('')
-    setOpen(false)
+    try {
+      const response = await signin(email, password)
+      console.log('response', response)
+      if (response.success) {
+        setEmail('')
+        setPassword('')
+        setOpen(false)
+      } else {
+        console.log(response.error)
+      }
+    } catch (error) {
+      console.log('error', error)
+    }
   }
+
+  // const _handleSignIn = (e) => {
+  //   e.preventDefault()
+
+  //   auth
+  //     .signInWithEmailAndPassword(email, password)
+  //     .catch((error) => alert(error.message))
+
+  //   setEmail('')
+  //   setPassword('')
+  //   setOpen(false)
+  // }
 
   return (
     <Modal
@@ -172,9 +192,10 @@ export const AddPost = ({ setOpen, open }) => {
   const [caption, setCaption] = useState('')
   const [progress, setProgress] = useState(0)
   const [image, setImage] = useState(null)
-  const user = useContext(UserContext)
+  // const user = useContext(UserContext)
+  const auth = useAuth()
 
-  console.log('image => ', image)
+  // console.log('image => ', image)
 
   const handleUpload = (e) => {
     // Generate a unique name for each image to avoid conflict when loading posts
@@ -204,8 +225,8 @@ export const AddPost = ({ setOpen, open }) => {
               caption: caption,
               imageUrl: url,
               timestamp: firestore.FieldValue.serverTimestamp(),
-              author: user?.displayName,
-              authorId: user?.uid,
+              author: auth.user?.displayName,
+              authorId: auth.user?.uid,
             })
             setProgress(0)
             setCaption('')

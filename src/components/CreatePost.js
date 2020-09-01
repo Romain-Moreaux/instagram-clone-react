@@ -66,7 +66,8 @@ const AddPostModal = ({ setOpen, open, user }) => {
   const [progress, setProgress] = useState(0)
   const [image, setImage] = useState(null)
 
-  console.log('image => ', image)
+  // console.log('image => ', image)
+
   const handleUpload = (e) => {
     const uploadTask = storage.ref(`images/${image.name}${uniqid()}`).put(image)
 
