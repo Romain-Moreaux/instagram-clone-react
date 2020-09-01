@@ -1,7 +1,9 @@
 // dependances
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core'
-import { firestore } from 'firebase/app'
+import * as firebase from 'firebase/app'
+import 'firebase/firestore'
+
 // database
 import { db } from '../init-firebase'
 // auth
@@ -49,7 +51,7 @@ function CreateComment({ postId }) {
         username: user.displayName,
         usernameId: user.uid,
         text: comment,
-        timestamp: firestore.FieldValue.serverTimestamp(),
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       })
       .then(function () {
         console.log(`Comment on post ${postId} successfully send!`)
