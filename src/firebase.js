@@ -1,28 +1,29 @@
 import { db } from './init-firebase'
 
 export const generateUserDocument = async (user, collectionName) => {
-  console.log('generateUserDocument', user)
+  console.log('generateUserDocument')
   if (!user) return
-  const userRef = db.collection(collectionName).doc(user.uid)
-  const snapshot = await userRef.get()
-  console.log('snapshot =>', snapshot.data())
+  try {
+    const userRef = db.collection(collectionName).doc(user.uid)
+    const snapshot = await userRef.get()
 
-  if (!snapshot.exists) {
-    console.log('Snapshot not exist')
-    const { email, displayName } = user
-    try {
+    if (!snapshot.exists) {
+      console.log('Creating user document...')
+      const { email, displayName } = user
       await userRef.set({
         displayName,
         email,
       })
-    } catch (error) {
-      console.error('Error creating user document', error)
+
+      return getUserDocument(user.uid)
     }
+  } catch (error) {
+    console.error('Error while generating user document', error)
   }
-  return getUserDocument(user.uid)
 }
 
 const getUserDocument = async (uid) => {
+  console.log('getUserDocument')
   if (!uid) return null
   try {
     const userDocument = await db.doc(`subscribers/${uid}`).get()

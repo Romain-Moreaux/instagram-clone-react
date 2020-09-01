@@ -1,11 +1,10 @@
-// Hook (use-auth.js)
 import React, { useState, useContext, useEffect } from 'react'
 import authContext from './context'
-import { auth, db, storage } from '../../init-firebase'
+import { auth } from '../../init-firebase'
 
 // Provider component that wraps your app and makes auth object ...
 // ... available to any child component that calls useAuth().
-export const ProvideAuth = ({ children }) => {
+export const AuthProvider = ({ children }) => {
   const auth = useProvideAuth()
   return <authContext.Provider value={auth}>{children}</authContext.Provider>
 }
@@ -20,20 +19,8 @@ export const useAuth = () => {
 export const useProvideAuth = () => {
   const [user, setUser] = useState(null)
 
-  // Wrap any Firebase methods we want to use making sure ...
-  // ... to save the user to state.
-  //   const signin = (email, password) => {
-  //     return
-  //     auth()
-  //       .signInWithEmailAndPassword(email, password)
-  //       .then((response) => {
-  //         setUser(response.user)
-  //         return response.user
-  //       })
-  //   }
-
   const signin = (email, password) => {
-    console.log('Sign in')
+    console.log('Signin')
     return auth
       .signInWithEmailAndPassword(email, password)
       .then((response) => {
@@ -51,17 +38,33 @@ export const useProvideAuth = () => {
   }
 
   const signup = (email, password) => {
+    console.log('Signup')
     return auth
       .createUserWithEmailAndPassword(email, password)
       .then((response) => {
+        console.log('response', response)
         setUser(response.user)
-        return response.user
+        return {
+          success: true,
+          user: response.user,
+        }
+      })
+      .catch((error) => {
+        return {
+          success: false,
+          error,
+        }
       })
   }
 
   const signout = async () => {
-    await auth.signOut()
-    setUser(false)
+    console.log('signout')
+    return auth
+      .signOut()
+      .then(() => setUser(false))
+      .catch((error) => {
+        console.log(error)
+      })
   }
 
   const sendPasswordResetEmail = (email) => {

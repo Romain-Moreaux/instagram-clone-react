@@ -1,6 +1,5 @@
-import React, { useState, useContext } from 'react'
-import InstaLogo from '../images/logo_insta.png'
-import { auth, db, storage } from '../init-firebase'
+// dependances
+import React, { useState } from 'react'
 import {
   Modal,
   makeStyles,
@@ -10,11 +9,15 @@ import {
   CircularProgress,
 } from '@material-ui/core'
 import PhotoCamera from '@material-ui/icons/PhotoCamera'
-import { generateUserDocument } from '../firebase'
-import { firestore } from 'firebase'
+import { firestore } from 'firebase/app'
 import uniqid from 'uniqid'
+// database
+import { db, storage } from '../init-firebase'
+import { generateUserDocument } from '../firebase'
+// auth
 import { useAuth } from './Auth'
-// import { UserContext } from '../App'
+// images
+import InstaLogo from '../images/logo_insta.png'
 
 function getModalStyle() {
   const top = 50
@@ -62,27 +65,30 @@ export const SignUp = ({ setOpen, open }) => {
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const { signup } = useAuth()
 
   const _handleSignUp = async (e) => {
     e.preventDefault()
     try {
-      const { user } = await auth.createUserWithEmailAndPassword(
-        email,
-        password
-      )
-      await user.updateProfile({
-        displayName: username,
-        followers: [],
-        likes: [],
-      })
-      generateUserDocument(user, 'subscribers')
+      const response = await signup(email, password)
+      if (response.success) {
+        console.log('update profil')
+        await response.user.updateProfile({
+          displayName: username,
+          followers: [],
+          likes: [],
+        })
+        await generateUserDocument(response.user, 'subscribers')
+        setUsername('')
+        setEmail('')
+        setPassword('')
+        setOpen(false)
+      } else {
+        console.log(response.error)
+      }
     } catch (error) {
-      console.log('Error Signing up with email and password', error.message)
+      console.log(error.message)
     }
-    setUsername('')
-    setEmail('')
-    setPassword('')
-    setOpen(false)
   }
 
   return (
@@ -125,8 +131,7 @@ export const SignIn = ({ setOpen, open }) => {
   const [modalStyle] = useState(getModalStyle)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const { user, signin } = useAuth()
-  console.log('user =>', user)
+  const { signin } = useAuth()
 
   const _handleSignIn = async (e) => {
     e.preventDefault()
@@ -144,18 +149,6 @@ export const SignIn = ({ setOpen, open }) => {
       console.log('error', error)
     }
   }
-
-  // const _handleSignIn = (e) => {
-  //   e.preventDefault()
-
-  //   auth
-  //     .signInWithEmailAndPassword(email, password)
-  //     .catch((error) => alert(error.message))
-
-  //   setEmail('')
-  //   setPassword('')
-  //   setOpen(false)
-  // }
 
   return (
     <Modal

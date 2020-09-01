@@ -1,8 +1,11 @@
-import React, { useContext, useState } from 'react'
-import { UserContext } from '../App'
+// dependances
+import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core'
+import { firestore } from 'firebase/app'
+// database
 import { db } from '../init-firebase'
-import { firestore } from 'firebase'
+// auth
+import { useAuth } from './Auth'
 
 const useStyles = makeStyles((theme) => ({
   createCommentBox: {
@@ -31,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function CreateComment({ postId }) {
-  const user = useContext(UserContext)
+  const { user } = useAuth()
   const [comment, setComment] = useState('')
 
   const classes = useStyles()
