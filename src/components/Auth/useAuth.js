@@ -1,13 +1,6 @@
-import React, { useState, useContext, useEffect } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import authContext from './context'
 import { auth } from '../../init-firebase'
-
-// Provider component that wraps your app and makes auth object ...
-// ... available to any child component that calls useAuth().
-export const AuthProvider = ({ children }) => {
-  const auth = useProvideAuth()
-  return <authContext.Provider value={auth}>{children}</authContext.Provider>
-}
 
 // Hook for child components to get the auth object ...
 // ... and re-render when it changes.
