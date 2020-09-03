@@ -13,7 +13,7 @@ export const useProvideAuth = () => {
   const [user, setUser] = useState(null)
 
   const signin = (email, password) => {
-    console.log('Signin')
+    console.log('signin()')
     return auth
       .signInWithEmailAndPassword(email, password)
       .then((response) => {
@@ -31,7 +31,7 @@ export const useProvideAuth = () => {
   }
 
   const signup = (email, password) => {
-    console.log('Signup')
+    console.log('signup()')
     return auth
       .createUserWithEmailAndPassword(email, password)
       .then((response) => {
@@ -51,7 +51,7 @@ export const useProvideAuth = () => {
   }
 
   const signout = async () => {
-    console.log('signout')
+    console.log('signout()')
     return auth
       .signOut()
       .then(() => setUser(false))
@@ -81,7 +81,7 @@ export const useProvideAuth = () => {
       if (user) {
         setUser(user)
       } else {
-        setUser(false)
+        setUser(null)
       }
     })
 

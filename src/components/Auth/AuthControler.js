@@ -10,10 +10,11 @@ import { useAuth } from './useAuth'
 // import PrivateRoute from './PrivateRoute'
 import Dashboard from '../Dashboard'
 import SignIn from '../SignIn'
+import SignUp from '../SignUp'
 
 const AuthController = () => {
   const auth = useAuth()
-  console.log('auth =>', auth)
+  console.log('user =>', auth?.user)
   return (
     <Router>
       <Switch>
@@ -22,6 +23,11 @@ const AuthController = () => {
           render={() => (!auth?.user ? <SignIn /> : <Redirect to="/" />)}
         />
         <Route
+          path="/signup"
+          render={() => (!auth?.user ? <SignUp /> : <Redirect to="/" />)}
+        />
+        <Route
+          exact
           path="/"
           render={() =>
             auth?.user ? <Dashboard /> : <Redirect to="/signin" />

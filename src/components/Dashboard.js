@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 function Dashboard() {
   const classes = useStyles()
   return (
-    <div className={classes.app}>
+    <>
       <Header />
       <div className={classes.main}>
         <div className={classes.container}>
@@ -36,7 +36,7 @@ function Dashboard() {
           <Aside />
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

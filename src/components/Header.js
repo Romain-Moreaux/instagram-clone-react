@@ -6,7 +6,7 @@ import avatarImg from '../images/avatar1.jpg'
 import InstaLogo from '../images/logo_insta.png'
 import { ReactComponent as AddSvg } from '../images/add.svg'
 // components
-import { SignUp, SignIn, AddPost } from './Modals'
+import { AddPost } from './Modals'
 // auth
 import { useAuth } from './Auth'
 
@@ -52,15 +52,11 @@ const useStyles = makeStyles((theme) => ({
 
 function Header() {
   const classes = useStyles()
-  const [openSignIn, setOpenSignIn] = useState(false)
-  const [openSignUp, setOpenSignUp] = useState(false)
   const [openAddPost, setOpenAddPost] = useState(false)
   const { signout, user } = useAuth()
 
   return (
     <>
-      <SignUp setOpen={setOpenSignUp} open={openSignUp} />
-      <SignIn setOpen={setOpenSignIn} open={openSignIn} />
       <AddPost setOpen={setOpenAddPost} open={openAddPost} />
       <header className={classes.header}>
         <div className={classes.container}>
@@ -68,7 +64,7 @@ function Header() {
             <img src={InstaLogo} alt="" className={classes.image} />
           </div>
           <nav className={classes.navigation}>
-            {user ? (
+            {user && (
               <>
                 <button
                   className={classes.button}
@@ -87,21 +83,6 @@ function Header() {
                   alt="Romain Moreaux"
                   className={classes.user}
                 />
-              </>
-            ) : (
-              <>
-                <button
-                  className={`${classes.button}`}
-                  onClick={() => setOpenSignUp(true)}
-                >
-                  Sign up
-                </button>
-                <button
-                  className={`${classes.button}`}
-                  onClick={() => setOpenSignIn(true)}
-                >
-                  Sign In
-                </button>
               </>
             )}
           </nav>
