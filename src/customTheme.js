@@ -52,6 +52,12 @@ export const customTheme = createMuiTheme({
       display: 'flex',
       flexWrap: 'wrap',
     },
+    hideOnMobile: {
+      display: 'none',
+      '@media (min-width: 600px)': {
+        display: 'flex',
+      },
+    },
   },
   spaces: {
     horizontal: {
@@ -115,6 +121,28 @@ export const customTheme = createMuiTheme({
       maxWidth: 1440,
       marginLeft: 'auto',
       marginRight: 'auto',
+    },
+  },
+  widgets: {
+    buttons: {
+      primary: {
+        border: '1px solid transparent',
+        color: '#ffffff',
+        backgroundColor: '#0095f6',
+        outline: 0,
+        '&:hover': {
+          backgroundColor: '#0095f6',
+        },
+      },
+    },
+    inputs: {
+      primary: {
+        border: '1px solid #dbdbdb',
+        '&:focus': {
+          border: '1px solid #c7c7c7',
+        },
+        borderRadius: 3,
+      },
     },
   },
 })

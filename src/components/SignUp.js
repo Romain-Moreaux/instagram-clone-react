@@ -6,6 +6,7 @@ import instagramLogo from '../images/logo_insta.png'
 import smartphonesImg from '../images/bg-mockup-smartphones.png'
 import { useAuth } from './Auth'
 import { Link } from 'react-router-dom'
+import { generateUserDocument } from '../firebase'
 
 const useStyles = makeStyles((theme) => ({
   page: {
@@ -109,21 +110,32 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function SignIn() {
+function SignUp() {
   const classes = useStyles()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const { signin } = useAuth()
+  const [username, setUsername] = useState('')
   const [isShow, setIsShow] = useState(false)
   const [error, setError] = useState('')
+  const { signup } = useAuth()
 
-  const handleSignIn = async (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault()
     try {
-      const response = await signin(email, password)
-      if (!response.success) setError(response.error.message)
+      const response = await signup(email, password)
+      if (response.success) {
+        console.log('update profil')
+        await response.user.updateProfile({
+          displayName: username,
+          followers: [],
+          likes: [],
+        })
+        await generateUserDocument(response.user, 'subscribers')
+      } else {
+        setError(response.error.message)
+      }
     } catch (error) {
-      console.log('error', error)
+      console.log(error.message)
     }
   }
 
@@ -143,6 +155,16 @@ function SignIn() {
         <div className={classes.formBox}>
           <img src={instagramLogo} alt="" className={classes.logo} />
           <form className={classes.form}>
+            <div className={classes.field}>
+              <span className={classes.label}>Username</span>
+              <input
+                placeholder="username"
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className={classes.input}
+              />
+            </div>
             <div className={classes.field}>
               <span className={classes.label}>Email</span>
               <input
@@ -167,7 +189,7 @@ function SignIn() {
               </button>
             </div>
 
-            <Button className={classes.submit} onClick={handleSignIn}>
+            <Button className={classes.submit} onClick={handleSignUp}>
               Log In
             </Button>
           </form>
@@ -186,4 +208,4 @@ function SignIn() {
   )
 }
 
-export default SignIn
+export default SignUp
