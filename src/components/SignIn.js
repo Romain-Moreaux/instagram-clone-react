@@ -1,11 +1,11 @@
 // dependances
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button, makeStyles } from '@material-ui/core'
 // images
 import instagramLogo from '../images/logo_insta.png'
 import smartphonesImg from '../images/bg-mockup-smartphones.png'
 import { useAuth } from './Auth'
-import { Link } from 'react-router-dom'
+import { Link, Redirect, useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   page: {
@@ -113,15 +113,17 @@ function SignIn() {
   const classes = useStyles()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const { signin } = useAuth()
+  const { signin, user } = useAuth()
   const [isShow, setIsShow] = useState(false)
   const [error, setError] = useState('')
+  const history = useHistory()
 
   const handleSignIn = async (e) => {
     e.preventDefault()
     try {
       const response = await signin(email, password)
-      if (!response.success) setError(response.error.message)
+      if (response.success) console.log('successful logged')
+      else setError(response.error.message)
     } catch (error) {
       console.log('error', error)
     }
@@ -131,6 +133,10 @@ function SignIn() {
     e.preventDefault()
     setIsShow(!isShow)
   }
+
+  useEffect(() => {
+    if (user) history.push('/')
+  }, [user, history])
 
   return (
     <div className={classes.page}>

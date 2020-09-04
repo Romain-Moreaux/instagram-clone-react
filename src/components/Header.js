@@ -1,10 +1,18 @@
 // dependances
 import React, { useState } from 'react'
-import { Avatar, makeStyles } from '@material-ui/core'
+import {
+  Avatar,
+  makeStyles,
+  MenuItem,
+  Menu,
+  Fade,
+  Link,
+} from '@material-ui/core'
 // images
 import avatarImg from '../images/avatar1.jpg'
 import InstaLogo from '../images/logo_insta.png'
 import { ReactComponent as AddSvg } from '../images/add.svg'
+import { ReactComponent as SettingsSvg } from '../images/settings.svg'
 // components
 import { AddPost } from './Modals'
 // auth
@@ -21,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
   container: {
     ...theme.displays.flexAlignCenter,
-    ...theme.wrappers.w1280,
+    ...theme.wrappers.w975,
     ...theme.spaces.horizontal.md,
   },
   logo: {
@@ -31,8 +39,10 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     marginLeft: 'auto',
   },
-  user: {
-    marginLeft: theme.spacing(2),
+
+  paper: {
+    ...theme.widgets.popover.menu,
+    marginTop: theme.spacing(2),
   },
 
   image: {
@@ -44,8 +54,9 @@ const useStyles = makeStyles((theme) => ({
   button: {
     backgroundColor: 'transparent',
     border: 0,
+    marginLeft: theme.spacing(2),
     '&:first-of-type': {
-      marginRight: theme.spacing(2),
+      marginLeft: 0,
     },
   },
 }))
@@ -53,6 +64,7 @@ const useStyles = makeStyles((theme) => ({
 function Header() {
   const classes = useStyles()
   const [openAddPost, setOpenAddPost] = useState(false)
+  const [anchorEl, setAnchorEl] = useState(false)
   const { signout, user } = useAuth()
 
   return (
@@ -73,16 +85,47 @@ function Header() {
                   <AddSvg />
                 </button>
                 <button
-                  className={`${classes.button}`}
-                  onClick={() => signout()}
+                  className={classes.button}
+                  aria-controls="fade-menu"
+                  aria-haspopup="true"
+                  onClick={(e) => setAnchorEl(e.currentTarget)}
                 >
-                  Logout
+                  <Avatar
+                    src={avatarImg}
+                    alt="Romain Moreaux"
+                    className={classes.user}
+                  />
                 </button>
-                <Avatar
-                  src={avatarImg}
-                  alt="Romain Moreaux"
-                  className={classes.user}
-                />
+                <Menu
+                  id="fade-menu"
+                  anchorEl={anchorEl}
+                  keepMounted
+                  open={Boolean(anchorEl)}
+                  onClose={() => setAnchorEl(null)}
+                  TransitionComponent={Fade}
+                  classes={{ paper: classes.paper }}
+                  getContentAnchorEl={null}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                  }}
+                >
+                  <MenuItem key={0}>
+                    <Link
+                      href={'/account/edit'}
+                      onClick={() => console.log('clicked')}
+                    >
+                      <SettingsSvg /> Settings
+                    </Link>
+                  </MenuItem>
+                  <MenuItem key={1} onClick={signout}>
+                    Logout
+                  </MenuItem>
+                </Menu>
               </>
             )}
           </nav>

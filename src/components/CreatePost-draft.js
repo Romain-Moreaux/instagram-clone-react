@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     borderTop: theme.borders[0],
   },
   container: {
-    ...theme.wrappers.w1280,
+    ...theme.wrappers.w975,
     ...theme.spaces.horizontal.md,
     textAlign: 'center',
   },

@@ -107,6 +107,11 @@ export const customTheme = createMuiTheme({
   },
 
   wrappers: {
+    w975: {
+      maxWidth: 975,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
     w1280: {
       maxWidth: 1280,
       marginLeft: 'auto',
@@ -142,6 +147,26 @@ export const customTheme = createMuiTheme({
           border: '1px solid #c7c7c7',
         },
         borderRadius: 3,
+      },
+    },
+    popover: {
+      menu: {
+        boxShadow: '0 0 5px 1px rgba(0,0,0,.0975)',
+        borderRadius: 6,
+        backgroundColor: '#ffffff',
+        width: 230,
+        '& ul': { padding: 0 },
+        '& li': { padding: '8px 16px' },
+        '& li:last-of-type': { borderTop: '1px solid #dbdbdb' },
+        '& a': {
+          color: 'inherit',
+          display: 'flex',
+          alignItems: 'center',
+          '& svg': { marginRight: 8 },
+          '&:hover': {
+            textDecoration: 'none',
+          },
+        },
       },
     },
   },
