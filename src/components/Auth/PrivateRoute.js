@@ -1,6 +1,7 @@
 // dependances
 import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
+import { useAuth } from './useAuth'
 
 function PrivateRoute({ children, user, ...rest }) {
   console.log('Private route: ', user)

@@ -11,6 +11,8 @@ import { useAuth } from './useAuth'
 import Dashboard from '../Dashboard'
 import SignIn from '../SignIn'
 import SignUp from '../SignUp'
+import AccountEdit from '../AccountEdit'
+import PrivateRoute from './PrivateRoute'
 
 const AuthController = () => {
   const auth = useAuth()
@@ -18,6 +20,14 @@ const AuthController = () => {
   return (
     <Router>
       <Switch>
+        {/* old version */}
+        {/* <Route
+          exact
+          path="/"
+          render={() =>
+            auth?.user ? <Dashboard /> : <Redirect to="/signin" />
+          }
+        />
         <Route
           path="/signin"
           render={() => (!auth?.user ? <SignIn /> : <Redirect to="/" />)}
@@ -25,17 +35,27 @@ const AuthController = () => {
         <Route
           path="/signup"
           render={() => (!auth?.user ? <SignUp /> : <Redirect to="/" />)}
-        />
-        <Route
-          exact
-          path="/"
-          render={() =>
-            auth?.user ? <Dashboard /> : <Redirect to="/signin" />
-          }
-        />
-        {/* <PrivateRoute exact path="/" user={auth.user}>
+        /> */}
+
+        {/* <Route path="/">
+          <Dashboard />
+        </Route> */}
+        {/* <PrivateRoute exact user={auth.user} path="/">
           <Dashboard />
         </PrivateRoute> */}
+        <Route exact path="/">
+          <Dashboard />
+        </Route>
+        <Route path="/signin">
+          <SignIn />
+        </Route>
+        <Route path="/signup">
+          <SignUp />
+        </Route>
+
+        <Route path="/account/edit">
+          <AccountEdit />
+        </Route>
       </Switch>
     </Router>
   )

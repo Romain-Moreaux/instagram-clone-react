@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
   container: {
     ...theme.displays.flexWrap,
-    ...theme.wrappers.w1280,
+    ...theme.wrappers.w975,
     ...theme.spaces.horizontal.md,
   },
 }))
