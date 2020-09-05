@@ -17,6 +17,7 @@ import { ReactComponent as SettingsSvg } from '../images/settings.svg'
 import { AddPost } from './Modals'
 // auth
 import { useAuth } from './Auth'
+import { useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -66,6 +67,20 @@ function Header() {
   const [openAddPost, setOpenAddPost] = useState(false)
   const [anchorEl, setAnchorEl] = useState(false)
   const { signout, user } = useAuth()
+  const history = useHistory()
+
+  const handleSignOut = async (e) => {
+    e.preventDefault()
+    try {
+      const response = await signout()
+      if (response.success) {
+        console.log('successful logged out')
+        history.push('signin')
+      } else alert(response.error.message)
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
 
   return (
     <>
@@ -122,7 +137,7 @@ function Header() {
                       <SettingsSvg /> Settings
                     </Link>
                   </MenuItem>
-                  <MenuItem key={1} onClick={signout}>
+                  <MenuItem key={1} onClick={handleSignOut}>
                     Logout
                   </MenuItem>
                 </Menu>

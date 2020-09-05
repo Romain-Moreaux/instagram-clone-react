@@ -1,61 +1,31 @@
 import React from 'react'
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-} from 'react-router-dom'
-import { useAuth } from './useAuth'
-
-// import PrivateRoute from './PrivateRoute'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Dashboard from '../Dashboard'
 import SignIn from '../SignIn'
 import SignUp from '../SignUp'
 import AccountEdit from '../AccountEdit'
 import PrivateRoute from './PrivateRoute'
+import PublicRoute from './PublicRoute'
 
 const AuthController = () => {
-  const auth = useAuth()
-  console.log('user =>', auth?.user)
   return (
     <Router>
       <Switch>
-        {/* old version */}
-        {/* <Route
+        <PublicRoute exact path="/signin" component={SignIn} redirectTo="/" />
+        <PublicRoute exact path="/signup" component={SignUp} redirectTo="/" />
+        <PrivateRoute
           exact
           path="/"
-          render={() =>
-            auth?.user ? <Dashboard /> : <Redirect to="/signin" />
-          }
+          component={Dashboard}
+          redirectTo="/signin"
         />
-        <Route
-          path="/signin"
-          render={() => (!auth?.user ? <SignIn /> : <Redirect to="/" />)}
+        <PrivateRoute
+          exact
+          path="/account/edit"
+          component={AccountEdit}
+          redirectTo="/signin"
         />
-        <Route
-          path="/signup"
-          render={() => (!auth?.user ? <SignUp /> : <Redirect to="/" />)}
-        /> */}
-
-        {/* <Route path="/">
-          <Dashboard />
-        </Route> */}
-        {/* <PrivateRoute exact user={auth.user} path="/">
-          <Dashboard />
-        </PrivateRoute> */}
-        <Route exact path="/">
-          <Dashboard />
-        </Route>
-        <Route path="/signin">
-          <SignIn />
-        </Route>
-        <Route path="/signup">
-          <SignUp />
-        </Route>
-
-        <Route path="/account/edit">
-          <AccountEdit />
-        </Route>
+        <Route path="*" component={() => <p>404 not found</p>} />
       </Switch>
     </Router>
   )

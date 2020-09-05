@@ -6,7 +6,7 @@ import { customTheme } from './customTheme'
 import AuthController from './components/Auth/AuthControler'
 import AuthProvider from './components/Auth'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   app: {
     backgroundColor: customTheme.palette.background.default,
     color: customTheme.palette.primary.black,
@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
 
 function App() {
   const classes = useStyles()
+
   return (
     <div className={classes.app}>
       <ThemeProvider theme={customTheme}>
