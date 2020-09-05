@@ -17,9 +17,9 @@ export const useProvideAuth = () => {
     return auth
       .signInWithEmailAndPassword(email, password)
       .then((response) => {
-        setUser(response.user)
         return {
           success: true,
+          user: response.user,
         }
       })
       .catch((error) => {
@@ -35,8 +35,6 @@ export const useProvideAuth = () => {
     return auth
       .createUserWithEmailAndPassword(email, password)
       .then((response) => {
-        console.log('response', response)
-        setUser(response.user)
         return {
           success: true,
           user: response.user,
@@ -54,9 +52,16 @@ export const useProvideAuth = () => {
     console.log('signout()')
     return auth
       .signOut()
-      .then(() => setUser(false))
+      .then(() => {
+        return {
+          success: true,
+        }
+      })
       .catch((error) => {
-        console.log(error)
+        return {
+          success: false,
+          error,
+        }
       })
   }
 
@@ -72,26 +77,35 @@ export const useProvideAuth = () => {
     })
   }
 
-  // Subscribe to user on mount
-  // Because this sets state in the callback it will cause any ...
-  // ... component that utilizes this hook to re-render with the ...
-  // ... latest auth object.
+  const isAuth = () => localStorage.getItem('signin')
+
+  // // Subscribe to user on mount
+  // // Because this sets state in the callback it will cause any ...
+  // // ... component that utilizes this hook to re-render with the ...
+  // // ... latest auth object.
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
+      console.log('authChanged', user)
       if (user) {
+        localStorage.setItem('signin', true)
         setUser(user)
       } else {
         setUser(null)
+        localStorage.removeItem('signin')
       }
     })
 
     // Cleanup subscription on unmount
-    return () => unsubscribe()
+    return () => {
+      console.log('unmount')
+      unsubscribe()
+    }
   }, [])
 
   // Return the user object and auth methods
   return {
     user,
+    isAuth,
     signin,
     signup,
     signout,

@@ -5,7 +5,7 @@ import { Button, makeStyles } from '@material-ui/core'
 import instagramLogo from '../images/logo_insta.png'
 import smartphonesImg from '../images/bg-mockup-smartphones.png'
 import { useAuth } from './Auth'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { generateUserDocument } from '../firebase'
 
 const useStyles = makeStyles((theme) => ({
@@ -118,19 +118,22 @@ function SignUp() {
   const [isShow, setIsShow] = useState(false)
   const [error, setError] = useState('')
   const { signup } = useAuth()
+  const history = useHistory()
 
   const handleSignUp = async (e) => {
     e.preventDefault()
     try {
       const response = await signup(email, password)
       if (response.success) {
-        console.log('update profil')
+        console.log('Succesful signed up')
         await response.user.updateProfile({
           displayName: username,
           followers: [],
           likes: [],
         })
+        console.log('User succesful updated')
         await generateUserDocument(response.user, 'subscribers')
+        history.push('/')
       } else {
         setError(response.error.message)
       }
