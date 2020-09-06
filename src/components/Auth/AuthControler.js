@@ -11,8 +11,8 @@ const AuthController = () => {
   return (
     <Router>
       <Switch>
-        <PublicRoute exact path="/signin" component={SignIn} redirectTo="/" />
-        <PublicRoute exact path="/signup" component={SignUp} redirectTo="/" />
+        <PublicRoute path="/signin" component={SignIn} redirectTo="/" />
+        <PublicRoute path="/signup" component={SignUp} redirectTo="/" />
         <PrivateRoute
           exact
           path="/"
@@ -20,7 +20,6 @@ const AuthController = () => {
           redirectTo="/signin"
         />
         <PrivateRoute
-          exact
           path="/account/edit"
           component={AccountEdit}
           redirectTo="/signin"
