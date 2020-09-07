@@ -1,28 +1,16 @@
 // dependances
 import React, { useState } from 'react'
-import {
-  Avatar,
-  makeStyles,
-  MenuItem,
-  Menu,
-  Fade,
-  Link,
-} from '@material-ui/core'
+import { makeStyles } from '@material-ui/core'
 // images
-import avatarImg from '../images/avatar1.jpg'
 import InstaLogo from '../images/logo_insta.png'
-import { ReactComponent as AddSvg } from '../images/add.svg'
-import { ReactComponent as SettingsSvg } from '../images/settings.svg'
 // components
 import { AddPost } from './Modals'
-// auth
-import { useAuth } from './Auth'
-import { useHistory } from 'react-router-dom'
+import NavHeader from './navigation/NavHeader'
 
 const useStyles = makeStyles((theme) => ({
   header: {
     backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(2, 0),
+    padding: theme.spacing(1, 0),
     borderBottom: theme.borders[0],
     position: 'sticky',
     top: 0,
@@ -35,15 +23,8 @@ const useStyles = makeStyles((theme) => ({
   },
   logo: {
     display: 'flex',
-  },
-  navigation: {
-    display: 'flex',
-    marginLeft: 'auto',
-  },
-
-  paper: {
-    ...theme.widgets.popover.menu,
-    marginTop: theme.spacing(2),
+    margin: 'auto',
+    '@media (min-width: 760px)': { margin: 0 },
   },
 
   image: {
@@ -51,36 +32,11 @@ const useStyles = makeStyles((theme) => ({
     objectPosition: 'left',
     height: 29,
   },
-
-  button: {
-    backgroundColor: 'transparent',
-    border: 0,
-    marginLeft: theme.spacing(2),
-    '&:first-of-type': {
-      marginLeft: 0,
-    },
-  },
 }))
 
 function Header() {
   const classes = useStyles()
   const [openAddPost, setOpenAddPost] = useState(false)
-  const [anchorEl, setAnchorEl] = useState(false)
-  const { signout, user } = useAuth()
-  const history = useHistory()
-
-  const handleSignOut = async (e) => {
-    e.preventDefault()
-    try {
-      const response = await signout()
-      if (response.success) {
-        console.log('successful logged out')
-        history.push('signin')
-      } else alert(response.error.message)
-    } catch (error) {
-      console.log('error', error)
-    }
-  }
 
   return (
     <>
@@ -90,60 +46,7 @@ function Header() {
           <div className={classes.logo}>
             <img src={InstaLogo} alt="" className={classes.image} />
           </div>
-          <nav className={classes.navigation}>
-            {user && (
-              <>
-                <button
-                  className={classes.button}
-                  onClick={() => setOpenAddPost(true)}
-                >
-                  <AddSvg />
-                </button>
-                <button
-                  className={classes.button}
-                  aria-controls="fade-menu"
-                  aria-haspopup="true"
-                  onClick={(e) => setAnchorEl(e.currentTarget)}
-                >
-                  <Avatar
-                    src={avatarImg}
-                    alt="Romain Moreaux"
-                    className={classes.user}
-                  />
-                </button>
-                <Menu
-                  id="fade-menu"
-                  anchorEl={anchorEl}
-                  keepMounted
-                  open={Boolean(anchorEl)}
-                  onClose={() => setAnchorEl(null)}
-                  TransitionComponent={Fade}
-                  classes={{ paper: classes.paper }}
-                  getContentAnchorEl={null}
-                  anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'left',
-                  }}
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'center',
-                  }}
-                >
-                  <MenuItem key={0}>
-                    <Link
-                      href={'/account/edit'}
-                      onClick={() => console.log('clicked')}
-                    >
-                      <SettingsSvg /> Settings
-                    </Link>
-                  </MenuItem>
-                  <MenuItem key={1} onClick={handleSignOut}>
-                    Logout
-                  </MenuItem>
-                </Menu>
-              </>
-            )}
-          </nav>
+          <NavHeader />
         </div>
       </header>
     </>
