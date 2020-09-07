@@ -3,7 +3,7 @@ import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
 import { useAuth } from './useAuth'
 
-function PublicRoute({ component: Component, redirectTo, ...rest }) {
+export function PublicRoute({ component: Component, redirectTo, ...rest }) {
   const { isAuth } = useAuth()
   const isLogged = isAuth()
   console.log('Public route: ', isLogged)
@@ -14,5 +14,3 @@ function PublicRoute({ component: Component, redirectTo, ...rest }) {
     </Route>
   )
 }
-
-export default PublicRoute

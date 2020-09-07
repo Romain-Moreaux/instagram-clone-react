@@ -2,11 +2,11 @@
 import React from 'react'
 import { makeStyles, Menu, MenuItem, Fade } from '@material-ui/core'
 // database
-import { db } from '../init-firebase'
+import { db } from '../../init-firebase'
 // images
-import { ReactComponent as CirclesSvg } from '../images/circles.svg'
+import { ReactComponent as CirclesSvg } from '../../images/circles.svg'
 // auth
-import { useAuth } from './Auth'
+import { useAuth } from '../auth'
 
 const useStyles = makeStyles((theme) => ({
   commentUsername: {

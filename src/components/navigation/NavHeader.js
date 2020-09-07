@@ -9,7 +9,7 @@ import { ReactComponent as HomeSvg } from '../../images/home.svg'
 // components
 import { AddPost } from '../Modals'
 // auth
-import { useAuth } from '../Auth'
+import { useAuth } from '../auth'
 import { useHistory, Link } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
@@ -92,7 +92,7 @@ function NavHeader() {
           }}
         >
           <MenuItem key={0}>
-            <Link to="/account/edit" onClick={() => console.log('clicked')}>
+            <Link to="/account" onClick={() => console.log('clicked')}>
               <SettingsSvg /> Settings
             </Link>
           </MenuItem>

@@ -17,7 +17,7 @@ import { db, storage } from '../init-firebase'
 import uniqid from 'uniqid'
 import { generateUserDocument } from '../firebase'
 // auth
-import { useAuth } from './Auth'
+import { useAuth } from './auth'
 // images
 import InstaLogo from '../images/logo_insta.png'
 

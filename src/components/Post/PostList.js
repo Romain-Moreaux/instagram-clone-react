@@ -2,9 +2,9 @@
 import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core'
 // components
-import Post from './Post'
+import Post from './'
 // bdd
-import { db } from '../init-firebase'
+import { db } from '../../init-firebase'
 
 const useStyles = makeStyles((theme) => ({
   listPosts: {
@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function PostList() {
+export function PostList() {
   const classes = useStyles()
   const [posts, setPosts] = useState()
 
