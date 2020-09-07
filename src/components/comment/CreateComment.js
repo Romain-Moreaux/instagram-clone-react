@@ -5,9 +5,9 @@ import * as firebase from 'firebase/app'
 import 'firebase/firestore'
 
 // database
-import { db } from '../init-firebase'
+import { db } from '../../init-firebase'
 // auth
-import { useAuth } from './Auth'
+import { useAuth } from '../auth'
 
 const useStyles = makeStyles((theme) => ({
   createCommentBox: {
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function CreateComment({ postId }) {
+export function CreateComment({ postId }) {
   const { user } = useAuth()
   const [comment, setComment] = useState('')
 
@@ -82,5 +82,3 @@ function CreateComment({ postId }) {
     </form>
   )
 }
-
-export default CreateComment

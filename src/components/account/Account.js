@@ -1,15 +1,16 @@
+// dependances
 import React from 'react'
-import avatarImg from '../images/avatar1.jpg'
-import { ReactComponent as AddSvg } from '../images/add.svg'
-import { ReactComponent as SettingsSvg } from '../images/settings.svg'
-import { ReactComponent as HomeSvg } from '../images/home.svg'
-
 import {
   makeStyles,
   BottomNavigation,
   BottomNavigationAction,
   Avatar,
 } from '@material-ui/core'
+// images
+import avatarImg from '../../images/avatar1.jpg'
+import { ReactComponent as AddSvg } from '../../images/add.svg'
+import { ReactComponent as SettingsSvg } from '../../images/settings.svg'
+import { ReactComponent as HomeSvg } from '../../images/home.svg'
 
 const useStyles = makeStyles((theme) => ({
   page: {
@@ -23,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   settings: { backgroundColor: 'orange' },
 }))
 
-function AccountEdit() {
+function Account() {
   const classes = useStyles()
   const [value, setValue] = React.useState(0)
 
@@ -57,4 +58,4 @@ function AccountEdit() {
   )
 }
 
-export default AccountEdit
+export default Account

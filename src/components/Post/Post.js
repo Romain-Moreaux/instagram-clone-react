@@ -6,18 +6,18 @@ import MenuItem from '@material-ui/core/MenuItem'
 import Fade from '@material-ui/core/Fade'
 import { makeStyles } from '@material-ui/core'
 // bdd
-import { db } from '../init-firebase'
+import { db } from '../../init-firebase'
 // images
-import avatarImg from '../images/avatar1.jpg'
-import { ReactComponent as CommentSvg } from '../images/comment.svg'
-import { ReactComponent as LikeSvg } from '../images/like.svg'
-import { ReactComponent as ShareSvg } from '../images/share.svg'
-import { ReactComponent as SaveSvg } from '../images/save.svg'
-import { ReactComponent as CirclesSvg } from '../images/circles.svg'
+import avatarImg from '../../images/avatar1.jpg'
+import { ReactComponent as CommentSvg } from '../../images/comment.svg'
+import { ReactComponent as LikeSvg } from '../../images/like.svg'
+import { ReactComponent as ShareSvg } from '../../images/share.svg'
+import { ReactComponent as SaveSvg } from '../../images/save.svg'
+import { ReactComponent as CirclesSvg } from '../../images/circles.svg'
 //components
-import PostComment from './CreateComment'
-import CommentList from './CommentList'
-import { useAuth } from './Auth'
+import { CreateComment } from '../comment'
+import { ListComment } from '../comment'
+import { useAuth } from '../auth'
 
 const useStyles = makeStyles((theme) => ({
   post: {
@@ -188,13 +188,13 @@ function Post({ postId, imageUrl, author, caption, timestamp, authorId }) {
         <h4 className={classes.text}>
           <span className={classes.textUsername}>{author} :</span> {caption}
         </h4>
-        <CommentList postId={postId} />
+        <ListComment postId={postId} />
         <time
           className={classes.datetime}
           dateTime={new Date(timestamp?.seconds * 1000).toUTCString()}
         >{`${nDays} ${nDays > 1 ? `days` : `day`} ago`}</time>
       </section>
-      {user && user.uid !== authorId && <PostComment postId={postId} />}
+      {user && user.uid !== authorId && <CreateComment postId={postId} />}
     </div>
   )
 }

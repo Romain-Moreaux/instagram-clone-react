@@ -1,13 +1,12 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import Dashboard from '../Dashboard'
-import SignIn from '../SignIn'
-import SignUp from '../SignUp'
-import AccountEdit from '../AccountEdit'
-import PrivateRoute from './PrivateRoute'
-import PublicRoute from './PublicRoute'
+import Dashboard from '../pages/Dashboard'
+import SignIn from '../pages/SignIn'
+import SignUp from '../pages/SignUp'
+import { PublicRoute, PrivateRoute } from './'
+import Settings from '../pages/Settings'
 
-const AuthController = () => {
+export const AuthController = () => {
   return (
     <Router>
       <Switch>
@@ -20,8 +19,8 @@ const AuthController = () => {
           redirectTo="/signin"
         />
         <PrivateRoute
-          path="/account/edit"
-          component={AccountEdit}
+          path="/account"
+          component={Settings}
           redirectTo="/signin"
         />
         <Route path="*" component={() => <p>404 not found</p>} />
@@ -29,5 +28,3 @@ const AuthController = () => {
     </Router>
   )
 }
-
-export default AuthController

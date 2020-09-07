@@ -6,7 +6,7 @@ import avatarImg from '../images/avatar1.jpg'
 // database
 import { db } from '../init-firebase'
 // auth
-import { useAuth } from './Auth'
+import { useAuth } from './auth'
 
 const useStyles = makeStyles((theme) => ({
   aside: {

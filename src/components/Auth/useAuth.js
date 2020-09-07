@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from 'react'
-import authContext from './context'
+import { authContext } from './'
 import { auth } from '../../init-firebase'
 
 // Hook for child components to get the auth object ...

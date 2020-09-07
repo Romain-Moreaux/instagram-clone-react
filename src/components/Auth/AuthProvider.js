@@ -1,6 +1,6 @@
 import React from 'react'
 import { useProvideAuth } from './useAuth'
-import authContext from './context'
+import { authContext } from './'
 
 // Provider component that wraps your app and makes auth object ...
 // ... available to any child component that calls useAuth().

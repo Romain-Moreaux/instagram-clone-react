@@ -1,12 +1,12 @@
 // dependances
 import React, { useState } from 'react'
 import { Button, makeStyles } from '@material-ui/core'
-// images
-import instagramLogo from '../images/logo_insta.png'
-import smartphonesImg from '../images/bg-mockup-smartphones.png'
-import { useAuth } from './Auth'
 import { Link, useHistory } from 'react-router-dom'
-import { generateUserDocument } from '../firebase'
+// images
+import instagramLogo from '../../images/logo_insta.png'
+import smartphonesImg from '../../images/bg-mockup-smartphones.png'
+// custom hooks
+import { useAuth } from '../auth'
 
 const useStyles = makeStyles((theme) => ({
   page: {
@@ -110,35 +110,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function SignUp() {
+function SignIn() {
   const classes = useStyles()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [username, setUsername] = useState('')
+  const { signin } = useAuth()
   const [isShow, setIsShow] = useState(false)
   const [error, setError] = useState('')
-  const { signup } = useAuth()
   const history = useHistory()
 
-  const handleSignUp = async (e) => {
+  const handleSignIn = async (e) => {
     e.preventDefault()
     try {
-      const response = await signup(email, password)
+      const response = await signin(email, password)
       if (response.success) {
-        console.log('Succesful signed up')
-        await response.user.updateProfile({
-          displayName: username,
-          followers: [],
-          likes: [],
-        })
-        console.log('User succesful updated')
-        await generateUserDocument(response.user, 'subscribers')
+        console.log('successful logged')
         history.push('/')
-      } else {
-        setError(response.error.message)
-      }
+      } else setError(response.error.message)
     } catch (error) {
-      console.log(error.message)
+      console.log('error', error)
     }
   }
 
@@ -158,16 +148,6 @@ function SignUp() {
         <div className={classes.formBox}>
           <img src={instagramLogo} alt="" className={classes.logo} />
           <form className={classes.form}>
-            <div className={classes.field}>
-              <span className={classes.label}>Username</span>
-              <input
-                placeholder="username"
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                className={classes.input}
-              />
-            </div>
             <div className={classes.field}>
               <span className={classes.label}>Email</span>
               <input
@@ -192,7 +172,7 @@ function SignUp() {
               </button>
             </div>
 
-            <Button className={classes.submit} onClick={handleSignUp}>
+            <Button className={classes.submit} onClick={handleSignIn}>
               Log In
             </Button>
           </form>
@@ -211,4 +191,4 @@ function SignUp() {
   )
 }
 
-export default SignUp
+export default SignIn

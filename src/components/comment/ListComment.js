@@ -2,9 +2,9 @@
 import React, { useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core'
 // components
-import Comment from './Comment'
+import Comment from '.'
 // database
-import { db } from '../init-firebase'
+import { db } from '../../init-firebase'
 
 const useStyles = makeStyles((theme) => ({
   commentsBox: {
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function CommentList({ postId }) {
+export function ListComment({ postId }) {
   const [comments, setComments] = useState([])
   const classes = useStyles()
 
@@ -62,5 +62,3 @@ function CommentList({ postId }) {
     </div>
   )
 }
-
-export default CommentList

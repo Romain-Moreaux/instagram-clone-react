@@ -7,6 +7,7 @@ export const customTheme = createMuiTheme({
     primary: {
       main: '#0095f6',
       blue: '#0095f6',
+      blueDark: '#00376b',
       greyDark: '#8e8e8e',
       grey: '#c7c7c7',
       greyLight: '#dbdbdb',
@@ -27,7 +28,7 @@ export const customTheme = createMuiTheme({
       fontSize: '.85rem',
     },
     smallCaps: {
-      fontSize: '.7rem',
+      fontSize: '.73rem',
       lineHeight: '1.66',
       letterSpacing: '0.03333em',
       textTransform: 'uppercase',

@@ -3,8 +3,8 @@ import React from 'react'
 import { ThemeProvider, makeStyles } from '@material-ui/core/styles'
 import { customTheme } from './customTheme'
 // auth
-import AuthController from './components/Auth/AuthControler'
-import AuthProvider from './components/Auth'
+import { AuthController } from './components/auth'
+import AuthProvider from './components/auth'
 
 const useStyles = makeStyles(() => ({
   app: {
