@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core'
 import Header from './Header'
 import PostList from './PostList'
 import Aside from './Aside'
+import NavBottom from './navigation/NavMobile'
 
 const useStyles = makeStyles((theme) => ({
   app: {
@@ -36,6 +37,7 @@ function Dashboard() {
           <Aside />
         </div>
       </div>
+      <NavBottom />
     </>
   )
 }

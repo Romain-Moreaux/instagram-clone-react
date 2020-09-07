@@ -53,9 +53,13 @@ export const customTheme = createMuiTheme({
       flexWrap: 'wrap',
     },
     hideOnMobile: {
-      display: 'none',
-      '@media (min-width: 600px)': {
-        display: 'flex',
+      '@media (max-width: 760px)': {
+        display: 'none',
+      },
+    },
+    showOnMobile: {
+      '@media (min-width: 760px)': {
+        display: 'none',
       },
     },
   },
