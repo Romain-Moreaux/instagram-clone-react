@@ -185,5 +185,18 @@ export const customTheme = createMuiTheme({
         },
       },
     },
+    title: {
+      fontFamily: '"Lobster Two", cursive',
+      fontSize: 23,
+      fontStyle: 'italic',
+      letterSpacing: '.0124rem',
+      marginBottom: 16,
+      paddingBottom: 8,
+      backgroundImage: 'linear-gradient(to right,#8e8e8e,#8e8e8e)',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'bottom left',
+      backgroundSize: '40px 4px',
+      textAlign: 'left',
+    },
   },
 })
