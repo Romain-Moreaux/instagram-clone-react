@@ -2,21 +2,20 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core'
 // components
-import NavFooter from './navigation/NavFooter'
 
 const useStyles = makeStyles((theme) => ({
   footer: {
     padding: theme.spacing(2, 0),
     marginTop: 'auto',
+    textAlign: 'center',
   },
   container: {
-    ...theme.displays.flexColumn,
     ...theme.wrappers.w975,
     ...theme.spaces.horizontal.md,
   },
   copyright: {
     fontWeight: 600,
-    fontSize: 14,
+    fontSize: 12,
     textTransform: 'uppercase',
     color: theme.palette.primary.grey,
     '& span': {
@@ -33,7 +32,6 @@ function Footer() {
   return (
     <footer className={classes.footer}>
       <div className={classes.container}>
-        <NavFooter />
         <div className={classes.copyright}>
           <p>
             {new Date().getFullYear()} Instagram Clone by

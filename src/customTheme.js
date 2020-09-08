@@ -35,7 +35,7 @@ export const customTheme = createMuiTheme({
       fontWeight: 200,
     },
   },
-  borders: ['1px solid #dbdbdb'],
+  borders: ['1px solid #dbdbdb', '1px solid #262626'],
   displays: {
     flexCenter: {
       display: 'flex',
@@ -167,10 +167,8 @@ export const customTheme = createMuiTheme({
           color: 'inherit',
           display: 'flex',
           alignItems: 'center',
+          textDecoration: 'none',
           '& svg': { marginRight: 8 },
-          '&:hover': {
-            textDecoration: 'none',
-          },
         },
       },
     },

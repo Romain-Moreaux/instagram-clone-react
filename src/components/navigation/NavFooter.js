@@ -4,14 +4,16 @@ import { makeStyles } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
   navigation: {
-    ...theme.displays.flexAlignCenter,
-    '& p': { fontWeight: 500, fontSize: 18 },
+    '& span': {
+      fontWeight: 500,
+      marginRight: theme.spacing(1),
+    },
   },
   link: {
     textTransform: 'uppercase',
     color: theme.palette.primary.blueDark,
     textDecoration: 'none',
-    margin: theme.spacing(0, 1),
+    marginRight: theme.spacing(1),
     fontWeight: 600,
   },
 }))
@@ -21,7 +23,7 @@ function NavFooter() {
 
   return (
     <nav className={classes.navigation}>
-      <p>You want to hire me ?</p>
+      <span>You want to hire me ?</span>
       <a
         className={classes.link}
         href="https://www.linkedin.com/in/romainmoreaux/"

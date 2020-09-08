@@ -6,6 +6,7 @@ import avatarImg from '../../images/avatar1.jpg'
 import { ReactComponent as AddSvg } from '../../images/add.svg'
 import { ReactComponent as SettingsSvg } from '../../images/settings.svg'
 import { ReactComponent as HomeSvg } from '../../images/home.svg'
+// import InfoIcon from '@material-ui/icons/Info'
 // components
 import { AddPost } from '../Modals'
 // auth
@@ -16,7 +17,8 @@ const useStyles = makeStyles((theme) => ({
   navigation: {
     ...theme.displays.hideOnMobile,
     ...theme.displays.flexAlignCenter,
-    marginLeft: 'auto',
+    marginLeft: theme.spacing(2),
+    '& svg': { color: theme.palette.primary.black, width: 24, height: 24 },
   },
 
   paper: {
@@ -29,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
     border: 0,
     marginLeft: theme.spacing(3),
   },
+  user: { border: theme.borders[1] },
 }))
 
 function NavHeader() {
@@ -55,6 +58,9 @@ function NavHeader() {
     <>
       <AddPost setOpen={setOpenAddPost} open={openAddPost} />
       <nav className={classes.navigation}>
+        {/* <Link to="/about">
+          <InfoIcon />
+        </Link> */}
         <Link to="/">
           <HomeSvg />
         </Link>
