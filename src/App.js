@@ -11,8 +11,7 @@ const useStyles = makeStyles(() => ({
     backgroundColor: customTheme.palette.background.default,
     color: customTheme.palette.primary.black,
     minHeight: '100vh',
-    // Overflow remove sticky position from childrens
-    // overflowX: 'hidden',
+    paddingTop: 56,
     ...customTheme.displays.flexColumn,
     ...customTheme.typography.body1,
   },

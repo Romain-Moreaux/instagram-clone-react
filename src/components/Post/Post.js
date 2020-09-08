@@ -24,13 +24,14 @@ const useStyles = makeStyles((theme) => ({
     flex: '1 0 100%',
     backgroundColor: 'white',
     border: theme.borders[0],
-    marginBottom: theme.spacing(5),
     borderRadius: '3px',
+    marginBottom: theme.spacing(5),
+    '&:last-of-type': { marginBottom: 0 },
   },
 
   header: {
     ...theme.displays.flexAlignCenter,
-    padding: theme.spacing(1, 2),
+    padding: theme.spacing(2),
   },
   text: {
     fontWeight: 400,

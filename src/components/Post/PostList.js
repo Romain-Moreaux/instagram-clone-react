@@ -1,22 +1,11 @@
 // dependances
 import React, { useState, useEffect } from 'react'
-import { makeStyles } from '@material-ui/core'
 // components
 import Post from './'
 // bdd
 import { db } from '../../init-firebase'
 
-const useStyles = makeStyles((theme) => ({
-  listPosts: {
-    ...theme.displays.flexWrap,
-    [theme.breakpoints.up('sm')]: {
-      flex: 2,
-    },
-  },
-}))
-
-export function PostList() {
-  const classes = useStyles()
+export function PostList({ css }) {
   const [posts, setPosts] = useState()
 
   useEffect(() => {
@@ -33,7 +22,7 @@ export function PostList() {
   }, [])
 
   return (
-    <section className={classes.listPosts}>
+    <section className={css}>
       {posts?.map(({ post, id }) => (
         <Post
           key={id}

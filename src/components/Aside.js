@@ -11,14 +11,10 @@ import { useAuth } from './auth'
 const useStyles = makeStyles((theme) => ({
   aside: {
     ...theme.displays.flexColumn,
-    flex: 1,
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(3),
-    },
   },
-  suggestionsBox: {
+  container: {
     ...theme.displays.flexColumn,
-    padding: theme.spacing(0, 2),
+    ...theme.spaces.horizontal.md,
   },
   header: {
     ...theme.displays.flexAlignCenter,
@@ -69,7 +65,7 @@ function Aside(props) {
 
   return (
     <aside className={classes.aside}>
-      <div className={classes.suggestionsBox}>
+      <div className={classes.container}>
         {user && (
           <header className={classes.header}>
             <Avatar
