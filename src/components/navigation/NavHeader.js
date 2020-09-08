@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     ...theme.displays.hideOnMobile,
     ...theme.displays.flexAlignCenter,
     marginLeft: theme.spacing(2),
-    '& svg': { color: theme.palette.primary.black, width: 24, height: 24 },
+    '& a,button': { ...theme.displays.flexAlignCenter },
   },
 
   paper: {
@@ -31,7 +31,16 @@ const useStyles = makeStyles((theme) => ({
     border: 0,
     marginLeft: theme.spacing(3),
   },
-  user: { border: theme.borders[1] },
+  icon: {
+    height: theme.spacing(3),
+    width: theme.spacing(3),
+    color: theme.palette.primary.black,
+  },
+  user: {
+    border: theme.borders[1],
+    height: theme.spacing(3),
+    width: theme.spacing(3),
+  },
 }))
 
 function NavHeader() {
@@ -58,14 +67,11 @@ function NavHeader() {
     <>
       <AddPost setOpen={setOpenAddPost} open={openAddPost} />
       <nav className={classes.navigation}>
-        {/* <Link to="/about">
-          <InfoIcon />
-        </Link> */}
         <Link to="/">
-          <HomeSvg />
+          <HomeSvg className={classes.icon} />
         </Link>
         <button className={classes.button} onClick={() => setOpenAddPost(true)}>
-          <AddSvg />
+          <AddSvg className={classes.icon} />
         </button>
         <button
           className={classes.button}
@@ -76,7 +82,7 @@ function NavHeader() {
           <Avatar
             src={avatarImg}
             alt="Romain Moreaux"
-            className={classes.user}
+            classes={{ root: classes.user }}
           />
         </button>
         <Menu
@@ -99,7 +105,7 @@ function NavHeader() {
         >
           <MenuItem key={0}>
             <Link to="/account" onClick={() => console.log('clicked')}>
-              <SettingsSvg /> Settings
+              <SettingsSvg className={classes.icon} /> Settings
             </Link>
           </MenuItem>
           <MenuItem key={1} onClick={handleSignOut}>

@@ -43,7 +43,7 @@ export const customTheme = createMuiTheme({
     },
     logo: {
       fontFamily: '"Lobster Two", cursive',
-      fontSize: 32,
+      fontSize: 28,
       fontStyle: 'italic',
       letterSpacing: '.0124rem',
     },
