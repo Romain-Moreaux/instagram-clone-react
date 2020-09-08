@@ -1,10 +1,5 @@
-// dependances
-import React, { useState } from 'react'
+import React from 'react'
 import { makeStyles } from '@material-ui/core'
-// components
-import { AddPost } from './Modals'
-import NavHeader from './navigation/NavHeader'
-import { Cta, Logo } from './widgets'
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -24,24 +19,13 @@ const useStyles = makeStyles((theme) => ({
     ...theme.wrappers.w975,
     ...theme.spaces.horizontal.md,
   },
+  logo: {
+    display: 'flex',
+    ...theme.typography.logo,
+  },
 }))
 
-function Header() {
+export function Logo() {
   const classes = useStyles()
-  const [openAddPost, setOpenAddPost] = useState(false)
-
-  return (
-    <>
-      <AddPost setOpen={setOpenAddPost} open={openAddPost} />
-      <header className={classes.header}>
-        <div className={classes.container}>
-          <Logo />
-          <Cta />
-          <NavHeader />
-        </div>
-      </header>
-    </>
-  )
+  return <div className={classes.logo}>InstagramClone</div>
 }
-
-export default Header
