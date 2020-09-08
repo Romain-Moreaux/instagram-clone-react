@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: theme.spacing(2),
     },
   },
-  listPosts: {
+  Posts: {
     ...theme.displays.flexWrap,
     [theme.breakpoints.up('sm')]: {
       flex: 1,
@@ -39,7 +39,7 @@ function Dashboard() {
       <Header />
       <div className={classes.main}>
         <div className={classes.container}>
-          <PostList css={classes.listPosts} />
+          <PostList css={classes.Posts} />
           <div className={classes.section}>
             <Aside />
             <Footer />
