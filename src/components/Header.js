@@ -2,7 +2,6 @@
 import React, { useState } from 'react'
 import { makeStyles, MenuItem, Fade, Menu } from '@material-ui/core'
 // images
-import InstaLogo from '../images/logo_insta.png'
 import LinkedInIcon from '@material-ui/icons/LinkedIn'
 import GitHubIcon from '@material-ui/icons/GitHub'
 import EmailIcon from '@material-ui/icons/Email'
@@ -30,8 +29,9 @@ const useStyles = makeStyles((theme) => ({
   },
   logo: {
     display: 'flex',
-    margin: 'auto',
-    '@media (min-width: 760px)': { margin: 0 },
+    // margin: 'auto',
+    // '@media (min-width: 760px)': { margin: 0 },
+    ...theme.typography.logo,
   },
 
   image: {
@@ -65,13 +65,7 @@ function Header() {
       <AddPost setOpen={setOpenAddPost} open={openAddPost} />
       <header className={classes.header}>
         <div className={classes.container}>
-          <div className={classes.logo}>
-            <img
-              src={InstaLogo}
-              alt="logo instagram"
-              className={classes.image}
-            />
-          </div>
+          <div className={classes.logo}>InstagramClone</div>
           <div className={classes.cta}>
             <button
               className={classes.button}
@@ -109,7 +103,7 @@ function Header() {
                   <LinkedInIcon /> for a job
                 </a>
               </MenuItem>
-              <MenuItem key={1}>
+              <MenuItem key={2}>
                 <a href="mailto:romoreaux@gmail.com">
                   <EmailIcon /> Any question ?
                 </a>
