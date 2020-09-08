@@ -16,7 +16,8 @@
     "react-instagram-embed": "^1.5.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.2",
-    "uniqid": "^5.2.0"
+    "uniqid": "^5.2.0",
+    "webfontloader": "^1.6.28"
   },
   "scripts": {
     "start": "react-scripts start",

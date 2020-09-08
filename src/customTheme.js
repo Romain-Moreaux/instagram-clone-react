@@ -1,4 +1,11 @@
 import { createMuiTheme } from '@material-ui/core/styles'
+import WebFont from 'webfontloader'
+
+WebFont.load({
+  google: {
+    families: ['Lobster Two:ital,400', 'cursive'],
+  },
+})
 
 // Inject this object inside the default theme to customize it.
 // https://material-ui.com/customization/theming/#createmuitheme-options-args-theme
@@ -33,6 +40,12 @@ export const customTheme = createMuiTheme({
       letterSpacing: '0.03333em',
       textTransform: 'uppercase',
       fontWeight: 200,
+    },
+    logo: {
+      fontFamily: '"Lobster Two", cursive',
+      fontSize: 32,
+      fontStyle: 'italic',
+      letterSpacing: '.0124rem',
     },
   },
   borders: ['1px solid #dbdbdb', '1px solid #262626'],
