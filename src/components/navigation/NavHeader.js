@@ -11,14 +11,16 @@ import { ReactComponent as HomeSvg } from '../../images/home.svg'
 import { AddPost } from '../Modals'
 // auth
 import { useAuth } from '../auth'
-import { useHistory, Link } from 'react-router-dom'
+import { useHistory, NavLink } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   navigation: {
     ...theme.displays.hideOnMobile,
     ...theme.displays.flexAlignCenter,
-    marginLeft: theme.spacing(2),
-    '& a,button': { ...theme.displays.flexAlignCenter },
+    '& a,button': {
+      ...theme.displays.flexAlignCenter,
+      marginLeft: theme.spacing(3),
+    },
   },
 
   paper: {
@@ -29,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
   button: {
     backgroundColor: 'transparent',
     border: 0,
-    marginLeft: theme.spacing(3),
   },
   icon: {
     height: theme.spacing(3),
@@ -67,12 +68,12 @@ function NavHeader() {
     <>
       <AddPost setOpen={setOpenAddPost} open={openAddPost} />
       <nav className={classes.navigation}>
-        <Link to="/">
+        <NavLink to="/">
           <HomeSvg className={classes.icon} />
-        </Link>
-        <button className={classes.button} onClick={() => setOpenAddPost(true)}>
+        </NavLink>
+        <NavLink to="/post/create">
           <AddSvg className={classes.icon} />
-        </button>
+        </NavLink>
         <button
           className={classes.button}
           aria-controls="fade-menu"
@@ -104,9 +105,9 @@ function NavHeader() {
           }}
         >
           <MenuItem key={0}>
-            <Link to="/account" onClick={() => console.log('clicked')}>
+            <NavLink to="/account">
               <SettingsSvg className={classes.icon} /> Settings
-            </Link>
+            </NavLink>
           </MenuItem>
           <MenuItem key={1} onClick={handleSignOut}>
             Logout

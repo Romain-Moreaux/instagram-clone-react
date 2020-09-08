@@ -5,6 +5,7 @@ import SignIn from '../pages/SignIn'
 import SignUp from '../pages/SignUp'
 import { PublicRoute, PrivateRoute } from './'
 import Settings from '../pages/Settings'
+import { PostCreate } from '../post'
 
 export const AuthController = () => {
   return (
@@ -21,6 +22,11 @@ export const AuthController = () => {
         <PrivateRoute
           path="/account"
           component={Settings}
+          redirectTo="/signin"
+        />
+        <PrivateRoute
+          path="/post/create"
+          component={PostCreate}
           redirectTo="/signin"
         />
         <Route path="*" component={() => <p>404 not found</p>} />
