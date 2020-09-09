@@ -51,7 +51,8 @@ function Aside(props) {
   const [subscribers, setSubscribers] = useState([])
 
   useEffect(() => {
-    db.collection('subscribers')
+    const unsubscribe = db
+      .collection('subscribers')
       .orderBy('displayName', 'desc')
       .onSnapshot((snapshot) =>
         setSubscribers(
@@ -61,6 +62,10 @@ function Aside(props) {
           }))
         )
       )
+    return () => {
+      console.log('unsubscribe')
+      unsubscribe()
+    }
   }, [])
 
   return (

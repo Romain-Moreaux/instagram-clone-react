@@ -18,12 +18,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export function ListComment({ postId }) {
+export function CommentList({ postId }) {
   const [comments, setComments] = useState([])
   const classes = useStyles()
 
   useEffect(() => {
     let unsubscribe
+
     if (postId) {
       unsubscribe = db
         .collection('posts')
@@ -41,6 +42,7 @@ export function ListComment({ postId }) {
     }
 
     return () => {
+      console.log('unsubscribe')
       unsubscribe()
     }
   }, [postId])

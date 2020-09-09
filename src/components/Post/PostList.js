@@ -3,27 +3,32 @@ import React, { useState, useEffect } from 'react'
 // components
 import Post from './'
 // bdd
-import { db } from '../../init-firebase'
+import { usePost } from './usePost'
 
 export function PostList({ css }) {
-  const [posts, setPosts] = useState()
+  const [postList, setPostList] = useState([])
+  const post = usePost()
+
+  const [single, setSingle] = useState(null)
 
   useEffect(() => {
-    db.collection('posts')
-      .orderBy('timestamp', 'desc')
-      .onSnapshot((snapshot) =>
-        setPosts(
-          snapshot.docs.map((doc) => ({
-            id: doc.id,
-            post: doc.data(),
-          }))
-        )
-      )
-  }, [])
+    if (!single) setSingle(post.get('NmWUKOoGrdslgnh86wzF'))
+  }, [setSingle, post])
 
+  useEffect(() => {
+    if (!postList.length) {
+      var unsubscribe = post.getList(setPostList)
+    }
+    return () => {
+      console.log('unsubscribe')
+      unsubscribe()
+    }
+  }, [post, postList])
+
+  console.log('single', single)
   return (
     <section className={css}>
-      {posts?.map(({ post, id }) => (
+      {postList?.map(({ post, id }) => (
         <Post
           key={id}
           postId={id}
@@ -31,7 +36,7 @@ export function PostList({ css }) {
           caption={post.caption}
           imageUrl={post.imageUrl}
           timestamp={post.timestamp}
-          authorId={post.authorId}
+          ownerUid={post.ownerUid}
         />
       ))}
     </section>

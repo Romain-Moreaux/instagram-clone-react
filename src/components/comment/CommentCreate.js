@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export function CreateComment({ postId }) {
+export function CommentCreate({ postId }) {
   const { user } = useAuth()
   const [comment, setComment] = useState('')
 
@@ -49,7 +49,7 @@ export function CreateComment({ postId }) {
       .collection('comments')
       .add({
         username: user.displayName,
-        usernameId: user.uid,
+        ownerUid: user.uid,
         text: comment,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       })

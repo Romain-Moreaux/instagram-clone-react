@@ -7,8 +7,6 @@ import { ReactComponent as AddSvg } from '../../images/add.svg'
 import { ReactComponent as SettingsSvg } from '../../images/settings.svg'
 import { ReactComponent as HomeSvg } from '../../images/home.svg'
 // import InfoIcon from '@material-ui/icons/Info'
-// components
-import { AddPost } from '../Modals'
 // auth
 import { useAuth } from '../auth'
 import { useHistory, NavLink } from 'react-router-dom'
@@ -46,7 +44,6 @@ const useStyles = makeStyles((theme) => ({
 
 function NavHeader() {
   const classes = useStyles()
-  const [openAddPost, setOpenAddPost] = useState(false)
   const [anchorEl, setAnchorEl] = useState(false)
   const { signout } = useAuth()
   const history = useHistory()
@@ -66,7 +63,6 @@ function NavHeader() {
 
   return (
     <>
-      <AddPost setOpen={setOpenAddPost} open={openAddPost} />
       <nav className={classes.navigation}>
         <NavLink to="/">
           <HomeSvg className={classes.icon} />
