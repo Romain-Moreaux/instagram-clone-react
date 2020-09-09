@@ -129,8 +129,6 @@ function SignUp() {
         console.log('Succesful signed up')
         await response.user.updateProfile({
           displayName: username,
-          followers: [],
-          likes: [],
         })
         console.log('User succesful updated')
         await generateUserDocument(response.user, 'subscribers')

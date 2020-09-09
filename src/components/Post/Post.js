@@ -15,8 +15,8 @@ import { ReactComponent as ShareSvg } from '../../images/share.svg'
 import { ReactComponent as SaveSvg } from '../../images/save.svg'
 import { ReactComponent as CirclesSvg } from '../../images/circles.svg'
 //components
-import { CreateComment } from '../comment'
-import { ListComment } from '../comment'
+import { CommentCreate } from '../comment'
+import { CommentList } from '../comment'
 import { useAuth } from '../auth'
 
 const useStyles = makeStyles((theme) => ({
@@ -96,7 +96,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function Post({ postId, imageUrl, author, caption, timestamp, authorId }) {
+function Post({ postId, imageUrl, author, caption, timestamp, ownerUid }) {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = React.useState(null)
   const { user } = useAuth()
@@ -119,7 +119,7 @@ function Post({ postId, imageUrl, author, caption, timestamp, authorId }) {
 
   const reportInapropriate = (postId) => {}
 
-  const unfollow = (authorId) => {}
+  const unfollow = (ownerUid) => {}
 
   const diffDaysFromTimestamps = (oTimestamp, cTimestamp) => {
     var diffTime = Math.abs(oTimestamp * 1000 - cTimestamp)
@@ -155,7 +155,7 @@ function Post({ postId, imageUrl, author, caption, timestamp, authorId }) {
               onClose={() => setAnchorEl(null)}
               TransitionComponent={Fade}
             >
-              {user?.uid === authorId
+              {user?.uid === ownerUid
                 ? [
                     <MenuItem key={0} onClick={deletePost}>
                       Delete my post
@@ -189,13 +189,13 @@ function Post({ postId, imageUrl, author, caption, timestamp, authorId }) {
         <h4 className={classes.text}>
           <span className={classes.textUsername}>{author} :</span> {caption}
         </h4>
-        <ListComment postId={postId} />
+        <CommentList postId={postId} />
         <time
           className={classes.datetime}
           dateTime={new Date(timestamp?.seconds * 1000).toUTCString()}
         >{`${nDays} ${nDays > 1 ? `days` : `day`} ago`}</time>
       </section>
-      {user && user.uid !== authorId && <CreateComment postId={postId} />}
+      {user && user.uid !== ownerUid && <CommentCreate postId={postId} />}
     </div>
   )
 }

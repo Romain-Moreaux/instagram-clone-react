@@ -2,24 +2,20 @@
 import React, { useState } from 'react'
 import {
   makeStyles,
-  Input,
   IconButton,
   Button,
   CircularProgress,
-  TextareaAutosize,
   TextField,
 } from '@material-ui/core'
 import PhotoCamera from '@material-ui/icons/PhotoCamera'
 import uniqid from 'uniqid'
 // database
-import * as firebase from 'firebase/app'
-import 'firebase/firestore'
-import { db, storage } from '../../init-firebase'
+import { storage } from '../../init-firebase'
 // components
 import NavBottom from '../navigation/NavMobile'
 import Header from '../Header'
 // custom hooks
-import { useAuth } from '../auth'
+import { usePost } from './usePost'
 
 const useStyles = makeStyles((theme) => ({
   main: {
@@ -66,10 +62,7 @@ export function PostCreate() {
   const [caption, setCaption] = useState('')
   const [progress, setProgress] = useState(0)
   const [image, setImage] = useState(null)
-  // const user = useContext(UserContext)
-  const auth = useAuth()
-
-  // console.log('image => ', image)
+  const post = usePost()
 
   const handleUpload = (e) => {
     // Generate a unique name for each image to avoid conflict when loading posts
@@ -95,13 +88,7 @@ export function PostCreate() {
           .child(uniqImageName)
           .getDownloadURL()
           .then((url) => {
-            db.collection('posts').add({
-              caption: caption,
-              imageUrl: url,
-              timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-              author: auth.user?.displayName,
-              authorId: auth.user?.uid,
-            })
+            post.create(caption, url)
             setProgress(0)
             setCaption('')
             setImage(null)

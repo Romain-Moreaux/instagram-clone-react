@@ -13,6 +13,8 @@ export const generateUserDocument = async (user, collectionName) => {
       await userRef.set({
         displayName,
         email,
+        followers: [],
+        likes: [],
       })
 
       return getUserDocument(user.uid)

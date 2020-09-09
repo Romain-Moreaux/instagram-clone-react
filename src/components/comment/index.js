@@ -1,4 +1,4 @@
 import Comment from './Comment'
 export default Comment
-export { ListComment } from './ListComment'
-export { CreateComment } from './CreateComment'
+export { CommentList } from './CommentList'
+export { CommentCreate } from './CommentCreate'
