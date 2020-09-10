@@ -19,8 +19,8 @@ export const usePost = () => {
     })
   }
 
-  const getList = (setValues) => {
-    console.log('Getlist')
+  const list = (setValues) => {
+    console.log('list')
     return db
       .collection('posts')
       .orderBy('timestamp', 'desc')
@@ -34,13 +34,13 @@ export const usePost = () => {
       })
   }
 
-  const get = async (postId) => {
-    let response = await db
+  const single = (postId, setValue) => {
+    return db
       .collection('posts')
       .doc(postId)
       .onSnapshot(async (snapshot) => {
-        console.log(snapshot)
-        return await snapshot.data()
+        console.log('snapshot', snapshot)
+        setValue(snapshot.data())
       })
   }
 
@@ -49,8 +49,8 @@ export const usePost = () => {
 
   // Return post methods
   return {
-    get,
-    getList,
+    single,
+    list,
     create,
     delete: remove,
     update,

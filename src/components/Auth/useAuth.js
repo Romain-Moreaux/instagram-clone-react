@@ -88,6 +88,7 @@ export const useProvideAuth = () => {
       console.log('authChanged', user)
       if (user) {
         localStorage.setItem('signin', true)
+        console.log('setUser')
         setUser(user)
       } else {
         setUser(null)

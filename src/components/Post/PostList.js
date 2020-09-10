@@ -6,39 +6,37 @@ import Post from './'
 import { usePost } from './usePost'
 
 export function PostList({ css }) {
+  const $post = usePost()
   const [postList, setPostList] = useState([])
-  const post = usePost()
-
-  const [single, setSingle] = useState(null)
 
   useEffect(() => {
-    if (!single) setSingle(post.get('NmWUKOoGrdslgnh86wzF'))
-  }, [setSingle, post])
+    let unsubscribe
 
-  useEffect(() => {
     if (!postList.length) {
-      var unsubscribe = post.getList(setPostList)
-    }
-    return () => {
-      console.log('unsubscribe')
-      unsubscribe()
-    }
-  }, [post, postList])
+      unsubscribe = $post.list(setPostList)
 
-  console.log('single', single)
+      return () => {
+        console.log('unsubscribe')
+        unsubscribe()
+      }
+    }
+  }, [$post, postList])
+
   return (
     <section className={css}>
-      {postList?.map(({ post, id }) => (
-        <Post
-          key={id}
-          postId={id}
-          author={post.author}
-          caption={post.caption}
-          imageUrl={post.imageUrl}
-          timestamp={post.timestamp}
-          ownerUid={post.ownerUid}
-        />
-      ))}
+      {postList?.map(({ post, id }) => {
+        return (
+          <Post
+            key={id}
+            postId={id}
+            author={post.author}
+            caption={post.caption}
+            imageUrl={post.imageUrl}
+            timestamp={post.timestamp}
+            ownerUid={post.ownerUid}
+          />
+        )
+      })}
     </section>
   )
 }
