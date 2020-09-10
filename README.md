@@ -27,9 +27,11 @@ This application is a replication of the main features of Instagram for learning
 - Interactions
   - Post
     - Create
+    - Read
     - Delete
   - Comment
     - Create
+    - Read
     - Delete
 - Local storage
 
