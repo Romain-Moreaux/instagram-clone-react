@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 function NavHeader() {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = useState(false)
-  const { signout } = useAuth()
+  const { signout, user } = useAuth()
   const history = useHistory()
 
   const handleSignOut = async (e) => {
@@ -54,7 +54,7 @@ function NavHeader() {
       const response = await signout()
       if (response.success) {
         console.log('successful logged out')
-        history.push('signin')
+        history.push('/signin')
       } else alert(response.error.message)
     } catch (error) {
       console.log('error', error)
@@ -64,10 +64,10 @@ function NavHeader() {
   return (
     <>
       <nav className={classes.navigation}>
-        <NavLink to="/">
+        <NavLink to={`/${user?.displayName}`}>
           <HomeSvg className={classes.icon} />
         </NavLink>
-        <NavLink to="/post/create">
+        <NavLink to={`/${user?.displayName}/post/create`}>
           <AddSvg className={classes.icon} />
         </NavLink>
         <button
@@ -101,7 +101,7 @@ function NavHeader() {
           }}
         >
           <MenuItem key={0}>
-            <NavLink to="/account">
+            <NavLink to={`/${user?.displayName}/account`}>
               <SettingsSvg className={classes.icon} /> Settings
             </NavLink>
           </MenuItem>

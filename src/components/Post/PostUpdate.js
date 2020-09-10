@@ -11,10 +11,25 @@ import PhotoCamera from '@material-ui/icons/PhotoCamera'
 import uniqid from 'uniqid'
 // database
 import { storage } from '../../init-firebase'
+// components
+import NavBottom from '../navigation/NavMobile'
+import Header from '../Header'
 // custom hooks
 import { usePost } from './usePost'
 
 const useStyles = makeStyles((theme) => ({
+  main: {
+    margin: theme.spacing(5, 0, 7),
+  },
+  container: {
+    ...theme.displays.flexWrap,
+    ...theme.wrappers.w975,
+    ...theme.spaces.horizontal.md,
+  },
+  pageTitle: {
+    flexBasis: '100%',
+    ...theme.widgets.title,
+  },
   form: {
     ...theme.displays.flexWrap,
     alignItems: 'center',
@@ -88,47 +103,56 @@ export function PostCreate() {
     }
   }
   return (
-    <form className={classes.form}>
-      <TextField
-        multiline
-        className={classes.inputText}
-        classes={{ focused: classes.focused }}
-        type="text"
-        value={caption}
-        onChange={(e) => setCaption(e.target.value)}
-        label="caption"
-      />
-      <input
-        accept="image/*"
-        className={classes.input}
-        id="icon-button-file"
-        type="file"
-        onChange={handleChange}
-      />
-      <label htmlFor="icon-button-file" className={classes.uploadBtn}>
-        <IconButton
-          color="inherit"
-          aria-label="upload picture"
-          component="span"
-        >
-          <PhotoCamera />
-        </IconButton>
-      </label>
-      <Button
-        variant="contained"
-        color="inherit"
-        disabled={!image}
-        onClick={handleUpload}
-        size="small"
-        classes={{ contained: classes.submit }}
-      >
-        Share
-      </Button>
-      <CircularProgress
-        className={classes.progress}
-        variant="static"
-        value={progress}
-      />
-    </form>
+    <>
+      <Header />
+      <div className={classes.main}>
+        <div className={classes.container}>
+          <h1 className={classes.pageTitle}>Write a new post</h1>
+          <form className={classes.form}>
+            <TextField
+              multiline
+              className={classes.inputText}
+              classes={{ focused: classes.focused }}
+              type="text"
+              value={caption}
+              onChange={(e) => setCaption(e.target.value)}
+              label="caption"
+            />
+            <input
+              accept="image/*"
+              className={classes.input}
+              id="icon-button-file"
+              type="file"
+              onChange={handleChange}
+            />
+            <label htmlFor="icon-button-file" className={classes.uploadBtn}>
+              <IconButton
+                color="inherit"
+                aria-label="upload picture"
+                component="span"
+              >
+                <PhotoCamera />
+              </IconButton>
+            </label>
+            <Button
+              variant="contained"
+              color="inherit"
+              disabled={!image}
+              onClick={handleUpload}
+              size="small"
+              classes={{ contained: classes.submit }}
+            >
+              Share
+            </Button>
+            <CircularProgress
+              className={classes.progress}
+              variant="static"
+              value={progress}
+            />
+          </form>
+        </div>
+      </div>
+      <NavBottom />
+    </>
   )
 }
