@@ -1,6 +1,6 @@
 # Instagram clone
 
-**Work still in progress, last update: _03-09-2020_**
+**Work still in progress, last update: _10-09-2020_**
 
 ## Technologies used
 
@@ -23,6 +23,7 @@ This application is a replication of the main features of Instagram for learning
   - Sign in
   - Logout
   - User datas persistence
+  - Firebase security rules
 - Interactions
   - Post
     - Create
@@ -30,6 +31,7 @@ This application is a replication of the main features of Instagram for learning
   - Comment
     - Create
     - Delete
+- Local storage
 
 # coming soon
 
@@ -40,4 +42,3 @@ This application is a replication of the main features of Instagram for learning
 - Like
 - Follow
 - Reels
-- Firebase security rules
