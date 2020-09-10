@@ -16,7 +16,7 @@ export const AuthController = () => {
         <PublicRoute path="/signup" component={SignUp} />
         <PrivateRoute
           exact
-          path="/:username"
+          path={['/:username', '/']}
           component={Dashboard}
           redirectTo="/signin"
         />
