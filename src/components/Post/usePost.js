@@ -10,13 +10,21 @@ export const usePost = () => {
   const { user } = useAuth()
 
   const create = (caption, url) => {
-    db.collection('posts').add({
-      caption: caption,
-      imageUrl: url,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-      author: user?.displayName,
-      ownerUid: user?.uid,
-    })
+    return db
+      .collection('posts')
+      .add({
+        caption: caption,
+        imageUrl: url,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        author: user?.displayName,
+        ownerUid: user?.uid,
+      })
+      .then((response) => {
+        return { success: true }
+      })
+      .catch((error) => {
+        return { success: false, error }
+      })
   }
 
   const list = (setValues) => {
@@ -44,7 +52,18 @@ export const usePost = () => {
       })
   }
 
-  const remove = () => {}
+  const remove = (postId) => {
+    return db
+      .collection('posts')
+      .doc(postId)
+      .delete()
+      .then(function (response) {
+        return { success: true }
+      })
+      .catch(function (error) {
+        return { success: false, error }
+      })
+  }
   const update = () => {}
 
   // Return post methods

@@ -114,7 +114,7 @@ function SignIn() {
   const classes = useStyles()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const { signin, user } = useAuth()
+  const { signin } = useAuth()
   const [isShow, setIsShow] = useState(false)
   const [error, setError] = useState('')
   const history = useHistory()
@@ -124,8 +124,8 @@ function SignIn() {
     try {
       const response = await signin(email, password)
       if (response.success) {
-        console.log('successful logged')
-        history.push(`/${user?.displayName}`)
+        console.log('successful logged', response)
+        history.push(`/${response?.user?.displayName}`)
       } else setError(response.error.message)
     } catch (error) {
       console.log('error', error)

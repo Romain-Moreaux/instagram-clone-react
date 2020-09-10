@@ -7,18 +7,13 @@ import { usePost } from './usePost'
 
 export function PostList({ css }) {
   const $post = usePost()
-  const [postList, setPostList] = useState([])
+  const [postList, setPostList] = useState()
 
   useEffect(() => {
-    let unsubscribe
+    if (!postList) {
+      let unsubscribe = $post.list(setPostList)
 
-    if (!postList.length) {
-      unsubscribe = $post.list(setPostList)
-
-      return () => {
-        console.log('unsubscribe')
-        unsubscribe()
-      }
+      return () => unsubscribe()
     }
   }, [$post, postList])
 
@@ -34,6 +29,7 @@ export function PostList({ css }) {
             imageUrl={post.imageUrl}
             timestamp={post.timestamp}
             ownerUid={post.ownerUid}
+            setPostList={setPostList}
           />
         )
       })}
