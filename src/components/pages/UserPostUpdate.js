@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core'
 import NavBottom from '../navigation/NavMobile'
 import Header from '../Header'
 // custom hooks
-import { PostCreate } from '../post'
+import { PostUpdate } from '../post'
 import { Title } from '../widgets'
 
 const useStyles = makeStyles((theme) => ({
@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function UserPostCreate() {
+export default function UserPostUpdate() {
   const classes = useStyles()
 
   return (
@@ -27,8 +27,8 @@ export default function UserPostCreate() {
       <Header />
       <div className={classes.main}>
         <div className={classes.container}>
-          <Title component="h1">Write a new post</Title>
-          <PostCreate />
+          <Title component="h1">Update my post</Title>
+          <PostUpdate />
         </div>
       </div>
       <NavBottom />

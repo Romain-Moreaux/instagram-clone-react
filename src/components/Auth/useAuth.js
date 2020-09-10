@@ -79,6 +79,7 @@ export const useProvideAuth = () => {
 
   const isAuth = () => localStorage.getItem('signin')
 
+  const getUsername = () => localStorage.getItem('username')
   // // Subscribe to user on mount
   // // Because this sets state in the callback it will cause any ...
   // // ... component that utilizes this hook to re-render with the ...
@@ -88,11 +89,12 @@ export const useProvideAuth = () => {
       console.log('authChanged', user)
       if (user) {
         localStorage.setItem('signin', true)
-        console.log('setUser')
+        localStorage.setItem('username', user.displayName)
         setUser(user)
       } else {
         setUser(null)
         localStorage.removeItem('signin')
+        localStorage.removeItem('username')
       }
     })
 
@@ -107,6 +109,7 @@ export const useProvideAuth = () => {
   return {
     user,
     isAuth,
+    getUsername,
     signin,
     signup,
     signout,

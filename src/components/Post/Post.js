@@ -5,8 +5,6 @@ import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import Fade from '@material-ui/core/Fade'
 import { makeStyles } from '@material-ui/core'
-// bdd
-import { db } from '../../init-firebase'
 // images
 import avatarImg from '../../images/avatar1.jpg'
 import { ReactComponent as CommentSvg } from '../../images/comment.svg'
@@ -18,6 +16,8 @@ import { ReactComponent as CirclesSvg } from '../../images/circles.svg'
 import { CommentCreate } from '../comment'
 import { CommentList } from '../comment'
 import { useAuth } from '../auth'
+import { usePost } from './usePost'
+import { NavLink } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   post: {
@@ -96,26 +96,34 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function Post({ postId, imageUrl, author, caption, timestamp, ownerUid }) {
+function Post({
+  postId,
+  imageUrl,
+  author,
+  caption,
+  timestamp,
+  ownerUid,
+  setPostList,
+}) {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = React.useState(null)
   const { user } = useAuth()
+  const $post = usePost()
 
-  const deletePost = (e) => {
+  const handleDelete = async (e) => {
     e.preventDefault()
-
-    db.collection('posts')
-      .doc(postId)
-      .delete()
-      .then(function () {
+    try {
+      const response = await $post.delete(postId)
+      if (response.success) {
         console.log(`Document ${postId} successfully deleted!`)
-      })
-      .catch(function (error) {
-        console.error(`Error removing document: ${postId} `, error)
-      })
+        $post.list(setPostList)
+      } else {
+        console.error(`Error removing document: ${postId} `, response.error)
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
-
-  const updatePost = (e) => {}
 
   const reportInapropriate = (postId) => {}
 
@@ -157,11 +165,15 @@ function Post({ postId, imageUrl, author, caption, timestamp, ownerUid }) {
             >
               {user?.uid === ownerUid
                 ? [
-                    <MenuItem key={0} onClick={deletePost}>
+                    <MenuItem key={0} onClick={handleDelete}>
                       Delete my post
                     </MenuItem>,
-                    <MenuItem key={1} onClick={updatePost}>
-                      Update my post
+                    <MenuItem key={1}>
+                      <NavLink
+                        to={`/${user?.displayName}/post/${postId}/update`}
+                      >
+                        Update my post
+                      </NavLink>
                     </MenuItem>,
                   ]
                 : [

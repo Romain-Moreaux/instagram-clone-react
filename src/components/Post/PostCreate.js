@@ -13,6 +13,8 @@ import uniqid from 'uniqid'
 import { storage } from '../../init-firebase'
 // custom hooks
 import { usePost } from './usePost'
+import { useHistory } from 'react-router-dom'
+import { useAuth } from '../auth'
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -20,9 +22,9 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     backgroundColor: theme.palette.background.paper,
     border: theme.borders[0],
-    flex: 1,
+    flexBasis: '100%',
     padding: theme.spacing(2, 3),
-    marginTop: theme.spacing(3),
+    margin: theme.spacing(3, 0),
     borderRadius: 4,
   },
   input: {
@@ -40,6 +42,11 @@ const useStyles = makeStyles((theme) => ({
   },
   button: { marginLeft: theme.spacing(2) },
   message: { marginTop: theme.spacing(2) },
+  textError: {
+    color: theme.palette.primary.red,
+    flex: 1,
+    textAlign: 'center',
+  },
 }))
 
 export function PostCreate() {
@@ -47,9 +54,13 @@ export function PostCreate() {
   const [caption, setCaption] = useState('')
   const [progress, setProgress] = useState(0)
   const [image, setImage] = useState(null)
+  const [error, setError] = useState('')
   const post = usePost()
+  const history = useHistory()
+  const { getUsername } = useAuth()
 
   const handleUpload = (e) => {
+    e.preventDefault()
     // Generate a unique name for each image to avoid conflict when loading posts
     const uniqImageName = `${image.name}${uniqid()}`
 
@@ -72,11 +83,17 @@ export function PostCreate() {
           .ref('images')
           .child(uniqImageName)
           .getDownloadURL()
-          .then((url) => {
-            post.create(caption, url)
-            setProgress(0)
-            setCaption('')
-            setImage(null)
+          .then(async (url) => {
+            const response = await post.create(caption, url)
+            console.log('response', response)
+            if (response.success) {
+              setProgress(0)
+              setCaption('')
+              setImage(null)
+              history.push(`/${getUsername()}`)
+            } else {
+              setError(response.error.message)
+            }
           })
       }
     )
@@ -88,47 +105,50 @@ export function PostCreate() {
     }
   }
   return (
-    <form className={classes.form}>
-      <TextField
-        multiline
-        className={classes.inputText}
-        classes={{ focused: classes.focused }}
-        type="text"
-        value={caption}
-        onChange={(e) => setCaption(e.target.value)}
-        label="caption"
-      />
-      <input
-        accept="image/*"
-        className={classes.input}
-        id="icon-button-file"
-        type="file"
-        onChange={handleChange}
-      />
-      <label htmlFor="icon-button-file" className={classes.uploadBtn}>
-        <IconButton
+    <>
+      <form className={classes.form}>
+        <TextField
+          multiline
+          className={classes.inputText}
+          classes={{ focused: classes.focused }}
+          type="text"
+          value={caption}
+          onChange={(e) => setCaption(e.target.value)}
+          label="caption"
+        />
+        <input
+          accept="image/*"
+          className={classes.input}
+          id="icon-button-file"
+          type="file"
+          onChange={handleChange}
+        />
+        <label htmlFor="icon-button-file" className={classes.uploadBtn}>
+          <IconButton
+            color="inherit"
+            aria-label="upload picture"
+            component="span"
+          >
+            <PhotoCamera />
+          </IconButton>
+        </label>
+        <Button
+          variant="contained"
           color="inherit"
-          aria-label="upload picture"
-          component="span"
+          disabled={!image}
+          onClick={handleUpload}
+          size="small"
+          classes={{ contained: classes.submit }}
         >
-          <PhotoCamera />
-        </IconButton>
-      </label>
-      <Button
-        variant="contained"
-        color="inherit"
-        disabled={!image}
-        onClick={handleUpload}
-        size="small"
-        classes={{ contained: classes.submit }}
-      >
-        Share
-      </Button>
-      <CircularProgress
-        className={classes.progress}
-        variant="static"
-        value={progress}
-      />
-    </form>
+          Share
+        </Button>
+        <CircularProgress
+          className={classes.progress}
+          variant="static"
+          value={progress}
+        />
+      </form>
+      <span className={classes.textError}>{error}</span>
+    </>
   )
 }

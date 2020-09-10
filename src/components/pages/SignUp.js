@@ -132,7 +132,7 @@ function SignUp() {
         })
         console.log('User succesful updated')
         await generateUserDocument(response.user, 'subscribers')
-        history.push('/')
+        history.push(`/${response?.user?.displayName}`)
       } else {
         setError(response.error.message)
       }
