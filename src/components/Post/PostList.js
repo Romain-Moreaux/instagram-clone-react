@@ -11,7 +11,7 @@ export function PostList({ css }) {
 
   useEffect(() => {
     if (!postList) {
-      let unsubscribe = $post.list(setPostList)
+      let unsubscribe = $post.getCollection(setPostList)
 
       return () => unsubscribe()
     }
@@ -27,7 +27,7 @@ export function PostList({ css }) {
             author={post.author}
             caption={post.caption}
             imageUrl={post.imageUrl}
-            timestamp={post.timestamp}
+            createdAt={post.createdAt}
             ownerUid={post.ownerUid}
             setPostList={setPostList}
           />
