@@ -116,7 +116,7 @@ function Post({
       const response = await $post.delete(postId)
       if (response.success) {
         console.log(`Document ${postId} successfully deleted!`)
-        $post.list(setPostList)
+        $post.getCollection(setPostList)
       } else {
         console.error(`Error removing document: ${postId} `, response.error)
       }
@@ -124,10 +124,6 @@ function Post({
       console.log(error)
     }
   }
-
-  const reportInapropriate = (postId) => {}
-
-  const unfollow = (ownerUid) => {}
 
   const diffDaysFromTimestamps = (oTimestamp, cTimestamp) => {
     var diffTime = Math.abs(oTimestamp * 1000 - cTimestamp)
@@ -177,10 +173,10 @@ function Post({
                     </MenuItem>,
                   ]
                 : [
-                    <MenuItem key={0} onClick={reportInapropriate}>
+                    <MenuItem key={0} onClick={() => {}}>
                       Report inapropriate
                     </MenuItem>,
-                    <MenuItem key={1} onClick={unfollow}>
+                    <MenuItem key={1} onClick={() => {}}>
                       Unfollow
                     </MenuItem>,
                   ]}

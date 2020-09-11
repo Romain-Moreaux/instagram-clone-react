@@ -15,7 +15,7 @@ export const usePost = () => {
       .add({
         caption: caption,
         imageUrl: url,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         author: user?.displayName,
         ownerUid: user?.uid,
       })
@@ -27,11 +27,11 @@ export const usePost = () => {
       })
   }
 
-  const list = (setValues) => {
+  const getCollection = (setValues) => {
     console.log('list')
     return db
       .collection('posts')
-      .orderBy('timestamp', 'desc')
+      .orderBy('createdAt', 'desc')
       .onSnapshot((snapshot) => {
         setValues(
           snapshot.docs.map((doc) => ({
@@ -42,13 +42,41 @@ export const usePost = () => {
       })
   }
 
-  const single = (postId, setValue) => {
+  const getSnapshot = async (postId) => {
+    try {
+      return db
+        .collection('posts')
+        .doc(postId)
+        .then((response) => {
+          return { data: response }
+        })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const getDoc = (postId) => {
+    console.log('getDocument')
     return db
       .collection('posts')
       .doc(postId)
-      .onSnapshot(async (snapshot) => {
-        console.log('snapshot', snapshot)
-        setValue(snapshot.data())
+      .get()
+      .then((doc) => {
+        console.log('doc', doc)
+        if (doc.exists) {
+          return {
+            success: true,
+            data: doc.data(),
+          }
+        } else {
+          return {
+            success: false,
+            error: 'No such document',
+          }
+        }
+      })
+      .catch((error) => {
+        console.log(error)
       })
   }
 
@@ -64,12 +92,32 @@ export const usePost = () => {
         return { success: false, error }
       })
   }
-  const update = () => {}
+  const update = async (postId, fields) => {
+    console.log('post update')
+    return db
+      .collection('posts')
+      .doc(postId)
+      .update({
+        ...fields,
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+      })
+      .then((response) => {
+        return { success: true }
+      })
+      .catch((error) => {
+        return { success: false, error }
+      })
+  }
+
+  const reportInapropriate = (postId) => {}
+
+  const unfollow = (ownerUid) => {}
 
   // Return post methods
   return {
-    single,
-    list,
+    getSnapshot,
+    getDoc,
+    getCollection,
     create,
     delete: remove,
     update,
