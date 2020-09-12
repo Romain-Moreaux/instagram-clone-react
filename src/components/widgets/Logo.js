@@ -1,31 +1,19 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core'
+import clsx from 'clsx'
+import PropTypes from 'prop-types'
 
 const useStyles = makeStyles((theme) => ({
-  header: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(1, 0),
-    borderBottom: theme.borders[0],
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: theme.spacing(7),
-    zIndex: theme.zIndex.appBar,
-    '& a,button': { cursor: 'pointer' },
-  },
-  container: {
-    ...theme.displays.flexAlignCenter,
-    ...theme.wrappers.w975,
-    ...theme.spaces.horizontal.md,
-  },
-  logo: {
-    display: 'flex',
-    ...theme.typography.logo,
-  },
+  logo: { ...theme.typography.logo },
 }))
 
-export function Logo() {
+export function Logo({ css }) {
   const classes = useStyles()
-  return <div className={classes.logo}>InstagramClone</div>
+  return (
+    <div className={(css && clsx(classes.logo, css)) || classes.logo}>
+      InstagramClone
+    </div>
+  )
 }
+
+Logo.propTypes = { css: PropTypes.string }
