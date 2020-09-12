@@ -1,12 +1,12 @@
 // dependances
 import React, { useState } from 'react'
-import { Button, makeStyles } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core'
 import { Link, useHistory } from 'react-router-dom'
 // images
-import instagramLogo from '../../images/logo_insta.png'
 import smartphonesImg from '../../images/bg-mockup-smartphones.png'
 // custom hooks
 import { useAuth } from '../auth'
+import { Logo, Submit, Slideshow } from '../widgets'
 
 const useStyles = makeStyles((theme) => ({
   page: {
@@ -47,7 +47,6 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: 500,
     marginLeft: '-30px',
   },
-  logo: { objectFit: 'contain', maxHeight: 50 },
   form: {
     ...theme.displays.flexColumn,
     marginTop: theme.spacing(2),
@@ -82,7 +81,6 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 600,
   },
   submit: {
-    ...theme.widgets.buttons.primary,
     margin: theme.spacing(2, 0),
   },
   textSignup: {
@@ -139,6 +137,7 @@ function SignIn() {
 
   return (
     <div className={classes.page}>
+      <Slideshow />
       <div className={classes.colLeft}>
         <div className={classes.sliderBox}>
           <img className={classes.smartphonesImg} src={smartphonesImg} alt="" />
@@ -146,7 +145,7 @@ function SignIn() {
       </div>
       <div className={classes.colRight}>
         <div className={classes.formBox}>
-          <img src={instagramLogo} alt="" className={classes.logo} />
+          <Logo />
           <form className={classes.form}>
             <div className={classes.field}>
               <span className={classes.label}>Email</span>
@@ -171,10 +170,12 @@ function SignIn() {
                 {isShow ? 'Hide' : 'Show'}
               </button>
             </div>
-
-            <Button className={classes.submit} onClick={handleSignIn}>
-              Log In
-            </Button>
+            <Submit
+              handleDisabled={!email || !password}
+              css={classes.submit}
+              callback={handleSignIn}
+              label="Sign in"
+            />
           </form>
           <span className={classes.textError}>{error}</span>
           <Link className={classes.linkPasswordReset} to="passwordReset">

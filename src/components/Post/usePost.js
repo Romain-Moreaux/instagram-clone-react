@@ -109,9 +109,9 @@ export const usePost = () => {
       })
   }
 
-  const reportInapropriate = (postId) => {}
+  // const reportInapropriate = (postId) => {}
 
-  const unfollow = (ownerUid) => {}
+  // const unfollow = (ownerUid) => {}
 
   // Return post methods
   return {

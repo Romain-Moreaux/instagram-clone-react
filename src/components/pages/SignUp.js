@@ -1,13 +1,13 @@
 // dependances
 import React, { useState } from 'react'
-import { Button, makeStyles } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core'
 import { Link, useHistory } from 'react-router-dom'
 // images
-import instagramLogo from '../../images/logo_insta.png'
 import smartphonesImg from '../../images/bg-mockup-smartphones.png'
 // custom hooks
 import { useAuth } from '../auth'
 import { generateUserDocument } from '../../firebase'
+import { Logo, Submit } from '../widgets'
 
 const useStyles = makeStyles((theme) => ({
   page: {
@@ -48,7 +48,6 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: 500,
     marginLeft: '-30px',
   },
-  logo: { objectFit: 'contain', maxHeight: 50 },
   form: {
     ...theme.displays.flexColumn,
     marginTop: theme.spacing(2),
@@ -82,10 +81,7 @@ const useStyles = makeStyles((theme) => ({
     cursor: 'pointer',
     fontWeight: 600,
   },
-  submit: {
-    ...theme.widgets.buttons.primary,
-    margin: theme.spacing(2, 0),
-  },
+  submit: { margin: theme.spacing(2, 0) },
   textSignup: {
     fontSize: 13,
     '& a': {
@@ -93,14 +89,6 @@ const useStyles = makeStyles((theme) => ({
       fontWeight: 600,
       color: theme.palette.primary.blue,
     },
-  },
-  linkPasswordReset: {
-    ...theme.displays.flexCenter,
-    fontSize: 12,
-    textDecoration: 'none',
-    color: theme.palette.primary.greyDark,
-    marginTop: theme.spacing(2),
-    paddingTop: theme.spacing(2),
   },
   textError: {
     color: theme.palette.primary.red,
@@ -155,7 +143,7 @@ function SignUp() {
       </div>
       <div className={classes.colRight}>
         <div className={classes.formBox}>
-          <img src={instagramLogo} alt="" className={classes.logo} />
+          <Logo />
           <form className={classes.form}>
             <div className={classes.field}>
               <span className={classes.label}>Username</span>
@@ -190,19 +178,18 @@ function SignUp() {
                 {isShow ? 'Hide' : 'Show'}
               </button>
             </div>
-
-            <Button className={classes.submit} onClick={handleSignUp}>
-              Log In
-            </Button>
+            <Submit
+              handleDisabled={!email || !password || !username}
+              css={classes.submit}
+              callback={handleSignUp}
+              label="Sign up"
+            />
           </form>
           <span className={classes.textError}>{error}</span>
-          <Link className={classes.linkPasswordReset} to="passwordReset">
-            Forgor password?
-          </Link>
         </div>
         <div className={classes.formBox}>
           <p className={classes.textSignup}>
-            Don't have an account? <Link to="signup">Sign up</Link>
+            Already have an account? <Link to="signin">Sign in</Link>
           </p>
         </div>
       </div>

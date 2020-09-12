@@ -1,3 +1,5 @@
 export { Cta } from './Cta'
 export { Logo } from './Logo'
 export { Title } from './Title'
+export { Submit } from './Submit'
+export { Slideshow } from './Slideshow'
