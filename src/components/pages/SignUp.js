@@ -2,12 +2,10 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core'
 import { Link, useHistory } from 'react-router-dom'
-// images
-import smartphonesImg from '../../images/bg-mockup-smartphones.png'
 // custom hooks
 import { useAuth } from '../auth'
 import { generateUserDocument } from '../../firebase'
-import { Logo, Submit } from '../widgets'
+import { Logo, Submit, Slideshow } from '../widgets'
 
 const useStyles = makeStyles((theme) => ({
   page: {
@@ -26,10 +24,6 @@ const useStyles = makeStyles((theme) => ({
     flexBasis: '100%',
     [theme.breakpoints.up('sm')]: { flexBasis: '325px' },
   },
-  sliderBox: {
-    display: 'flex',
-  },
-
   formBox: {
     flex: 1,
     padding: theme.spacing(3),
@@ -43,10 +37,6 @@ const useStyles = makeStyles((theme) => ({
     '&:first-of-type': {
       position: 'relative',
     },
-  },
-  smartphonesImg: {
-    maxHeight: 500,
-    marginLeft: '-30px',
   },
   form: {
     ...theme.displays.flexColumn,
@@ -137,9 +127,7 @@ function SignUp() {
   return (
     <div className={classes.page}>
       <div className={classes.colLeft}>
-        <div className={classes.sliderBox}>
-          <img className={classes.smartphonesImg} src={smartphonesImg} alt="" />
-        </div>
+        <Slideshow />
       </div>
       <div className={classes.colRight}>
         <div className={classes.formBox}>
