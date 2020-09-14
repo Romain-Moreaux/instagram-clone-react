@@ -5,12 +5,12 @@ import { useAuth } from './useAuth'
 
 export function PrivateRoute({ component: Component, redirectTo, ...rest }) {
   const { isAuth } = useAuth()
-  const isLogged = isAuth()
-  console.log('Private route: ', isLogged)
+  const user = isAuth()
+  console.log('Private route: ', user)
 
   return (
     <Route {...rest}>
-      {isLogged ? <Component /> : <Redirect to={redirectTo} />}
+      {user ? <Component /> : <Redirect to={redirectTo} />}
     </Route>
   )
 }
