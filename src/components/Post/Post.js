@@ -12,6 +12,8 @@ import { ReactComponent as LikeSvg } from '../../images/like.svg'
 import { ReactComponent as ShareSvg } from '../../images/share.svg'
 import { ReactComponent as SaveSvg } from '../../images/save.svg'
 import { ReactComponent as CirclesSvg } from '../../images/circles.svg'
+import UpdateIcon from '@material-ui/icons/Update'
+import DeleteIcon from '@material-ui/icons/Delete'
 //components
 import { CommentCreate } from '../comment'
 import { CommentList } from '../comment'
@@ -48,6 +50,20 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 'auto',
     border: 0,
     backgroundColor: 'transparent',
+  },
+  menuList: {
+    padding: 0,
+    '& a': {
+      color: 'inherit',
+      textDecoration: 'none',
+      display: 'flex',
+    },
+  },
+  icon: {
+    height: theme.spacing(3),
+    width: theme.spacing(3),
+    color: theme.palette.primary.black,
+    marginRight: theme.spacing(1),
   },
   imageBox: {
     borderBottom: theme.borders[0],
@@ -154,6 +170,7 @@ function Post({
             <Menu
               id="fade-menu"
               anchorEl={anchorEl}
+              classes={{ list: classes.menuList }}
               keepMounted
               open={Boolean(anchorEl)}
               onClose={() => setAnchorEl(null)}
@@ -162,13 +179,15 @@ function Post({
               {user?.uid === ownerUid
                 ? [
                     <MenuItem key={0} onClick={handleDelete}>
-                      Delete my post
+                      <DeleteIcon classes={{ root: classes.icon }} /> Delete my
+                      post
                     </MenuItem>,
                     <MenuItem key={1}>
                       <NavLink
                         to={`/${user?.displayName}/post/${postId}/update`}
                       >
-                        Update my post
+                        <UpdateIcon classes={{ root: classes.icon }} /> Update
+                        my post
                       </NavLink>
                     </MenuItem>,
                   ]

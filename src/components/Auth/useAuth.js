@@ -77,24 +77,22 @@ export const useProvideAuth = () => {
     })
   }
 
-  const isAuth = () => localStorage.getItem('signin')
+  const isAuth = () => JSON.parse(localStorage.getItem('user'))
 
-  const getUsername = () => localStorage.getItem('username')
+  // const getUsername = () => localStorage.getItem('username')
+
   // // Subscribe to user on mount
   // // Because this sets state in the callback it will cause any ...
   // // ... component that utilizes this hook to re-render with the ...
   // // ... latest auth object.
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      console.log('authChanged', user)
       if (user) {
-        localStorage.setItem('signin', true)
-        localStorage.setItem('username', user.displayName)
+        localStorage.setItem('user', JSON.stringify(user))
         setUser(user)
       } else {
+        localStorage.removeItem('user')
         setUser(null)
-        localStorage.removeItem('signin')
-        localStorage.removeItem('username')
       }
     })
 
@@ -109,7 +107,6 @@ export const useProvideAuth = () => {
   return {
     user,
     isAuth,
-    getUsername,
     signin,
     signup,
     signout,
