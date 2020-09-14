@@ -1,13 +1,8 @@
 // dependances
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core'
-import * as firebase from 'firebase/app'
-import 'firebase/firestore'
-
-// database
-import { db } from '../../init-firebase'
-// auth
-import { useAuth } from '../auth'
+// custom hooks
+import { useComment } from './useComment'
 
 const useStyles = makeStyles((theme) => ({
   createCommentBox: {
@@ -36,30 +31,25 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export function CommentCreate({ postId }) {
-  const { user } = useAuth()
+  // const { user } = useAuth()
+  const $comment = useComment()
   const [comment, setComment] = useState('')
 
   const classes = useStyles()
 
-  const CreateComment = (e) => {
+  const handleCreateComment = async (e) => {
     e.preventDefault()
 
-    db.collection('posts')
-      .doc(postId)
-      .collection('comments')
-      .add({
-        username: user.displayName,
-        ownerUid: user.uid,
-        text: comment,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-      })
-      .then(function () {
-        console.log(`Comment on post ${postId} successfully send!`)
-      })
-      .catch(function (error) {
-        console.error(`Error sending comment on post ${postId} `, error)
-      })
-    setComment('')
+    const response = await $comment.create(postId, comment)
+    if (response.success) {
+      setComment('')
+      console.log(`comment created on post ${postId}`)
+    } else {
+      console.error(
+        `Error sending comment on post ${postId} `,
+        response.error.message
+      )
+    }
   }
 
   return (
@@ -73,7 +63,7 @@ export function CommentCreate({ postId }) {
       />
       <button
         type="submit"
-        onClick={CreateComment}
+        onClick={handleCreateComment}
         disabled={!comment}
         className={classes.button}
       >
