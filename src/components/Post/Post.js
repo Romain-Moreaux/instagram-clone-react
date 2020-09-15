@@ -117,7 +117,7 @@ function Post({
   imageUrl,
   author,
   caption,
-  timestamp,
+  createdAt,
   ownerUid,
   setPostList,
 }) {
@@ -132,7 +132,6 @@ function Post({
       const response = await $post.delete(postId)
       if (response.success) {
         console.log(`Document ${postId} successfully deleted!`)
-        $post.getCollection(setPostList)
       } else {
         console.error(`Error removing document: ${postId} `, response.error)
       }
@@ -146,7 +145,7 @@ function Post({
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24))
   }
 
-  let nDays = diffDaysFromTimestamps(timestamp?.seconds, Date.now())
+  let nDays = diffDaysFromTimestamps(createdAt?.seconds, Date.now())
 
   return (
     <div className={classes.post}>
@@ -219,10 +218,11 @@ function Post({
         <CommentList postId={postId} />
         <time
           className={classes.datetime}
-          dateTime={new Date(timestamp?.seconds * 1000).toUTCString()}
+          dateTime={new Date(createdAt?.seconds * 1000).toUTCString()}
         >{`${nDays} ${nDays > 1 ? `days` : `day`} ago`}</time>
       </section>
-      {user && user.uid !== ownerUid && <CommentCreate postId={postId} />}
+      {/* {user && user.uid !== ownerUid && <CommentCreate postId={postId} />} */}
+      <CommentCreate postId={postId} />
     </div>
   )
 }
