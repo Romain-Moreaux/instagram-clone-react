@@ -1,11 +1,11 @@
 // dependances
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { makeStyles } from '@material-ui/core'
 // components
 import Comment from '.'
-// database
+// custom hooks
+import { useFirestoreSubscribe } from '../hooks'
 import { db } from '../../init-firebase'
-import { useComment } from './useComment'
 
 const useStyles = makeStyles((theme) => ({
   commentsBox: {
@@ -20,34 +20,39 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export function CommentList({ postId }) {
-  const [comments, setComments] = useState()
   const classes = useStyles()
-  const $comment = useComment()
+  const { data, status, error } = useFirestoreSubscribe(
+    db
+      .collection('posts')
+      .doc(postId)
+      .collection('comments')
+      .orderBy('createdAt', 'desc')
+  )
 
-  useEffect(() => {
-    if (!comments) {
-      console.log('no comments')
-      let unsubscribe = $comment.getCollection(postId, setComments)
-
-      return () => unsubscribe()
-    }
-  }, [$comment, comments, postId])
-  console.log('CommentList', comments)
   return (
     <div className={classes.commentsBox}>
-      <p className={classes.commentCount}>
-        {comments?.length
-          ? comments.length > 1
-            ? `${comments.length} comments`
-            : `${comments.length} comment`
-          : 'no comment'}
-      </p>
-      <div className={classes.commentList}>
-        {comments?.map(({ comment, id }) => {
-          console.log('comment', comment)
-          return <Comment key={id} postId={postId} id={id} comment={comment} />
-        })}
-      </div>
+      {status === 'error' ? (
+        <p>{error.message}</p>
+      ) : status === 'loading' ? (
+        <p>Loading ...</p>
+      ) : (
+        <>
+          <p className={classes.commentCount}>
+            {data?.length
+              ? data.length > 1
+                ? `${data.length} comments`
+                : `${data.length} comment`
+              : 'no comment'}
+          </p>
+          <div className={classes.commentList}>
+            {data?.map((comment) => {
+              return (
+                <Comment key={comment.id} postId={postId} comment={comment} />
+              )
+            })}
+          </div>
+        </>
+      )}
     </div>
   )
 }

@@ -1,10 +1,11 @@
 // dependances
+// dependances
 import React from 'react'
 import { ThemeProvider, makeStyles } from '@material-ui/core/styles'
+// theme
 import { customTheme } from './customTheme'
-// auth
-import { AuthController } from './components/auth'
-import AuthProvider from './components/auth'
+// providers
+import AuthProvider, { AuthController } from './components/auth'
 
 const useStyles = makeStyles(() => ({
   app: {

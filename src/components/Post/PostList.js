@@ -1,38 +1,37 @@
 // dependances
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 // components
 import Post from './'
 // bdd
-import { usePost } from './usePost'
+import { useFirestoreSubscribe } from '../hooks'
+import { db } from '../../init-firebase'
 
 export function PostList({ css }) {
-  const $post = usePost()
-  const [postList, setPostList] = useState()
-
-  useEffect(() => {
-    if (!postList) {
-      let unsubscribe = $post.getCollection(setPostList)
-
-      return () => unsubscribe()
-    }
-  }, [$post, postList])
+  const { data, status, error } = useFirestoreSubscribe(
+    db.collection('posts').orderBy('createdAt', 'desc')
+  )
 
   return (
     <section className={css}>
-      {postList?.map(({ post, id }) => {
-        return (
-          <Post
-            key={id}
-            postId={id}
-            author={post.author}
-            caption={post.caption}
-            imageUrl={post.imageUrl}
-            createdAt={post.createdAt}
-            ownerUid={post.ownerUid}
-            setPostList={setPostList}
-          />
-        )
-      })}
+      {status === 'error' ? (
+        <p>{error.message}</p>
+      ) : status === 'loading' ? (
+        <p>content is loading...</p>
+      ) : (
+        data?.map(({ author, caption, imageUrl, createdAt, ownerUid, id }) => {
+          return (
+            <Post
+              key={id}
+              postId={id}
+              author={author}
+              caption={caption}
+              imageUrl={imageUrl}
+              createdAt={createdAt}
+              ownerUid={ownerUid}
+            />
+          )
+        })
+      )}
     </section>
   )
 }

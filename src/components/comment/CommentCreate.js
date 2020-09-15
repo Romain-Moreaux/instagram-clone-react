@@ -31,25 +31,25 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export function CommentCreate({ postId }) {
-  // const { user } = useAuth()
-  const $comment = useComment()
+  const { create } = useComment()
   const [comment, setComment] = useState('')
 
   const classes = useStyles()
 
-  const handleCreateComment = async (e) => {
+  const handleCreateComment = (e) => {
     e.preventDefault()
 
-    const response = await $comment.create(postId, comment)
-    if (response.success) {
-      setComment('')
-      console.log(`comment created on post ${postId}`)
-    } else {
-      console.error(
-        `Error sending comment on post ${postId} `,
-        response.error.message
-      )
-    }
+    const response = create(postId, comment)
+    console.log('response', response)
+    // if (response.success) {
+    //   setComment('')
+    //   console.log(`comment created on post ${postId}`)
+    // } else {
+    //   console.error(
+    //     `Error sending comment on post ${postId} `,
+    //     response.error.message
+    //   )
+    // }
   }
 
   return (

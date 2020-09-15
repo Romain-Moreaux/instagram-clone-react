@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
   commentText: {
     ...theme.typography.caption,
+    wordBreak: 'break-word;',
   },
   commentBox: {
     display: 'flex',
@@ -59,7 +60,6 @@ function Comment({ postId, comment, id }) {
         console.error(`Error removing comment: ${id} `, error)
       })
   }
-  console.log('<comment />', comment)
   return (
     <div className={classes.commentItem}>
       <p className={classes.commentText}>
