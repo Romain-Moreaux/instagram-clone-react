@@ -17,7 +17,6 @@ const reducer = (state, action) => {
   }
 }
 
-// Hook
 export function useFirestoreSubscribe(query) {
   // console.log('useFirestoreSubscribe', query)
 
