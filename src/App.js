@@ -1,5 +1,4 @@
 // dependances
-// dependances
 import React from 'react'
 import { ThemeProvider, makeStyles } from '@material-ui/core/styles'
 // theme
