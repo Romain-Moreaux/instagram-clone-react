@@ -6,7 +6,7 @@ import { useAuth } from './useAuth'
 export function PrivateRoute({ component: Component, redirectTo, ...rest }) {
   const { isAuth } = useAuth()
   const user = isAuth()
-  console.log('Private route: ', user)
+  // console.log('Private route: ', user)
 
   return (
     <Route {...rest}>

@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export function CommentCreate({ postId }) {
-  const { create } = useComment()
+  const { create, state } = useComment()
   const [comment, setComment] = useState('')
 
   const classes = useStyles()
@@ -40,7 +40,7 @@ export function CommentCreate({ postId }) {
     e.preventDefault()
 
     const response = create(postId, comment)
-    console.log('response', response)
+    console.log('response', state)
     // if (response.success) {
     //   setComment('')
     //   console.log(`comment created on post ${postId}`)
