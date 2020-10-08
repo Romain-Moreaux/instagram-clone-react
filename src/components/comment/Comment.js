@@ -60,13 +60,15 @@ function Comment({ postId, comment, id }) {
         console.error(`Error removing comment: ${id} `, error)
       })
   }
+
+  // console.log('comment', comment)
   return (
     <div className={classes.commentItem}>
       <p className={classes.commentText}>
         <span className={classes.commentUsername}>{comment?.username}</span>
         {comment?.text}
       </p>
-      {comment?.ownerId === user?.uid ? (
+      {comment?.ownerUid === user?.uid ? (
         <>
           <button
             className={classes.menu}

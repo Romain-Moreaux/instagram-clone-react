@@ -19,7 +19,7 @@ const useStyles = makeStyles(() => ({
 
 function App() {
   const classes = useStyles()
-  console.log(customTheme)
+  // console.log(customTheme)
 
   return (
     <div className={classes.app}>

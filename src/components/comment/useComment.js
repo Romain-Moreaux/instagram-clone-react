@@ -33,11 +33,11 @@ export const useComment = () => {
 
   const [state, dispatch] = useReducer(reducer, initialState)
 
-  const create = async (postId, comment) => {
+  const create = async (id, comment) => {
     try {
       const response = await db
         .collection('posts')
-        .doc(postId)
+        .doc(id)
         .collection('comments')
         .add({
           username: user.displayName,
@@ -50,20 +50,27 @@ export const useComment = () => {
       dispatch({ type: 'error', payload: error })
     }
 
-    // .then((response) => {
-    //   console.log('success', response)
-    //   return dispatch({ type: 'success', payload: response })
-    // })
-    // .catch((error) => {
-    //   console.log('error', error)
-    //   return dispatch({ type: 'error', payload: error })
-    // })
+    // return state
+  }
 
-    return state
+  const deleteComment = async (postId, id, comment) => {
+    db.collection('posts')
+      .doc(postId)
+      .collection('comments')
+      .doc(id)
+      .delete()
+      .then(function () {
+        console.log(`Comment ${id} successfully deleted!`)
+      })
+      .catch(function (error) {
+        console.error(`Error removing comment: ${id} `, error)
+      })
   }
 
   // Return post methods
   return {
     create,
+    delete: deleteComment,
+    state,
   }
 }
